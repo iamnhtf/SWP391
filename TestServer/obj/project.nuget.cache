@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AeH235wipZE=",
+  "success": true,
+  "projectFilePath": "D:\\SWP391\\TestServer\\TestServer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS TUF F15\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
+    "C:\\Users\\ASUS TUF F15\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
