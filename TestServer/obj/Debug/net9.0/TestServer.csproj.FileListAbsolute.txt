@@ -144,3 +144,5 @@ D:\SWP391\TestServer\bin\Debug\net9.0\runtimes\win-x64\native\k5sprt64.dll
 D:\SWP391\TestServer\bin\Debug\net9.0\runtimes\win-x64\native\krb5_64.dll
 D:\SWP391\TestServer\bin\Debug\net9.0\runtimes\win-x64\native\krbcc64.dll
 D:\SWP391\TestServer\bin\Debug\net9.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
+D:\SWP391\TestServer\bin\Debug\net9.0\TestServer.staticwebassets.runtime.json
+D:\SWP391\TestServer\obj\Debug\net9.0\compressed\gjw814ajc1-q7154rnmfg.gz
