@@ -15,7 +15,7 @@ public class Driver
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(100)] // Lưu ý: Cần dùng StringLength
+    [StringLength(100)] 
     public string LicenseNumber { get; set; } = string.Empty;
 
     [StringLength(20)]

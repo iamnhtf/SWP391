@@ -24,5 +24,5 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Driver> Drivers { get; set; } = null!;
-
+    public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
 }
