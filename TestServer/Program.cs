@@ -2,18 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore;
 using TestServer.Data;
-using TestServer.Models; // Đảm bảo bạn có using này cho Models
+using TestServer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 2. Thêm dịch vụ DbContext và đọc chuỗi kết nối
-// Chuỗi kết nối sẽ được đọc từ appsettings.json hoặc launchSettings.json
+// Chuỗi kết nối sẽ được đọc từ appsettings.json (hoặc biến môi trường khi deploy)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Kiểm tra nếu chuỗi kết nối không tồn tại
 if (string.IsNullOrEmpty(connectionString))
 {
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or launchSettings.json.");
+    // Khi deploy, chuỗi kết nối thường được đặt qua biến môi trường,
+    // nên việc throw lỗi này là tốt để đảm bảo nó được cấu hình đúng.
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or via environment variables.");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -21,9 +23,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString);
 });
 
-// Thêm dịch vụ để phục vụ các file tĩnh (như index.html) nếu bạn muốn
-builder.Services.AddControllersWithViews(); // Nếu bạn có kế hoạch dùng MVC
-builder.Services.AddRazorPages(); // Nếu bạn có kế hoạch dùng Razor Pages
+// Thêm dịch vụ để phục vụ các file tĩnh (như index.html)
+// AddControllersWithViews() và AddRazorPages() không bắt buộc nếu bạn chỉ làm API + static files
+// nhưng chúng không gây hại nếu bạn có kế hoạch mở rộng sau này.
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -31,27 +35,27 @@ var app = builder.Build();
 
 // ----- Phần cấu hình pipeline của ứng dụng -----
 
-// Thêm các middleware sau để phục vụ file tĩnh và HTTPS redirection
-// Đảm bảo chúng được đặt trước các endpoint khác
-if (!app.Environment.IsDevelopment()) // Chỉ dùng HTTPS redirection ở môi trường production
+// **QUAN TRỌNG NHẤT**: Thứ tự các middleware này là then chốt để phục vụ index.html
+if (!app.Environment.IsDevelopment())
 {
+    // Chỉ dùng HTTPS redirection ở môi trường production
     app.UseHttpsRedirection();
 }
 
-// *** ĐÂY LÀ PHẦN QUAN TRỌNG NHẤT ***
-// Middleware này PHẢI ĐƯỢC ĐẶT TRƯỚC các MapGet hoặc MapControllerRoute
-// nếu bạn muốn nó phục vụ index.html làm trang chủ mặc định.
-app.UseDefaultFiles(); // Tìm file index.html hoặc index.htm làm trang mặc định trong wwwroot
-app.UseStaticFiles();  // Cho phép phục vụ các file tĩnh (CSS, JS, HTML, v.v.) từ wwwroot
+// Middleware này cần đứng TRƯỚC các mapping khác để có thể phục vụ index.html
+// làm trang chủ khi người dùng truy cập vào đường dẫn gốc (ví dụ: http://localhost:5076)
+app.UseDefaultFiles(); // Tìm các file mặc định như index.html, default.html trong wwwroot
+app.UseStaticFiles();  // Cho phép phục vụ các file tĩnh (CSS, JS, HTML, v.v.) từ thư mục wwwroot
 
 // Mapping các endpoint API
-// Endpoint "/" của bạn sẽ KHÔNG được dùng nữa nếu index.html đã được phục vụ
-// Bạn có thể xóa dòng này nếu không cần thiết
-// app.MapGet("/", () => "Server is running! 🚀"); // << XÓA HOẶC BỎ COMMENT DÒNG NÀY
+// VÌ CHÚNG TA CÓ app.UseDefaultFiles() VÀ app.UseStaticFiles() ĐÃ PHỤC VỤ index.html CHO ĐƯỜNG DẪN GỐC,
+// NÊN CÂU LỆNH app.MapGet("/") NÀY SẼ BỊ GHI ĐÈ. NẾU BẠN MUỐN index.html LÀM TRANG CHỦ THÌ NÊN XÓA DÒNG NÀY.
+// Nếu bạn muốn nó hiển thị "Server is running! 🚀" thay vì index.html, hãy đặt nó SAU app.UseStaticFiles()
+// và đổi lại thành app.MapGet("/info", ...) chẳng hạn.
+// Cho mục đích hiện tại, chúng ta muốn index.html hiển thị đầu tiên nên sẽ bỏ qua MapGet("/") ở gốc.
 
 app.MapGet("/weatherforecast", () =>
 {
-    // ... (code WeatherForecast của bạn) ...
     var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
