@@ -292,3 +292,4 @@ D:\SWP391-main\SWP391-main\TestServer\obj\Debug\net9.0\TestServer.pdb
 D:\SWP391-main\SWP391-main\TestServer\obj\Debug\net9.0\TestServer.genruntimeconfig.cache
 D:\SWP391-main\SWP391-main\TestServer\obj\Debug\net9.0\ref\TestServer.dll
 D:\SWP391-main\SWP391-main\TestServer\obj\Debug\net9.0\TestServer.sourcelink.json
+D:\SWP391-main\SWP391-main\TestServer\bin\Debug\net9.0\railway.json
