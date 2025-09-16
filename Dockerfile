@@ -2,23 +2,22 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy solution and project files
-COPY SWP391.sln ./
-COPY TestServer/TestServer.csproj TestServer/
+# Sửa dòng này để copy đúng file .csproj
+COPY TestServer.csproj ./
 
-# Restore NuGet packages
-RUN dotnet restore SWP391.sln
+# Sửa dòng này để restore đúng file .csproj
+RUN dotnet restore TestServer.csproj
 
-# Copy everything else and publish
+# ... các dòng khác giữ nguyên
+
 COPY . ./
-RUN dotnet publish TestServer/TestServer.csproj -c Release -o /app/publish
+RUN dotnet publish TestServer.csproj -c Release -o /app/publish
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish ./
 
-# Railpack uses port 8080
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
