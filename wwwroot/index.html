@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tìm Kiếm Driver</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      input,
+      button {
+        padding: 8px;
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Tìm Kiếm Driver theo ID</h2>
+    <label for="driverIdInput">Nhập ID Driver:</label>
+    <input type="number" id="driverIdInput" placeholder="Ví dụ: 1, 2, 3" />
+    <button onclick="searchDriver()">Tìm kiếm</button>
+    <h3 id="result"></h3>
+
+    <script>
+      async function searchDriver() {
+        const id = document.getElementById("driverIdInput").value;
+        const resultElement = document.getElementById("result");
+        resultElement.innerText = "Đang tìm kiếm...";
+
+        if (id === "") {
+          resultElement.innerText = "Vui lòng nhập ID.";
+          return;
+        }
+
+        try {
+          // Gọi API endpoint /drivers/{id} và xử lý kết quả
+          const response = await fetch(`/drivers/${id}`); // Gọi đến endpoint trả về toàn bộ driver
+
+          if (response.ok) {
+            const driver = await response.json(); // API trả về JSON
+            // Hiển thị thông tin tên driver từ JSON
+            resultElement.innerText = `Tên Driver: ${driver.name}`;
+          } else if (response.status === 404) {
+            resultElement.innerText = "Không tìm thấy Driver với ID này.";
+          } else {
+            resultElement.innerText = "Đã xảy ra lỗi khi tìm kiếm.";
+            console.error(`HTTP error! status: ${response.status}`);
+          }
+        } catch (error) {
+          resultElement.innerText = "Lỗi kết nối. Vui lòng thử lại sau.";
+          console.error("Error:", error);
+        }
+      }
+    </script>
+  </body>
+</html>
