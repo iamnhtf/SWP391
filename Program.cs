@@ -1,23 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using MySql.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Thêm log để debug
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine("Connection string: " + connectionString);
+// Lấy connection string: appsettings.json > env var > fallback hardcode
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
+                       ?? "Server=yamanote.proxy.rlwy.net;Port=41472;Database=railway;Uid=root;Pwd=XckWMULXLDkFoSyQkhjunmOjqpOlzpyt";
 
-// Nếu connection string null, thử lấy từ environment variable trực tiếp
-if (string.IsNullOrEmpty(connectionString))
-{
-    connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-    Console.WriteLine("Fallback env connection string: " + connectionString);
-
-    if (string.IsNullOrEmpty(connectionString))
-        throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Ensure it's in appsettings.json or env variables.");
-}
+Console.WriteLine("Using connection string: " + connectionString);
 
 // Thêm DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -25,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString);
 });
 
+// Thêm dịch vụ MVC và Razor Pages
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -41,7 +34,7 @@ app.UseStaticFiles();
 app.MapGet("/weatherforecast", () =>
 {
     var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-    var forecast = Enumerable.Range(1, 5).Select(index =>
+    return Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -49,7 +42,6 @@ app.MapGet("/weatherforecast", () =>
             summaries[Random.Shared.Next(summaries.Length)]
         ))
         .ToArray();
-    return forecast;
 })
 .WithName("GetWeatherForecast");
 
@@ -69,6 +61,7 @@ app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
 
 app.Run();
 
+// Record WeatherForecast
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
