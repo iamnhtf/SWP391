@@ -11,7 +11,7 @@ namespace TestServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Staffs");
+                name: "Staff");
         }
 
         /// <inheritdoc />
