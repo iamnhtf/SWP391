@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391\\TestServer\\TestServer.csproj": {}
+    "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj": {}
   },
   "projects": {
-    "D:\\SWP391\\TestServer\\TestServer.csproj": {
+    "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\TestServer\\TestServer.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
         "projectName": "TestServer",
-        "projectPath": "D:\\SWP391\\TestServer\\TestServer.csproj",
+        "projectPath": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
         "packagesPath": "C:\\Users\\ASUS TUF F15\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\TestServer\\obj\\",
+        "outputPath": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
