@@ -24,17 +24,16 @@ public class AppDbContext : DbContext
 
         // Thêm 4 trạm sạc ở TP.HCM
         modelBuilder.Entity<ChargingStation>().HasData(
-            new ChargingStation { Id = 1, Name = "Trạm Sạc Quận 1", Location = "Quận 1, TP.HCM" },
-            new ChargingStation { Id = 2, Name = "Trạm Sạc Quận 3", Location = "Quận 3, TP.HCM" },
-            new ChargingStation { Id = 3, Name = "Trạm Sạc Quận 7", Location = "Quận 7, TP.HCM" },
-            new ChargingStation { Id = 4, Name = "Trạm Sạc Thủ Đức", Location = "TP. Thủ Đức, TP.HCM" }
+            new ChargingStation { Id = 1, Name = "Trạm Sạc Landmark 81", Location = "Tầng L1, Vincom Centre Landmark 81, 208 Nguyễn Hữu Cảnh, P.22, Q. Bình Thạnh, TP.HCM" },
+            new ChargingStation { Id = 2, Name = "Trạm Sạc Cộng Hòa", Location = "Tầng 1, Trung tâm thương mại Vincom Cộng Hòa, 15-17 Cộng Hòa, P.4, Q. Tân Bình, TP.HCM" },
+            new ChargingStation { Id = 3, Name = "Trạm Sạc Ba Tháng Hai", Location = "Tầng 1, TTTM Vincom Ba Tháng Hai, 3C Đường 3 Tháng 2, P.11, Q.10, TP.HCM" },
+            new ChargingStation { Id = 4, Name = "Trạm Sạc Léman Luxury Apartments", Location = "Tầng hầm B3, tòa Léman Luxury, 117 Nguyễn Đình Chiểu, P.6, Quận 3" },
+            new ChargingStation { Id = 5, Name = "Trạm Sạc Huỳnh Hiếu Thiện", Location = "Số 130/30G, Nguyễn Văn Lượng, P.10, Quận 6" },
+            new ChargingStation { Id = 6, Name = "Trạm Sạc Sky89", Location = "Số 89, Hoàng Quốc Việt, P. Phú Thuận, Quận 7" },
+            new ChargingStation { Id = 7, Name = "Trạm Sạc Center Đồng Khởi", Location = "Hầm B5, số 72 Lê Thánh Tôn, Quận 1" }
         );
     }
 
     public DbSet<Driver> Drivers { get; set; } = null!;
     public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
-<<<<<<< HEAD
-=======
-    
->>>>>>> main
 }
