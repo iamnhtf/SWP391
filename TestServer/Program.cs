@@ -63,6 +63,7 @@ app.MapGet("/drivers", async (AppDbContext db) =>
 
 app.MapGet("/drivers/{id}", async (int id, AppDbContext db) =>
 {
+    //ràng buộc id phải là số dương
     if (id <= 0)
     {
         return Results.BadRequest("Driver ID must be a positive integer.");
