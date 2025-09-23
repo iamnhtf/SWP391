@@ -135,10 +135,6 @@ namespace TestServer.Migrations
                             PhoneNumber = ""
                         });
                 });
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 #pragma warning restore 612, 618
         }
     }
