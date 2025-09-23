@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestServer.Data;
 
@@ -10,9 +11,11 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250923080853_SeedDataForChargingStationAndDriver")]
+    partial class SeedDataForChargingStationAndDriver
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,9 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("PowerOutputKW")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("ChargingStations");
@@ -42,25 +48,29 @@ namespace TestServer.Migrations
                         {
                             Id = 1,
                             Location = "Quận 1, TP.HCM",
-                            Name = "Trạm Sạc Quận 1"
+                            Name = "Trạm Sạc Quận 1",
+                            PowerOutputKW = 50
                         },
                         new
                         {
                             Id = 2,
                             Location = "Quận 3, TP.HCM",
-                            Name = "Trạm Sạc Quận 3"
+                            Name = "Trạm Sạc Quận 3",
+                            PowerOutputKW = 60
                         },
                         new
                         {
                             Id = 3,
                             Location = "Quận 7, TP.HCM",
-                            Name = "Trạm Sạc Quận 7"
+                            Name = "Trạm Sạc Quận 7",
+                            PowerOutputKW = 80
                         },
                         new
                         {
                             Id = 4,
                             Location = "TP. Thủ Đức, TP.HCM",
-                            Name = "Trạm Sạc Thủ Đức"
+                            Name = "Trạm Sạc Thủ Đức",
+                            PowerOutputKW = 100
                         });
                 });
 
