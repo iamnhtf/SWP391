@@ -10,7 +10,8 @@ namespace TestServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropTable(
+                name: "Staffs");
         }
 
         /// <inheritdoc />
