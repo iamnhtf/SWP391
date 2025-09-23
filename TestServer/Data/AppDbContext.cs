@@ -21,6 +21,14 @@ public class AppDbContext : DbContext
             new Driver { Id = 4, Name = "Lê Minh Đức" } ,
             new Driver { Id = 5, Name = "Vũ Thế Anh" }
         );
+
+        // Thêm 4 trạm sạc ở TP.HCM
+        modelBuilder.Entity<ChargingStation>().HasData(
+            new ChargingStation { Id = 1, Name = "Trạm Sạc Quận 1", Location = "Quận 1, TP.HCM", PowerOutputKW = 50 },
+            new ChargingStation { Id = 2, Name = "Trạm Sạc Quận 3", Location = "Quận 3, TP.HCM", PowerOutputKW = 60 },
+            new ChargingStation { Id = 3, Name = "Trạm Sạc Quận 7", Location = "Quận 7, TP.HCM", PowerOutputKW = 80 },
+            new ChargingStation { Id = 4, Name = "Trạm Sạc Thủ Đức", Location = "TP. Thủ Đức, TP.HCM", PowerOutputKW = 100 }
+        );
     }
 
     public DbSet<Driver> Drivers { get; set; } = null!;
