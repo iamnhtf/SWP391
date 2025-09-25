@@ -149,7 +149,6 @@ E:\SWP391\TestServer\obj\Debug\net9.0\TestServer.genruntimeconfig.cache
 E:\SWP391\TestServer\obj\Debug\net9.0\ref\TestServer.dll
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\appsettings.json
-C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\TestServer.staticwebassets.runtime.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\TestServer.staticwebassets.endpoints.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\TestServer.exe
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\TestServer.deps.json
@@ -284,7 +283,6 @@ C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\rjimsw
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\scopedcss\bundle\TestServer.styles.css
-C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\compressed\gjw814ajc1-q7154rnmfg.gz
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\staticwebassets.development.json

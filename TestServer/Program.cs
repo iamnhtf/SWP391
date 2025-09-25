@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
+using TestServer.Package;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,7 @@ app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
     var station = await db.ChargingStations.FindAsync(id);
     return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
 });
+
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
