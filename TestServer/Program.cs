@@ -85,6 +85,40 @@ app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
     return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
 });
 
+// Endpoints cho PriceList
+app.MapGet("/pricelist", async (AppDbContext db) =>
+{
+    return await db.PriceLists
+    .Include(p => p.VehicleType)
+    .Include(p => p.Connector)
+    .Include(p => p.PowerRange)
+    .Include(p => p.TimeRange)
+    .ToListAsync();
+});
+
+// Endpoint cho VehicleType
+app.MapGet("/vehicletypes", async (AppDbContext db) =>
+{
+    return await db.VehicleTypes.ToListAsync();
+});
+
+// Endpoint cho Connector
+app.MapGet("/connectors", async (AppDbContext db) =>
+{
+    return await db.Connectors.ToListAsync();
+});
+
+// Endpoint cho PowerRange
+app.MapGet("/powerrange", async (AppDbContext db) =>
+{
+    return await db.PowerRanges.ToListAsync();
+});
+
+// Endpoint cho TimeRange
+app.MapGet("/timeranges", async (AppDbContext db) =>
+{
+    return await db.TimeRanges.ToListAsync();
+});
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
