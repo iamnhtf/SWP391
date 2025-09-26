@@ -36,8 +36,8 @@ public class AppDbContext : DbContext
 
         // VehicleType
     modelBuilder.Entity<VehicleType>().HasData(
-        new VehicleType { Id = 1, Name = "Xe máy" },
-        new VehicleType { Id = 2, Name = "Ô tô" }
+        new VehicleType { Id = 1, Name = "Motorbike" },
+        new VehicleType { Id = 2, Name = "car" }
     );
 
     // Connector
