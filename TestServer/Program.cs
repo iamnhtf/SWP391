@@ -132,10 +132,28 @@ app.MapGet("/timeranges", async (AppDbContext db) =>
 // Endpoint cho ChargingPoint
 app.MapGet("/chargingpoints", async (AppDbContext db) =>
 {
-    return await db.ChargingPoints
-    .Include(p => p.ChargingStation)
-    .Include(p => p.ChargingPorts)
-    .ToListAsync();
+    var points = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var pointDtos = points.Select(p => new ChargingPointDto
+    {
+        Id = p.Id,
+        StationId = p.StationId,
+        StationName = p.ChargingStation.Name, // hoặc để string.Empty nếu không cần
+        Ports = p.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorId = port.ConnectorId,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(pointDtos);
 });
 
 app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
@@ -143,29 +161,68 @@ app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
     var point = await db.ChargingPoints
         .Include(p => p.ChargingStation)
         .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
         .FirstOrDefaultAsync(p => p.Id == id);
 
-    return point != null ? Results.Ok(point) : Results.NotFound($"Charging point with ID {id} not found.");
+    if (point == null)
+        return Results.NotFound($"Charging point with ID {id} not found.");
+
+    var pointDto = new ChargingPointDto
+    {
+        Id = point.Id,
+        StationId = point.StationId,
+        StationName = point.ChargingStation.Name,
+        Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorId = port.ConnectorId,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    };
+
+    return Results.Ok(pointDto);
 });
 
-// Endpoint cho ChargingPorts
 app.MapGet("/chargingports", async (AppDbContext db) =>
 {
-    return await db.ChargingPorts
-        .Include(p => p.ChargingPoint)
+    var ports = await db.ChargingPorts
         .Include(p => p.Connector)
+        .Select(p => new ChargingPortDto
+        {
+            Id = p.Id,
+            PointId = p.PointId,
+            ConnectorId = p.ConnectorId,
+            ConnectorName = p.Connector.Name,
+            Power = p.Power,
+            Status = p.Status.ToString()
+        })
         .ToListAsync();
+
+    return Results.Ok(ports);
 });
 
 app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
 {
     var port = await db.ChargingPorts
-        .Include(p => p.ChargingPoint)
         .Include(p => p.Connector)
-        .FirstOrDefaultAsync(p => p.Id == id);
+        .Where(p => p.Id == id)
+        .Select(p => new ChargingPortDto
+        {
+            Id = p.Id,
+            PointId = p.PointId,
+            ConnectorId = p.ConnectorId,
+            ConnectorName = p.Connector.Name,
+            Power = p.Power,
+            Status = p.Status.ToString()
+        })
+        .FirstOrDefaultAsync();
 
     return port != null ? Results.Ok(port) : Results.NotFound($"Charging port with ID {id} not found.");
 });
+
+
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())

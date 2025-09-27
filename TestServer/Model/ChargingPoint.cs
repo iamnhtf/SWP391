@@ -14,5 +14,7 @@ namespace TestServer.Models
         public ChargingStation ChargingStation { get; set; } = null!;
 
         public ICollection<ChargingPort> ChargingPorts { get; set; } = new List<ChargingPort>();
+
+        //public List<ChargingPort>() ChargingPortList;
     }
 }
