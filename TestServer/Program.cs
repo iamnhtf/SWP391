@@ -132,10 +132,28 @@ app.MapGet("/timeranges", async (AppDbContext db) =>
 // Endpoint cho ChargingPoint
 app.MapGet("/chargingpoints", async (AppDbContext db) =>
 {
-    return await db.ChargingPoints
-    .Include(p => p.ChargingStation)
-    .Include(p => p.ChargingPorts)
-    .ToListAsync();
+    var points = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var pointDtos = points.Select(p => new ChargingPointDto
+    {
+        Id = p.Id,
+        StationId = p.StationId,
+        StationName = p.ChargingStation.Name, // hoặc để string.Empty nếu không cần
+        Ports = p.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorId = port.ConnectorId,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(pointDtos);
 });
 
 app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
@@ -143,9 +161,28 @@ app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
     var point = await db.ChargingPoints
         .Include(p => p.ChargingStation)
         .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
         .FirstOrDefaultAsync(p => p.Id == id);
 
-    return point != null ? Results.Ok(point) : Results.NotFound($"Charging point with ID {id} not found.");
+    if (point == null)
+        return Results.NotFound($"Charging point with ID {id} not found.");
+
+    var pointDto = new ChargingPointDto
+    {
+        Id = point.Id,
+        StationId = point.StationId,
+        StationName = point.ChargingStation.Name,
+        Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorId = port.ConnectorId,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    };
+
+    return Results.Ok(pointDto);
 });
 
 app.MapGet("/chargingports", async (AppDbContext db) =>
