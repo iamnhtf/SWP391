@@ -13,5 +13,6 @@ public class ChargingStation
 
         [Required]
         public string Location { get; set; } = string.Empty;
-        
+
+        //public List<ChargingPoint>() ChargingPointList;
     }
