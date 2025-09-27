@@ -24,6 +24,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Thêm dịch vụ để phục vụ các file tĩnh
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64; // tăng nếu cần
+    });
+
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
