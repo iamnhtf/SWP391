@@ -120,6 +120,44 @@ app.MapGet("/timeranges", async (AppDbContext db) =>
     return await db.TimeRanges.ToListAsync();
 });
 
+// Endpoint cho ChargingPoint
+app.MapGet("/chargingpoints", async (AppDbContext db) =>
+{
+    return await db.ChargingPoints
+    .Include(p => p.ChargingStation)
+    .Include(p => p.ChargingPorts)
+    .ToListAsync();
+});
+
+app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
+{
+    var point = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    return point != null ? Results.Ok(point) : Results.NotFound($"Charging point with ID {id} not found.");
+});
+
+// Endpoint cho ChargingPorts
+app.MapGet("/chargingports", async (AppDbContext db) =>
+{
+    return await db.ChargingPorts
+        .Include(p => p.ChargingPoint)
+        .Include(p => p.Connector)
+        .ToListAsync();
+});
+
+app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
+{
+    var port = await db.ChargingPorts
+        .Include(p => p.ChargingPoint)
+        .Include(p => p.Connector)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    return port != null ? Results.Ok(port) : Results.NotFound($"Charging port with ID {id} not found.");
+});
+
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
 

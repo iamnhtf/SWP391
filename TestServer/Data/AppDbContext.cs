@@ -25,19 +25,19 @@ public class AppDbContext : DbContext
 
         // Thêm 4 trạm sạc ở TP.HCM
         modelBuilder.Entity<ChargingStation>().HasData(
-            new ChargingStation { Id = 1, Name = "Trạm Sạc Landmark 81", Location = "Tầng L1, Vincom Centre Landmark 81, 208 Nguyễn Hữu Cảnh, P.22, Q. Bình Thạnh, TP.HCM" },
-            new ChargingStation { Id = 2, Name = "Trạm Sạc Cộng Hòa", Location = "Tầng 1, Trung tâm thương mại Vincom Cộng Hòa, 15-17 Cộng Hòa, P.4, Q. Tân Bình, TP.HCM" },
-            new ChargingStation { Id = 3, Name = "Trạm Sạc Ba Tháng Hai", Location = "Tầng 1, TTTM Vincom Ba Tháng Hai, 3C Đường 3 Tháng 2, P.11, Q.10, TP.HCM" },
-            new ChargingStation { Id = 4, Name = "Trạm Sạc Léman Luxury Apartments", Location = "Tầng hầm B3, tòa Léman Luxury, 117 Nguyễn Đình Chiểu, P.6, Quận 3" },
-            new ChargingStation { Id = 5, Name = "Trạm Sạc Huỳnh Hiếu Thiện", Location = "Số 130/30G, Nguyễn Văn Lượng, P.10, Quận 6" },
-            new ChargingStation { Id = 6, Name = "Trạm Sạc Sky89", Location = "Số 89, Hoàng Quốc Việt, P. Phú Thuận, Quận 7" },
-            new ChargingStation { Id = 7, Name = "Trạm Sạc Center Đồng Khởi", Location = "Hầm B5, số 72 Lê Thánh Tôn, Quận 1" }
+            new ChargingStation { Id = 1, Name = "Landmark 81 Charging Station", Location = "L1 Floor, Vincom Centre Landmark 81, 208 Nguyen Huu Canh Street, Ward 22, Binh Thanh District, Ho Chi Minh City" },
+            new ChargingStation { Id = 2, Name = "Cong Hoa Charging Station", Location = "1st Floor, Vincom Cong Hoa Trade Center, 15-17 Cong Hoa Street, Ward 4, Tan Binh District, Ho Chi Minh City" },
+            new ChargingStation { Id = 3, Name = "Ba Thang Hai Charging Station", Location = "1st Floor, Vincom Ba Thang Hai Trade Center, 3C 3 Thang 2 Street, Ward 11, District 10, Ho Chi Minh City" },
+            new ChargingStation { Id = 4, Name = "Leman Luxury Apartments Station", Location = "B3 Basement, Leman Luxury Building, 117 Nguyen Dinh Chieu Street, Ward 6, District 3, Ho Chi Minh City" },
+            new ChargingStation { Id = 5, Name = "Huynh Hieu Thien Station", Location = "130/30G Nguyen Van Luong Street, Ward 10, District 6, Ho Chi Minh City" },
+            new ChargingStation { Id = 6, Name = "Sky89 Station", Location = "89 Hoang Quoc Viet Street, Phu Thuan Ward, District 7, Ho Chi Minh City" },
+            new ChargingStation { Id = 7, Name = "Center Dong Khoi Station", Location = "B5 Basement, 72 Le Thanh Ton Street, District 1, Ho Chi Minh City" }
         );
 
         // VehicleType
     modelBuilder.Entity<VehicleType>().HasData(
-        new VehicleType { Id = 1, Name = "Xe máy" },
-        new VehicleType { Id = 2, Name = "Ô tô" }
+        new VehicleType { Id = 1, Name = "Motorbike" },
+        new VehicleType { Id = 2, Name = "Car" }
     );
 
     // Connector
@@ -129,7 +129,56 @@ public class AppDbContext : DbContext
         new PriceList { Id = 53, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 2, Price = 10500 },
         new PriceList { Id = 54, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 3, Price = 7500 }
     );
-        
+
+    modelBuilder.Entity<ChargingPort>()
+            .Property(c => c.Status)
+            .HasConversion<string>();
+
+    modelBuilder.Entity<ChargingPoint>()
+            .HasMany(p => p.ChargingPorts)
+            .WithOne(c => c.ChargingPoint)
+            .HasForeignKey(c => c.PointId);
+
+    modelBuilder.Entity<ChargingPoint>().HasData(
+    new ChargingPoint { Id = "1.1", StationId = 1 },
+    new ChargingPoint { Id = "2.1", StationId = 2 },
+    new ChargingPoint { Id = "3.1", StationId = 3 },
+    new ChargingPoint { Id = "4.1", StationId = 4 },
+    new ChargingPoint { Id = "5.1", StationId = 5 },
+    new ChargingPoint { Id = "6.1", StationId = 6 },
+    new ChargingPoint { Id = "7.1", StationId = 7 }
+    );
+
+    // ChargingPort
+    modelBuilder.Entity<ChargingPort>().HasData(
+    // Station 1
+    new ChargingPort { Id = "1.1.1", PointId = "1.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.1.2", PointId = "1.1", ConnectorId = 2, Power = "50 kW", Status = ChargingPortStatus.InUse },
+
+    // Station 2
+    new ChargingPort { Id = "2.1.1", PointId = "2.1", ConnectorId = 1, Power = "22 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "2.1.2", PointId = "2.1", ConnectorId = 2, Power = ">50 kW", Status = ChargingPortStatus.Faulty },
+
+    // Station 3
+    new ChargingPort { Id = "3.1.1", PointId = "3.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "3.1.2", PointId = "3.1", ConnectorId = 2, Power = "50 kW", Status = ChargingPortStatus.InUse },
+
+    // Station 4
+    new ChargingPort { Id = "4.1.1", PointId = "4.1", ConnectorId = 1, Power = "22 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "4.1.2", PointId = "4.1", ConnectorId = 2, Power = "7 kW", Status = ChargingPortStatus.Faulty },
+
+    // Station 5
+    new ChargingPort { Id = "5.1.1", PointId = "5.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "5.1.2", PointId = "5.1", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
+
+    // Station 6
+    new ChargingPort { Id = "6.1.1", PointId = "6.1", ConnectorId = 1, Power = ">50 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "6.1.2", PointId = "6.1", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
+
+    // Station 7
+    new ChargingPort { Id = "7.1.1", PointId = "7.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "7.1.2", PointId = "7.1", ConnectorId = 2, Power = "50 kW", Status = ChargingPortStatus.Faulty }
+    );
     }
 
     public DbSet<Driver> Drivers { get; set; } = null!;
@@ -139,5 +188,6 @@ public class AppDbContext : DbContext
     public DbSet<Connector> Connectors { get; set; } = null!;
     public DbSet<PowerRange> PowerRanges { get; set; } = null!;
     public DbSet<TimeRange> TimeRanges { get; set; } = null!;
-
+    public DbSet<ChargingPoint> ChargingPoints {get; set; } = null!;
+    public DbSet<ChargingPort> ChargingPorts { get; set; } = null!;
 }
