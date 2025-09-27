@@ -10,7 +10,7 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250927135047_ChargingDatabase")]
+    [Migration("20250927141013_ChargingDatabase")]
     partial class ChargingDatabase
     {
         /// <inheritdoc />
