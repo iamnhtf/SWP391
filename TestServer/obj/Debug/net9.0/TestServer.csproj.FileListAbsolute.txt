@@ -293,3 +293,5 @@ C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\refint
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\TestServer.pdb
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\TestServer.genruntimeconfig.cache
 C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\ref\TestServer.dll
+C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\bin\Debug\net9.0\TestServer.staticwebassets.runtime.json
+C:\Users\ASUS TUF F15\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\compressed\gjw814ajc1-q7154rnmfg.gz

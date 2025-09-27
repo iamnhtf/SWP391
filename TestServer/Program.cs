@@ -24,6 +24,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Thêm dịch vụ để phục vụ các file tĩnh
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64; // tăng nếu cần
+    });
+
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -84,6 +93,86 @@ app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
     var station = await db.ChargingStations.FindAsync(id);
     return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
 });
+
+// Endpoints cho PriceList
+app.MapGet("/pricelist", async (AppDbContext db) =>
+{
+    return await db.PriceLists
+    .Include(p => p.VehicleType)
+    .Include(p => p.Connector)
+    .Include(p => p.PowerRange)
+    .Include(p => p.TimeRange)
+    .ToListAsync();
+});
+
+// Endpoint cho VehicleType
+app.MapGet("/vehicletypes", async (AppDbContext db) =>
+{
+    return await db.VehicleTypes.ToListAsync();
+});
+
+// Endpoint cho Connector
+app.MapGet("/connectors", async (AppDbContext db) =>
+{
+    return await db.Connectors.ToListAsync();
+});
+
+// Endpoint cho PowerRange
+app.MapGet("/powerrange", async (AppDbContext db) =>
+{
+    return await db.PowerRanges.ToListAsync();
+});
+
+// Endpoint cho TimeRange
+app.MapGet("/timeranges", async (AppDbContext db) =>
+{
+    return await db.TimeRanges.ToListAsync();
+});
+
+// Endpoint cho ChargingPoint
+app.MapGet("/chargingpoints", async (AppDbContext db) =>
+{
+    return await db.ChargingPoints
+    .Include(p => p.ChargingStation)
+    .Include(p => p.ChargingPorts)
+    .ToListAsync();
+});
+
+app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
+{
+    var point = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    return point != null ? Results.Ok(point) : Results.NotFound($"Charging point with ID {id} not found.");
+});
+
+// Endpoint cho ChargingPorts
+app.MapGet("/chargingports", async (AppDbContext db) =>
+{
+    return await db.ChargingPorts
+        .Include(p => p.ChargingPoint)
+        .Include(p => p.Connector)
+        .ToListAsync();
+});
+
+app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
+{
+    var port = await db.ChargingPorts
+        .Include(p => p.ChargingPoint)
+        .Include(p => p.Connector)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    return port != null ? Results.Ok(port) : Results.NotFound($"Charging port with ID {id} not found.");
+});
+
+// Tự động apply migrations khi app start
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
