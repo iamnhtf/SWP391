@@ -158,6 +158,14 @@ app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
     return port != null ? Results.Ok(port) : Results.NotFound($"Charging port with ID {id} not found.");
 });
 
+// Tự động apply migrations khi app start
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
 
