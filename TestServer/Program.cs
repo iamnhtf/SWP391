@@ -148,24 +148,44 @@ app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
     return point != null ? Results.Ok(point) : Results.NotFound($"Charging point with ID {id} not found.");
 });
 
-// Endpoint cho ChargingPorts
 app.MapGet("/chargingports", async (AppDbContext db) =>
 {
-    return await db.ChargingPorts
-        .Include(p => p.ChargingPoint)
+    var ports = await db.ChargingPorts
         .Include(p => p.Connector)
+        .Select(p => new ChargingPortDto
+        {
+            Id = p.Id,
+            PointId = p.PointId,
+            ConnectorId = p.ConnectorId,
+            ConnectorName = p.Connector.Name,
+            Power = p.Power,
+            Status = p.Status.ToString()
+        })
         .ToListAsync();
+
+    return Results.Ok(ports);
 });
 
 app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
 {
     var port = await db.ChargingPorts
-        .Include(p => p.ChargingPoint)
         .Include(p => p.Connector)
-        .FirstOrDefaultAsync(p => p.Id == id);
+        .Where(p => p.Id == id)
+        .Select(p => new ChargingPortDto
+        {
+            Id = p.Id,
+            PointId = p.PointId,
+            ConnectorId = p.ConnectorId,
+            ConnectorName = p.Connector.Name,
+            Power = p.Power,
+            Status = p.Status.ToString()
+        })
+        .FirstOrDefaultAsync();
 
     return port != null ? Results.Ok(port) : Results.NotFound($"Charging port with ID {id} not found.");
 });
+
+
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())

@@ -21,6 +21,7 @@ namespace TestServer.Models
         public string Power { get; set; } = string.Empty;
 
         public ChargingPortStatus Status { get; set; } = ChargingPortStatus.Available;
+
     }
 
     public enum ChargingPortStatus
@@ -29,4 +30,6 @@ namespace TestServer.Models
         InUse,
         Faulty
     }
+
+    
 }
