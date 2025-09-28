@@ -8,7 +8,7 @@ namespace TestServer.Models
         // Thông tin connector
         public string ConnectorName { get; set; } = string.Empty; // Lấy từ Connector.Name
 
-        public int Power { get; set; } 
+        public int Power { get; set; } = 0;
         public string Status { get; set; } = string.Empty; // enum -> string
     }
 }
