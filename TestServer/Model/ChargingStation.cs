@@ -9,6 +9,8 @@ public class ChargingStation
         public int Id { get; set; } = 0;
         
         public string Name { get; set; } = string.Empty;
+
+        [Required]
         public string Location { get; set; } = string.Empty;
 
         public ICollection<ChargingPoint> ChargingPoints { get; set; } = new List<ChargingPoint>();
