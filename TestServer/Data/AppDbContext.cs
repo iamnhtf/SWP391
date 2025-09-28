@@ -37,11 +37,7 @@ public class AppDbContext : DbContext
         // VehicleType
     modelBuilder.Entity<VehicleType>().HasData(
         new VehicleType { Id = 1, Name = "Motorbike" },
-<<<<<<< HEAD
         new VehicleType { Id = 2, Name = "car" }
-=======
-        new VehicleType { Id = 2, Name = "Car" }
->>>>>>> main
     );
 
     // Connector
@@ -55,7 +51,7 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<PowerRange>().HasData(
         new PowerRange { Id = 1, Range = "0-7" },
         new PowerRange { Id = 2, Range = "7-50" },
-        new PowerRange { Id = 3, Range = ">50" }
+        new PowerRange { Id = 3, Range = "50-150" }
     );
 
     // TimeRange
@@ -161,7 +157,7 @@ public class AppDbContext : DbContext
 
     // Station 2
     new ChargingPort { Id = "2.1.1", PointId = "2.1", ConnectorId = 1, Power = "22 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "2.1.2", PointId = "2.1", ConnectorId = 2, Power = ">50 kW", Status = ChargingPortStatus.Faulty },
+    new ChargingPort { Id = "2.1.2", PointId = "2.1", ConnectorId = 2, Power = "150 kW", Status = ChargingPortStatus.Faulty },
 
     // Station 3
     new ChargingPort { Id = "3.1.1", PointId = "3.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
@@ -181,7 +177,7 @@ public class AppDbContext : DbContext
 
     // Station 7
     new ChargingPort { Id = "7.1.1", PointId = "7.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "7.1.2", PointId = "7.1", ConnectorId = 2, Power = "50 kW", Status = ChargingPortStatus.Faulty }
+    new ChargingPort { Id = "7.1.2", PointId = "7.1", ConnectorId = 2, Power = "150 kW", Status = ChargingPortStatus.Faulty }
     );
     }
 
