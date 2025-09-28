@@ -10,9 +10,7 @@ namespace TestServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "PowerOutputKW",
-                table: "ChargingStations");
+
         }
 
         /// <inheritdoc />

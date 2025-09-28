@@ -19,30 +19,6 @@ namespace TestServer.Migrations
                 oldClrType: typeof(string),
                 oldType: "longtext");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Car",
-                table: "Drivers",
-                type: "varchar(200)",
-                maxLength: 200,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "LicenseNumber",
-                table: "Drivers",
-                type: "varchar(100)",
-                maxLength: 100,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "PhoneNumber",
-                table: "Drivers",
-                type: "varchar(20)",
-                maxLength: 20,
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.UpdateData(
                 table: "Drivers",
                 keyColumn: "Id",
@@ -70,11 +46,6 @@ namespace TestServer.Migrations
                 keyValue: 4,
                 columns: new[] { "Car", "LicenseNumber", "Name", "PhoneNumber" },
                 values: new object[] { "", "", "Lê Minh Đức", "" });
-
-            migrationBuilder.InsertData(
-                table: "Drivers",
-                columns: new[] { "Id", "Car", "LicenseNumber", "Name", "PhoneNumber" },
-                values: new object[] { 5, "", "", "Vũ Thế Anh", "" });
         }
 
         /// <inheritdoc />
