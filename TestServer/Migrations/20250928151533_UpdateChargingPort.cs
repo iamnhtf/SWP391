@@ -5,7 +5,7 @@
 namespace TestServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AccountPackage : Migration
+    public partial class UpdateChargingPort : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
