@@ -28,8 +28,7 @@ public class Driver
         
     public double TotalSpend { get; set; } = 0;
 
-
+    public int? AccountPackageId { get; set; }
     [ForeignKey("AccountPackageId")]
-    public int AccountPackageId { get; set; } = 0;
-    public AccountPackage AccountPackage { get; set; } = null!;
+    public AccountPackage? AccountPackage { get; set; }
 }
