@@ -12,7 +12,97 @@ namespace TestServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
+            migrationBuilder.InsertData(
+                table: "ChargingPoints",
+                columns: new[] { "Id", "StationId" },
+                values: new object[,]
+                {
+                    { "1.1", 1 },
+                    { "2.1", 2 },
+                    { "3.1", 3 },
+                    { "4.1", 4 },
+                    { "5.1", 5 },
+                    { "6.1", 6 },
+                    { "7.1", 7 }
+                });
+
+            migrationBuilder.UpdateData(
+            table: "ChargingStations",
+            keyColumn: "Id",
+            keyValue: 1,
+            columns: new[] { "Location", "Name" },
+            values: new object[] { "L1 Floor, Vincom Centre Landmark 81, 208 Nguyen Huu Canh Street, Ward 22, Binh Thanh District, Ho Chi Minh City", "Landmark 81 Charging Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "1st Floor, Vincom Cong Hoa Trade Center, 15-17 Cong Hoa Street, Ward 4, Tan Binh District, Ho Chi Minh City", "Cong Hoa Charging Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 3,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "1st Floor, Vincom Ba Thang Hai Trade Center, 3C 3 Thang 2 Street, Ward 11, District 10, Ho Chi Minh City", "Ba Thang Hai Charging Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 4,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "B3 Basement, Leman Luxury Building, 117 Nguyen Dinh Chieu Street, Ward 6, District 3, Ho Chi Minh City", "Leman Luxury Apartments Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 5,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "130/30G Nguyen Van Luong Street, Ward 10, District 6, Ho Chi Minh City", "Huynh Hieu Thien Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 6,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "89 Hoang Quoc Viet Street, Phu Thuan Ward, District 7, Ho Chi Minh City", "Sky89 Station" });
+
+            migrationBuilder.UpdateData(
+                table: "ChargingStations",
+                keyColumn: "Id",
+                keyValue: 7,
+                columns: new[] { "Location", "Name" },
+                values: new object[] { "B5 Basement, 72 Le Thanh Ton Street, District 1, Ho Chi Minh City", "Center Dong Khoi Station" });
+
+            migrationBuilder.UpdateData(
+                table: "VehicleTypes",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "Name",
+                value: "Motorbike");
+
+            migrationBuilder.UpdateData(
+                table: "VehicleTypes",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "Name",
+                value: "Car");
+                
+            migrationBuilder.CreateIndex(
+                name: "IX_ChargingPoints_StationId",
+                table: "ChargingPoints",
+                column: "StationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChargingPorts_ConnectorId",
+                table: "ChargingPorts",
+                column: "ConnectorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChargingPorts_PointId",
+                table: "ChargingPorts",
+                column: "PointId");
         }
 
         /// <inheritdoc />
