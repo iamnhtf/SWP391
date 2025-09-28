@@ -50,8 +50,8 @@ public class AppDbContext : DbContext
         // Connector
         modelBuilder.Entity<Connector>().HasData(
             new Connector { Id = 1, Name = "AC" },
-            new Connector { Id = 2, Name = "CCS (DC)" },
-            new Connector { Id = 3, Name = "CHAdeMO (DC)" }
+            new Connector { Id = 2, Name = "CCS" },
+            new Connector { Id = 3, Name = "CHAdeMO" }
         );
 
     // PowerRange
@@ -234,34 +234,34 @@ public class AppDbContext : DbContext
     // ===== Station 1 =====
 modelBuilder.Entity<ChargingPort>().HasData(
     // Point 1.1
-    new ChargingPort { Id = "1.1.1", PointId = "1.1", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.1.2", PointId = "1.1", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
-    new ChargingPort { Id = "1.1.3", PointId = "1.1", ConnectorId = 3, Power = "50 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.1.1", PointId = "1.1", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.1.2", PointId = "1.1", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.InUse },
+    new ChargingPort { Id = "1.1.3", PointId = "1.1", ConnectorId = 3, Power = 50, Status = ChargingPortStatus.Available },
 
     // Point 1.2
-    new ChargingPort { Id = "1.2.1", PointId = "1.2", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.2.2", PointId = "1.2", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.Faulty },
-    new ChargingPort { Id = "1.2.3", PointId = "1.2", ConnectorId = 3, Power = "150 kW", Status = ChargingPortStatus.InUse },
+    new ChargingPort { Id = "1.2.1", PointId = "1.2", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.2.2", PointId = "1.2", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.Faulty },
+    new ChargingPort { Id = "1.2.3", PointId = "1.2", ConnectorId = 3, Power = 50, Status = ChargingPortStatus.InUse },
 
     // Point 1.3
-    new ChargingPort { Id = "1.3.1", PointId = "1.3", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.InUse },
-    new ChargingPort { Id = "1.3.2", PointId = "1.3", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.3.3", PointId = "1.3", ConnectorId = 3, Power = "50 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.3.1", PointId = "1.3", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.InUse },
+    new ChargingPort { Id = "1.3.2", PointId = "1.3", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.3.3", PointId = "1.3", ConnectorId = 3, Power = 50, Status = ChargingPortStatus.Available },
 
     // Point 1.4
-    new ChargingPort { Id = "1.4.1", PointId = "1.4", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.4.2", PointId = "1.4", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.4.3", PointId = "1.4", ConnectorId = 3, Power = "150 kW", Status = ChargingPortStatus.Faulty },
+    new ChargingPort { Id = "1.4.1", PointId = "1.4", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.4.2", PointId = "1.4", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.4.3", PointId = "1.4", ConnectorId = 3, Power = 50, Status = ChargingPortStatus.Faulty },
 
     // Point 1.5
-    new ChargingPort { Id = "1.5.1", PointId = "1.5", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.5.2", PointId = "1.5", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
-    new ChargingPort { Id = "1.5.3", PointId = "1.5", ConnectorId = 3, Power = "50 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.5.1", PointId = "1.5", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.5.2", PointId = "1.5", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.InUse },
+    new ChargingPort { Id = "1.5.3", PointId = "1.5", ConnectorId = 3, Power = 50, Status = ChargingPortStatus.Available },
 
     // Point 1.6
-    new ChargingPort { Id = "1.6.1", PointId = "1.6", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.InUse },
-    new ChargingPort { Id = "1.6.2", PointId = "1.6", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.Available },
-    new ChargingPort { Id = "1.6.3", PointId = "1.6", ConnectorId = 3, Power = "150 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.6.1", PointId = "1.6", ConnectorId = 1, Power = 7, Status = ChargingPortStatus.InUse },
+    new ChargingPort { Id = "1.6.2", PointId = "1.6", ConnectorId = 2, Power = 22, Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "1.6.3", PointId = "1.6", ConnectorId = 3, Power = 150, Status = ChargingPortStatus.Available },
 
     // Point 1.7
     new ChargingPort { Id = "1.7.1", PointId = "1.7", ConnectorId = 1, Power = "7 kW", Status = ChargingPortStatus.Available },
