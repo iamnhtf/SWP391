@@ -176,7 +176,7 @@ public class AppDbContext : DbContext
     new ChargingPort { Id = "5.1.2", PointId = "5.1", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
 
     // Station 6
-    new ChargingPort { Id = "6.1.1", PointId = "6.1", ConnectorId = 1, Power = ">50 kW", Status = ChargingPortStatus.Available },
+    new ChargingPort { Id = "6.1.1", PointId = "6.1", ConnectorId = 1, Power = "50 kW", Status = ChargingPortStatus.Available },
     new ChargingPort { Id = "6.1.2", PointId = "6.1", ConnectorId = 2, Power = "22 kW", Status = ChargingPortStatus.InUse },
 
     // Station 7
