@@ -12,8 +12,7 @@ namespace TestServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Staff");
+            migrationBuilder.Sql("DROP TABLE IF EXISTS `Staff`;");
         }
 
         /// <inheritdoc />
