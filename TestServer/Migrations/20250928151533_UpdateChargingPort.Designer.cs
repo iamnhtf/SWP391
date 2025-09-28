@@ -10,8 +10,8 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250928145659_AccountPackage")]
-    partial class AccountPackage
+    [Migration("20250928151533_UpdateChargingPort")]
+    partial class UpdateChargingPort
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
