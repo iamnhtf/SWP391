@@ -18,7 +18,7 @@ namespace TestServer.Models
         public int ConnectorId { get; set; }
         public Connector Connector { get; set; } = null!;
 
-        public string Power { get; set; } = string.Empty;
+        public int Power { get; set; } = 0;
 
         public ChargingPortStatus Status { get; set; } = ChargingPortStatus.Available;
 

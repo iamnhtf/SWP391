@@ -382,9 +382,8 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Power")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Power")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -404,7 +403,7 @@ namespace TestServer.Migrations
                             Id = "1.1.1",
                             ConnectorId = 1,
                             PointId = "1.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -412,7 +411,7 @@ namespace TestServer.Migrations
                             Id = "1.1.2",
                             ConnectorId = 2,
                             PointId = "1.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -420,7 +419,7 @@ namespace TestServer.Migrations
                             Id = "1.1.3",
                             ConnectorId = 3,
                             PointId = "1.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -428,7 +427,7 @@ namespace TestServer.Migrations
                             Id = "1.2.1",
                             ConnectorId = 1,
                             PointId = "1.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -436,7 +435,7 @@ namespace TestServer.Migrations
                             Id = "1.2.2",
                             ConnectorId = 2,
                             PointId = "1.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -444,7 +443,7 @@ namespace TestServer.Migrations
                             Id = "1.2.3",
                             ConnectorId = 3,
                             PointId = "1.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -452,7 +451,7 @@ namespace TestServer.Migrations
                             Id = "1.3.1",
                             ConnectorId = 1,
                             PointId = "1.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -460,7 +459,7 @@ namespace TestServer.Migrations
                             Id = "1.3.2",
                             ConnectorId = 2,
                             PointId = "1.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -468,7 +467,7 @@ namespace TestServer.Migrations
                             Id = "1.3.3",
                             ConnectorId = 3,
                             PointId = "1.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -476,7 +475,7 @@ namespace TestServer.Migrations
                             Id = "1.4.1",
                             ConnectorId = 1,
                             PointId = "1.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -484,7 +483,7 @@ namespace TestServer.Migrations
                             Id = "1.4.2",
                             ConnectorId = 2,
                             PointId = "1.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -492,7 +491,7 @@ namespace TestServer.Migrations
                             Id = "1.4.3",
                             ConnectorId = 3,
                             PointId = "1.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -500,7 +499,7 @@ namespace TestServer.Migrations
                             Id = "1.5.1",
                             ConnectorId = 1,
                             PointId = "1.5",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -508,7 +507,7 @@ namespace TestServer.Migrations
                             Id = "1.5.2",
                             ConnectorId = 2,
                             PointId = "1.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -516,7 +515,7 @@ namespace TestServer.Migrations
                             Id = "1.5.3",
                             ConnectorId = 3,
                             PointId = "1.5",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -524,7 +523,7 @@ namespace TestServer.Migrations
                             Id = "1.6.1",
                             ConnectorId = 1,
                             PointId = "1.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -532,7 +531,7 @@ namespace TestServer.Migrations
                             Id = "1.6.2",
                             ConnectorId = 2,
                             PointId = "1.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -540,7 +539,7 @@ namespace TestServer.Migrations
                             Id = "1.6.3",
                             ConnectorId = 3,
                             PointId = "1.6",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -548,7 +547,7 @@ namespace TestServer.Migrations
                             Id = "1.7.1",
                             ConnectorId = 1,
                             PointId = "1.7",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -556,7 +555,7 @@ namespace TestServer.Migrations
                             Id = "1.7.2",
                             ConnectorId = 2,
                             PointId = "1.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -564,7 +563,7 @@ namespace TestServer.Migrations
                             Id = "1.7.3",
                             ConnectorId = 3,
                             PointId = "1.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -572,7 +571,7 @@ namespace TestServer.Migrations
                             Id = "2.1.1",
                             ConnectorId = 1,
                             PointId = "2.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -580,7 +579,7 @@ namespace TestServer.Migrations
                             Id = "2.1.2",
                             ConnectorId = 2,
                             PointId = "2.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -588,7 +587,7 @@ namespace TestServer.Migrations
                             Id = "2.1.3",
                             ConnectorId = 3,
                             PointId = "2.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -596,7 +595,7 @@ namespace TestServer.Migrations
                             Id = "2.2.1",
                             ConnectorId = 1,
                             PointId = "2.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -604,7 +603,7 @@ namespace TestServer.Migrations
                             Id = "2.2.2",
                             ConnectorId = 2,
                             PointId = "2.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -612,7 +611,7 @@ namespace TestServer.Migrations
                             Id = "2.2.3",
                             ConnectorId = 3,
                             PointId = "2.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -620,7 +619,7 @@ namespace TestServer.Migrations
                             Id = "2.3.1",
                             ConnectorId = 1,
                             PointId = "2.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -628,7 +627,7 @@ namespace TestServer.Migrations
                             Id = "2.3.2",
                             ConnectorId = 2,
                             PointId = "2.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -636,7 +635,7 @@ namespace TestServer.Migrations
                             Id = "2.3.3",
                             ConnectorId = 3,
                             PointId = "2.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -644,7 +643,7 @@ namespace TestServer.Migrations
                             Id = "2.4.1",
                             ConnectorId = 1,
                             PointId = "2.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -652,7 +651,7 @@ namespace TestServer.Migrations
                             Id = "2.4.2",
                             ConnectorId = 2,
                             PointId = "2.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -660,7 +659,7 @@ namespace TestServer.Migrations
                             Id = "2.4.3",
                             ConnectorId = 3,
                             PointId = "2.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -668,7 +667,7 @@ namespace TestServer.Migrations
                             Id = "2.5.1",
                             ConnectorId = 1,
                             PointId = "2.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -676,7 +675,7 @@ namespace TestServer.Migrations
                             Id = "2.5.2",
                             ConnectorId = 2,
                             PointId = "2.5",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -684,7 +683,7 @@ namespace TestServer.Migrations
                             Id = "2.5.3",
                             ConnectorId = 3,
                             PointId = "2.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -692,7 +691,7 @@ namespace TestServer.Migrations
                             Id = "2.6.1",
                             ConnectorId = 1,
                             PointId = "2.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -700,7 +699,7 @@ namespace TestServer.Migrations
                             Id = "2.6.2",
                             ConnectorId = 2,
                             PointId = "2.6",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -708,7 +707,7 @@ namespace TestServer.Migrations
                             Id = "2.6.3",
                             ConnectorId = 3,
                             PointId = "2.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -716,7 +715,7 @@ namespace TestServer.Migrations
                             Id = "2.7.1",
                             ConnectorId = 1,
                             PointId = "2.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -724,7 +723,7 @@ namespace TestServer.Migrations
                             Id = "2.7.2",
                             ConnectorId = 2,
                             PointId = "2.7",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -732,7 +731,7 @@ namespace TestServer.Migrations
                             Id = "2.7.3",
                             ConnectorId = 3,
                             PointId = "2.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -740,7 +739,7 @@ namespace TestServer.Migrations
                             Id = "2.8.1",
                             ConnectorId = 1,
                             PointId = "2.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -748,7 +747,7 @@ namespace TestServer.Migrations
                             Id = "2.8.2",
                             ConnectorId = 2,
                             PointId = "2.8",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -756,7 +755,7 @@ namespace TestServer.Migrations
                             Id = "2.8.3",
                             ConnectorId = 3,
                             PointId = "2.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -764,7 +763,7 @@ namespace TestServer.Migrations
                             Id = "2.9.1",
                             ConnectorId = 1,
                             PointId = "2.9",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -772,7 +771,7 @@ namespace TestServer.Migrations
                             Id = "2.9.2",
                             ConnectorId = 2,
                             PointId = "2.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -780,7 +779,7 @@ namespace TestServer.Migrations
                             Id = "2.9.3",
                             ConnectorId = 3,
                             PointId = "2.9",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -788,7 +787,7 @@ namespace TestServer.Migrations
                             Id = "2.10.1",
                             ConnectorId = 1,
                             PointId = "2.10",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -796,7 +795,7 @@ namespace TestServer.Migrations
                             Id = "2.10.2",
                             ConnectorId = 2,
                             PointId = "2.10",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -804,7 +803,7 @@ namespace TestServer.Migrations
                             Id = "2.10.3",
                             ConnectorId = 3,
                             PointId = "2.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -812,7 +811,7 @@ namespace TestServer.Migrations
                             Id = "3.1.1",
                             ConnectorId = 1,
                             PointId = "3.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -820,7 +819,7 @@ namespace TestServer.Migrations
                             Id = "3.1.2",
                             ConnectorId = 2,
                             PointId = "3.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -828,7 +827,7 @@ namespace TestServer.Migrations
                             Id = "3.1.3",
                             ConnectorId = 3,
                             PointId = "3.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -836,7 +835,7 @@ namespace TestServer.Migrations
                             Id = "3.2.1",
                             ConnectorId = 1,
                             PointId = "3.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -844,7 +843,7 @@ namespace TestServer.Migrations
                             Id = "3.2.2",
                             ConnectorId = 2,
                             PointId = "3.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -852,7 +851,7 @@ namespace TestServer.Migrations
                             Id = "3.2.3",
                             ConnectorId = 3,
                             PointId = "3.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -860,7 +859,7 @@ namespace TestServer.Migrations
                             Id = "3.3.1",
                             ConnectorId = 1,
                             PointId = "3.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -868,7 +867,7 @@ namespace TestServer.Migrations
                             Id = "3.3.2",
                             ConnectorId = 2,
                             PointId = "3.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -876,7 +875,7 @@ namespace TestServer.Migrations
                             Id = "3.3.3",
                             ConnectorId = 3,
                             PointId = "3.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -884,7 +883,7 @@ namespace TestServer.Migrations
                             Id = "3.4.1",
                             ConnectorId = 1,
                             PointId = "3.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -892,7 +891,7 @@ namespace TestServer.Migrations
                             Id = "3.4.2",
                             ConnectorId = 2,
                             PointId = "3.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -900,7 +899,7 @@ namespace TestServer.Migrations
                             Id = "3.4.3",
                             ConnectorId = 3,
                             PointId = "3.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -908,7 +907,7 @@ namespace TestServer.Migrations
                             Id = "3.5.1",
                             ConnectorId = 1,
                             PointId = "3.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -916,7 +915,7 @@ namespace TestServer.Migrations
                             Id = "3.5.2",
                             ConnectorId = 2,
                             PointId = "3.5",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -924,7 +923,7 @@ namespace TestServer.Migrations
                             Id = "3.5.3",
                             ConnectorId = 3,
                             PointId = "3.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -932,7 +931,7 @@ namespace TestServer.Migrations
                             Id = "3.6.1",
                             ConnectorId = 1,
                             PointId = "3.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -940,7 +939,7 @@ namespace TestServer.Migrations
                             Id = "3.6.2",
                             ConnectorId = 2,
                             PointId = "3.6",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -948,7 +947,7 @@ namespace TestServer.Migrations
                             Id = "3.6.3",
                             ConnectorId = 3,
                             PointId = "3.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -956,7 +955,7 @@ namespace TestServer.Migrations
                             Id = "3.7.1",
                             ConnectorId = 1,
                             PointId = "3.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -964,7 +963,7 @@ namespace TestServer.Migrations
                             Id = "3.7.2",
                             ConnectorId = 2,
                             PointId = "3.7",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -972,7 +971,7 @@ namespace TestServer.Migrations
                             Id = "3.7.3",
                             ConnectorId = 3,
                             PointId = "3.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -980,7 +979,7 @@ namespace TestServer.Migrations
                             Id = "3.8.1",
                             ConnectorId = 1,
                             PointId = "3.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -988,7 +987,7 @@ namespace TestServer.Migrations
                             Id = "3.8.2",
                             ConnectorId = 2,
                             PointId = "3.8",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -996,7 +995,7 @@ namespace TestServer.Migrations
                             Id = "3.8.3",
                             ConnectorId = 3,
                             PointId = "3.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1004,7 +1003,7 @@ namespace TestServer.Migrations
                             Id = "3.9.1",
                             ConnectorId = 1,
                             PointId = "3.9",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1012,7 +1011,7 @@ namespace TestServer.Migrations
                             Id = "3.9.2",
                             ConnectorId = 2,
                             PointId = "3.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1020,7 +1019,7 @@ namespace TestServer.Migrations
                             Id = "3.9.3",
                             ConnectorId = 3,
                             PointId = "3.9",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1028,7 +1027,7 @@ namespace TestServer.Migrations
                             Id = "3.10.1",
                             ConnectorId = 1,
                             PointId = "3.10",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1036,7 +1035,7 @@ namespace TestServer.Migrations
                             Id = "3.10.2",
                             ConnectorId = 2,
                             PointId = "3.10",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1044,7 +1043,7 @@ namespace TestServer.Migrations
                             Id = "3.10.3",
                             ConnectorId = 3,
                             PointId = "3.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1052,7 +1051,7 @@ namespace TestServer.Migrations
                             Id = "4.1.1",
                             ConnectorId = 1,
                             PointId = "4.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1060,7 +1059,7 @@ namespace TestServer.Migrations
                             Id = "4.1.2",
                             ConnectorId = 2,
                             PointId = "4.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1068,7 +1067,7 @@ namespace TestServer.Migrations
                             Id = "4.1.3",
                             ConnectorId = 3,
                             PointId = "4.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1076,7 +1075,7 @@ namespace TestServer.Migrations
                             Id = "4.2.1",
                             ConnectorId = 1,
                             PointId = "4.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1084,7 +1083,7 @@ namespace TestServer.Migrations
                             Id = "4.2.2",
                             ConnectorId = 2,
                             PointId = "4.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1092,7 +1091,7 @@ namespace TestServer.Migrations
                             Id = "4.2.3",
                             ConnectorId = 3,
                             PointId = "4.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1100,7 +1099,7 @@ namespace TestServer.Migrations
                             Id = "4.3.1",
                             ConnectorId = 1,
                             PointId = "4.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1108,7 +1107,7 @@ namespace TestServer.Migrations
                             Id = "4.3.2",
                             ConnectorId = 2,
                             PointId = "4.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1116,7 +1115,7 @@ namespace TestServer.Migrations
                             Id = "4.3.3",
                             ConnectorId = 3,
                             PointId = "4.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1124,7 +1123,7 @@ namespace TestServer.Migrations
                             Id = "4.4.1",
                             ConnectorId = 1,
                             PointId = "4.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1132,7 +1131,7 @@ namespace TestServer.Migrations
                             Id = "4.4.2",
                             ConnectorId = 2,
                             PointId = "4.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1140,7 +1139,7 @@ namespace TestServer.Migrations
                             Id = "4.4.3",
                             ConnectorId = 3,
                             PointId = "4.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1148,7 +1147,7 @@ namespace TestServer.Migrations
                             Id = "4.5.1",
                             ConnectorId = 1,
                             PointId = "4.5",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1156,7 +1155,7 @@ namespace TestServer.Migrations
                             Id = "4.5.2",
                             ConnectorId = 2,
                             PointId = "4.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1164,7 +1163,7 @@ namespace TestServer.Migrations
                             Id = "4.5.3",
                             ConnectorId = 3,
                             PointId = "4.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1172,7 +1171,7 @@ namespace TestServer.Migrations
                             Id = "4.6.1",
                             ConnectorId = 1,
                             PointId = "4.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1180,7 +1179,7 @@ namespace TestServer.Migrations
                             Id = "4.6.2",
                             ConnectorId = 2,
                             PointId = "4.6",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1188,7 +1187,7 @@ namespace TestServer.Migrations
                             Id = "4.6.3",
                             ConnectorId = 3,
                             PointId = "4.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1196,7 +1195,7 @@ namespace TestServer.Migrations
                             Id = "4.7.1",
                             ConnectorId = 1,
                             PointId = "4.7",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1204,7 +1203,7 @@ namespace TestServer.Migrations
                             Id = "4.7.2",
                             ConnectorId = 2,
                             PointId = "4.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1212,7 +1211,7 @@ namespace TestServer.Migrations
                             Id = "4.7.3",
                             ConnectorId = 3,
                             PointId = "4.7",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1220,7 +1219,7 @@ namespace TestServer.Migrations
                             Id = "4.8.1",
                             ConnectorId = 1,
                             PointId = "4.8",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1228,7 +1227,7 @@ namespace TestServer.Migrations
                             Id = "4.8.2",
                             ConnectorId = 2,
                             PointId = "4.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1236,7 +1235,7 @@ namespace TestServer.Migrations
                             Id = "4.8.3",
                             ConnectorId = 3,
                             PointId = "4.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1244,7 +1243,7 @@ namespace TestServer.Migrations
                             Id = "4.9.1",
                             ConnectorId = 1,
                             PointId = "4.9",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1252,7 +1251,7 @@ namespace TestServer.Migrations
                             Id = "4.9.2",
                             ConnectorId = 2,
                             PointId = "4.9",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1260,7 +1259,7 @@ namespace TestServer.Migrations
                             Id = "4.9.3",
                             ConnectorId = 3,
                             PointId = "4.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1268,7 +1267,7 @@ namespace TestServer.Migrations
                             Id = "4.10.1",
                             ConnectorId = 1,
                             PointId = "4.10",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1276,7 +1275,7 @@ namespace TestServer.Migrations
                             Id = "4.10.2",
                             ConnectorId = 2,
                             PointId = "4.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1284,7 +1283,7 @@ namespace TestServer.Migrations
                             Id = "4.10.3",
                             ConnectorId = 3,
                             PointId = "4.10",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1292,7 +1291,7 @@ namespace TestServer.Migrations
                             Id = "5.1.1",
                             ConnectorId = 1,
                             PointId = "5.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1300,7 +1299,7 @@ namespace TestServer.Migrations
                             Id = "5.1.2",
                             ConnectorId = 2,
                             PointId = "5.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1308,7 +1307,7 @@ namespace TestServer.Migrations
                             Id = "5.1.3",
                             ConnectorId = 3,
                             PointId = "5.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1316,7 +1315,7 @@ namespace TestServer.Migrations
                             Id = "5.2.1",
                             ConnectorId = 1,
                             PointId = "5.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1324,7 +1323,7 @@ namespace TestServer.Migrations
                             Id = "5.2.2",
                             ConnectorId = 2,
                             PointId = "5.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1332,7 +1331,7 @@ namespace TestServer.Migrations
                             Id = "5.2.3",
                             ConnectorId = 3,
                             PointId = "5.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1340,7 +1339,7 @@ namespace TestServer.Migrations
                             Id = "5.3.1",
                             ConnectorId = 1,
                             PointId = "5.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1348,7 +1347,7 @@ namespace TestServer.Migrations
                             Id = "5.3.2",
                             ConnectorId = 2,
                             PointId = "5.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1356,7 +1355,7 @@ namespace TestServer.Migrations
                             Id = "5.3.3",
                             ConnectorId = 3,
                             PointId = "5.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1364,7 +1363,7 @@ namespace TestServer.Migrations
                             Id = "5.4.1",
                             ConnectorId = 1,
                             PointId = "5.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1372,7 +1371,7 @@ namespace TestServer.Migrations
                             Id = "5.4.2",
                             ConnectorId = 2,
                             PointId = "5.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1380,7 +1379,7 @@ namespace TestServer.Migrations
                             Id = "5.4.3",
                             ConnectorId = 3,
                             PointId = "5.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1388,7 +1387,7 @@ namespace TestServer.Migrations
                             Id = "5.5.1",
                             ConnectorId = 1,
                             PointId = "5.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1396,7 +1395,7 @@ namespace TestServer.Migrations
                             Id = "5.5.2",
                             ConnectorId = 2,
                             PointId = "5.5",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1404,7 +1403,7 @@ namespace TestServer.Migrations
                             Id = "5.5.3",
                             ConnectorId = 3,
                             PointId = "5.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1412,7 +1411,7 @@ namespace TestServer.Migrations
                             Id = "5.6.1",
                             ConnectorId = 1,
                             PointId = "5.6",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1420,7 +1419,7 @@ namespace TestServer.Migrations
                             Id = "5.6.2",
                             ConnectorId = 2,
                             PointId = "5.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1428,7 +1427,7 @@ namespace TestServer.Migrations
                             Id = "5.6.3",
                             ConnectorId = 3,
                             PointId = "5.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1436,7 +1435,7 @@ namespace TestServer.Migrations
                             Id = "5.7.1",
                             ConnectorId = 1,
                             PointId = "5.7",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1444,7 +1443,7 @@ namespace TestServer.Migrations
                             Id = "5.7.2",
                             ConnectorId = 2,
                             PointId = "5.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1452,7 +1451,7 @@ namespace TestServer.Migrations
                             Id = "5.7.3",
                             ConnectorId = 3,
                             PointId = "5.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1460,7 +1459,7 @@ namespace TestServer.Migrations
                             Id = "5.8.1",
                             ConnectorId = 1,
                             PointId = "5.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1468,7 +1467,7 @@ namespace TestServer.Migrations
                             Id = "5.8.2",
                             ConnectorId = 2,
                             PointId = "5.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1476,7 +1475,7 @@ namespace TestServer.Migrations
                             Id = "5.8.3",
                             ConnectorId = 3,
                             PointId = "5.8",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1484,7 +1483,7 @@ namespace TestServer.Migrations
                             Id = "5.9.1",
                             ConnectorId = 1,
                             PointId = "5.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1492,7 +1491,7 @@ namespace TestServer.Migrations
                             Id = "5.9.2",
                             ConnectorId = 2,
                             PointId = "5.9",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1500,7 +1499,7 @@ namespace TestServer.Migrations
                             Id = "5.9.3",
                             ConnectorId = 3,
                             PointId = "5.9",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1508,7 +1507,7 @@ namespace TestServer.Migrations
                             Id = "5.10.1",
                             ConnectorId = 1,
                             PointId = "5.10",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1516,7 +1515,7 @@ namespace TestServer.Migrations
                             Id = "5.10.2",
                             ConnectorId = 2,
                             PointId = "5.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1524,7 +1523,7 @@ namespace TestServer.Migrations
                             Id = "5.10.3",
                             ConnectorId = 3,
                             PointId = "5.10",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1532,7 +1531,7 @@ namespace TestServer.Migrations
                             Id = "6.1.1",
                             ConnectorId = 1,
                             PointId = "6.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1540,7 +1539,7 @@ namespace TestServer.Migrations
                             Id = "6.1.2",
                             ConnectorId = 2,
                             PointId = "6.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1548,7 +1547,7 @@ namespace TestServer.Migrations
                             Id = "6.1.3",
                             ConnectorId = 3,
                             PointId = "6.1",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1556,7 +1555,7 @@ namespace TestServer.Migrations
                             Id = "6.2.1",
                             ConnectorId = 1,
                             PointId = "6.2",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1564,7 +1563,7 @@ namespace TestServer.Migrations
                             Id = "6.2.2",
                             ConnectorId = 2,
                             PointId = "6.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1572,7 +1571,7 @@ namespace TestServer.Migrations
                             Id = "6.2.3",
                             ConnectorId = 3,
                             PointId = "6.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1580,7 +1579,7 @@ namespace TestServer.Migrations
                             Id = "6.3.1",
                             ConnectorId = 1,
                             PointId = "6.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1588,7 +1587,7 @@ namespace TestServer.Migrations
                             Id = "6.3.2",
                             ConnectorId = 2,
                             PointId = "6.3",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1596,7 +1595,7 @@ namespace TestServer.Migrations
                             Id = "6.3.3",
                             ConnectorId = 3,
                             PointId = "6.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1604,7 +1603,7 @@ namespace TestServer.Migrations
                             Id = "6.4.1",
                             ConnectorId = 1,
                             PointId = "6.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1612,7 +1611,7 @@ namespace TestServer.Migrations
                             Id = "6.4.2",
                             ConnectorId = 2,
                             PointId = "6.4",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1620,7 +1619,7 @@ namespace TestServer.Migrations
                             Id = "6.4.3",
                             ConnectorId = 3,
                             PointId = "6.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1628,7 +1627,7 @@ namespace TestServer.Migrations
                             Id = "6.5.1",
                             ConnectorId = 1,
                             PointId = "6.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1636,7 +1635,7 @@ namespace TestServer.Migrations
                             Id = "6.5.2",
                             ConnectorId = 2,
                             PointId = "6.5",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1644,7 +1643,7 @@ namespace TestServer.Migrations
                             Id = "6.5.3",
                             ConnectorId = 3,
                             PointId = "6.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1652,7 +1651,7 @@ namespace TestServer.Migrations
                             Id = "6.6.1",
                             ConnectorId = 1,
                             PointId = "6.6",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1660,7 +1659,7 @@ namespace TestServer.Migrations
                             Id = "6.6.2",
                             ConnectorId = 2,
                             PointId = "6.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1668,7 +1667,7 @@ namespace TestServer.Migrations
                             Id = "6.6.3",
                             ConnectorId = 3,
                             PointId = "6.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1676,7 +1675,7 @@ namespace TestServer.Migrations
                             Id = "6.7.1",
                             ConnectorId = 1,
                             PointId = "6.7",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1684,7 +1683,7 @@ namespace TestServer.Migrations
                             Id = "6.7.2",
                             ConnectorId = 2,
                             PointId = "6.7",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1692,7 +1691,7 @@ namespace TestServer.Migrations
                             Id = "6.7.3",
                             ConnectorId = 3,
                             PointId = "6.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1700,7 +1699,7 @@ namespace TestServer.Migrations
                             Id = "6.8.1",
                             ConnectorId = 1,
                             PointId = "6.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1708,7 +1707,7 @@ namespace TestServer.Migrations
                             Id = "6.8.2",
                             ConnectorId = 2,
                             PointId = "6.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1716,7 +1715,7 @@ namespace TestServer.Migrations
                             Id = "6.8.3",
                             ConnectorId = 3,
                             PointId = "6.8",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1724,7 +1723,7 @@ namespace TestServer.Migrations
                             Id = "6.9.1",
                             ConnectorId = 1,
                             PointId = "6.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1732,7 +1731,7 @@ namespace TestServer.Migrations
                             Id = "6.9.2",
                             ConnectorId = 2,
                             PointId = "6.9",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1740,7 +1739,7 @@ namespace TestServer.Migrations
                             Id = "6.9.3",
                             ConnectorId = 3,
                             PointId = "6.9",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1748,7 +1747,7 @@ namespace TestServer.Migrations
                             Id = "6.10.1",
                             ConnectorId = 1,
                             PointId = "6.10",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1756,7 +1755,7 @@ namespace TestServer.Migrations
                             Id = "6.10.2",
                             ConnectorId = 2,
                             PointId = "6.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1764,7 +1763,7 @@ namespace TestServer.Migrations
                             Id = "6.10.3",
                             ConnectorId = 3,
                             PointId = "6.10",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1772,7 +1771,7 @@ namespace TestServer.Migrations
                             Id = "7.1.1",
                             ConnectorId = 1,
                             PointId = "7.1",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1780,7 +1779,7 @@ namespace TestServer.Migrations
                             Id = "7.1.2",
                             ConnectorId = 2,
                             PointId = "7.1",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1788,7 +1787,7 @@ namespace TestServer.Migrations
                             Id = "7.1.3",
                             ConnectorId = 3,
                             PointId = "7.1",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1796,7 +1795,7 @@ namespace TestServer.Migrations
                             Id = "7.2.1",
                             ConnectorId = 1,
                             PointId = "7.2",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1804,7 +1803,7 @@ namespace TestServer.Migrations
                             Id = "7.2.2",
                             ConnectorId = 2,
                             PointId = "7.2",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1812,7 +1811,7 @@ namespace TestServer.Migrations
                             Id = "7.2.3",
                             ConnectorId = 3,
                             PointId = "7.2",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1820,7 +1819,7 @@ namespace TestServer.Migrations
                             Id = "7.3.1",
                             ConnectorId = 1,
                             PointId = "7.3",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1828,7 +1827,7 @@ namespace TestServer.Migrations
                             Id = "7.3.2",
                             ConnectorId = 2,
                             PointId = "7.3",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1836,7 +1835,7 @@ namespace TestServer.Migrations
                             Id = "7.3.3",
                             ConnectorId = 3,
                             PointId = "7.3",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1844,7 +1843,7 @@ namespace TestServer.Migrations
                             Id = "7.4.1",
                             ConnectorId = 1,
                             PointId = "7.4",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1852,7 +1851,7 @@ namespace TestServer.Migrations
                             Id = "7.4.2",
                             ConnectorId = 2,
                             PointId = "7.4",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1860,7 +1859,7 @@ namespace TestServer.Migrations
                             Id = "7.4.3",
                             ConnectorId = 3,
                             PointId = "7.4",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1868,7 +1867,7 @@ namespace TestServer.Migrations
                             Id = "7.5.1",
                             ConnectorId = 1,
                             PointId = "7.5",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1876,7 +1875,7 @@ namespace TestServer.Migrations
                             Id = "7.5.2",
                             ConnectorId = 2,
                             PointId = "7.5",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1884,7 +1883,7 @@ namespace TestServer.Migrations
                             Id = "7.5.3",
                             ConnectorId = 3,
                             PointId = "7.5",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Faulty"
                         },
                         new
@@ -1892,7 +1891,7 @@ namespace TestServer.Migrations
                             Id = "7.6.1",
                             ConnectorId = 1,
                             PointId = "7.6",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Available"
                         },
                         new
@@ -1900,7 +1899,7 @@ namespace TestServer.Migrations
                             Id = "7.6.2",
                             ConnectorId = 2,
                             PointId = "7.6",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -1908,7 +1907,7 @@ namespace TestServer.Migrations
                             Id = "7.6.3",
                             ConnectorId = 3,
                             PointId = "7.6",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         },
                         new
@@ -1916,7 +1915,7 @@ namespace TestServer.Migrations
                             Id = "7.7.1",
                             ConnectorId = 1,
                             PointId = "7.7",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1924,7 +1923,7 @@ namespace TestServer.Migrations
                             Id = "7.7.2",
                             ConnectorId = 2,
                             PointId = "7.7",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "InUse"
                         },
                         new
@@ -1932,7 +1931,7 @@ namespace TestServer.Migrations
                             Id = "7.7.3",
                             ConnectorId = 3,
                             PointId = "7.7",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Faulty"
                         },
                         new
@@ -1940,7 +1939,7 @@ namespace TestServer.Migrations
                             Id = "7.8.1",
                             ConnectorId = 1,
                             PointId = "7.8",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Available"
                         },
                         new
@@ -1948,7 +1947,7 @@ namespace TestServer.Migrations
                             Id = "7.8.2",
                             ConnectorId = 2,
                             PointId = "7.8",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "InUse"
                         },
                         new
@@ -1956,7 +1955,7 @@ namespace TestServer.Migrations
                             Id = "7.8.3",
                             ConnectorId = 3,
                             PointId = "7.8",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1964,7 +1963,7 @@ namespace TestServer.Migrations
                             Id = "7.9.1",
                             ConnectorId = 1,
                             PointId = "7.9",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "Available"
                         },
                         new
@@ -1972,7 +1971,7 @@ namespace TestServer.Migrations
                             Id = "7.9.2",
                             ConnectorId = 2,
                             PointId = "7.9",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "InUse"
                         },
                         new
@@ -1980,7 +1979,7 @@ namespace TestServer.Migrations
                             Id = "7.9.3",
                             ConnectorId = 3,
                             PointId = "7.9",
-                            Power = "7 kW",
+                            Power = 7,
                             Status = "Faulty"
                         },
                         new
@@ -1988,7 +1987,7 @@ namespace TestServer.Migrations
                             Id = "7.10.1",
                             ConnectorId = 1,
                             PointId = "7.10",
-                            Power = "50 kW",
+                            Power = 50,
                             Status = "Available"
                         },
                         new
@@ -1996,7 +1995,7 @@ namespace TestServer.Migrations
                             Id = "7.10.2",
                             ConnectorId = 2,
                             PointId = "7.10",
-                            Power = "150 kW",
+                            Power = 150,
                             Status = "InUse"
                         },
                         new
@@ -2004,7 +2003,7 @@ namespace TestServer.Migrations
                             Id = "7.10.3",
                             ConnectorId = 3,
                             PointId = "7.10",
-                            Power = "22 kW",
+                            Power = 22,
                             Status = "Faulty"
                         });
                 });
@@ -2078,6 +2077,9 @@ namespace TestServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("AccountPackageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Car")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -2098,7 +2100,12 @@ namespace TestServer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<double>("TotalSpend")
+                        .HasColumnType("double");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountPackageId");
 
                     b.ToTable("Drivers");
 
@@ -2109,7 +2116,8 @@ namespace TestServer.Migrations
                             Car = "",
                             LicenseNumber = "",
                             Name = "Nguyễn Xuân Thịnh",
-                            PhoneNumber = ""
+                            PhoneNumber = "",
+                            TotalSpend = 0.0
                         },
                         new
                         {
@@ -2117,7 +2125,8 @@ namespace TestServer.Migrations
                             Car = "",
                             LicenseNumber = "",
                             Name = "Nguyễn Hưng Thái",
-                            PhoneNumber = ""
+                            PhoneNumber = "",
+                            TotalSpend = 0.0
                         },
                         new
                         {
@@ -2125,7 +2134,8 @@ namespace TestServer.Migrations
                             Car = "",
                             LicenseNumber = "",
                             Name = "Nguyễn Bùi Đăng Khôi",
-                            PhoneNumber = ""
+                            PhoneNumber = "",
+                            TotalSpend = 0.0
                         },
                         new
                         {
@@ -2133,7 +2143,8 @@ namespace TestServer.Migrations
                             Car = "",
                             LicenseNumber = "",
                             Name = "Lê Minh Đức",
-                            PhoneNumber = ""
+                            PhoneNumber = "",
+                            TotalSpend = 0.0
                         },
                         new
                         {
@@ -2141,7 +2152,59 @@ namespace TestServer.Migrations
                             Car = "",
                             LicenseNumber = "",
                             Name = "Vũ Thế Anh",
-                            PhoneNumber = ""
+                            PhoneNumber = "",
+                            TotalSpend = 0.0
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Package.AccountPackage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("DiscountPercent")
+                        .HasColumnType("double");
+
+                    b.Property<double>("MinTotalSpend")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountPackages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DiscountPercent = 0.0,
+                            MinTotalSpend = 0.0,
+                            Name = "Normal"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DiscountPercent = 5.0,
+                            MinTotalSpend = 100000.0,
+                            Name = "Silver"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DiscountPercent = 10.0,
+                            MinTotalSpend = 200000.0,
+                            Name = "Gold"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DiscountPercent = 15.0,
+                            MinTotalSpend = 300000.0,
+                            Name = "Diamond"
                         });
                 });
 
@@ -2168,12 +2231,12 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "CCS (DC)"
+                            Name = "CCS"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "CHAdeMO (DC)"
+                            Name = "CHAdeMO"
                         });
                 });
 
@@ -2820,6 +2883,15 @@ namespace TestServer.Migrations
                     b.Navigation("Connector");
                 });
 
+            modelBuilder.Entity("TestServer.Models.Driver", b =>
+                {
+                    b.HasOne("TestServer.Package.AccountPackage", "AccountPackage")
+                        .WithMany("Drivers")
+                        .HasForeignKey("AccountPackageId");
+
+                    b.Navigation("AccountPackage");
+                });
+
             modelBuilder.Entity("TestServer.Package.PriceList", b =>
                 {
                     b.HasOne("TestServer.Package.Connector", "Connector")
@@ -2863,6 +2935,11 @@ namespace TestServer.Migrations
             modelBuilder.Entity("TestServer.Models.ChargingStation", b =>
                 {
                     b.Navigation("ChargingPoints");
+                });
+
+            modelBuilder.Entity("TestServer.Package.AccountPackage", b =>
+                {
+                    b.Navigation("Drivers");
                 });
 #pragma warning restore 612, 618
         }
