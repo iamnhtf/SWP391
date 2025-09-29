@@ -245,6 +245,30 @@ app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
     return Results.Ok(portDto);
 });
 
+app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
+{
+    var port = await db.ChargingPorts
+        .Include(p => p.Connector)
+        .Include(p => p.ChargingPoint)
+            .ThenInclude(cp => cp.ChargingStation)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (port == null)
+        return Results.NotFound($"Charging port with ID {id} not found.");
+
+    var portInfoDto = new ChargingPortInfoDto
+    {
+        Id = port.Id,
+        ConnectorName = port.Connector.Name,
+        Power = port.Power,
+        Status = port.Status.ToString(),
+        ChargingPointId = port.ChargingPoint.Id,
+        ChargingStationName = port.ChargingPoint.ChargingStation.Name,
+    };
+
+    return Results.Ok(portInfoDto);
+});
+
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
 {
