@@ -13,5 +13,8 @@ namespace TestServer.Models
         public int BatteryCapacity { get; set; }
         public int VehicleTypeId { get; set; } 
 
+        
+        public ICollection<VehiclePort> VehiclePorts { get; set; } = new List<VehiclePort>();
+
     }
 }

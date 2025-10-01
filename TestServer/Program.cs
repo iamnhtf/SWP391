@@ -272,7 +272,21 @@ app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
 // Endpoint cho Vehicles
 app.MapGet("/vehicles", async (AppDbContext db) =>
 {
-    return await db.Vehicles.ToListAsync();
+    var vehicles = await db.Vehicles 
+        .Include(v => v.VehiclePorts)
+        .ThenInclude(vp => vp.Connector)
+        .ToListAsync();
+    
+    var vehicleDtos = vehicles.Select(v => new VehicleDto
+    {
+        VehicleId = v.VehicleId,
+        Name = v.Name,
+        LicensePlate = v.LicensePlate,
+        BatteryCapacity = v.BatteryCapacity,
+        ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    }).ToList();
+
+    return Results.Ok(vehicleDtos);
 });
 
 app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
