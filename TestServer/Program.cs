@@ -268,6 +268,17 @@ app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
 
     return Results.Ok(portInfoDto);
 });
+// Endpoint cho Vehicles
+app.MapGet("/vehicles", async (AppDbContext db) =>
+{
+    return await db.Vehicles.ToListAsync();
+});
+app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
+{
+    var vehicle = await db.Vehicles.FindAsync(id);
+    return vehicle != null ? Results.Ok(vehicle) : Results.NotFound($"Vehicle with ID {id} not found.");
+
+});
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
