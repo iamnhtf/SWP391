@@ -527,6 +527,24 @@ public class AppDbContext : DbContext
             new Vehicle { VehicleId = 4, Name = "D3", VehicleTypeId = 1, LicensePlate = "DEF-321" },
             new Vehicle { VehicleId = 5, Name = "D4", VehicleTypeId = 2, LicensePlate = "UVW-987" }
         );
+
+        modelBuilder.Entity<VehiclePort>().HasKey(vp => new { vp.VehicleId, vp.ConnectorId });
+
+        modelBuilder.Entity<VehiclePort>().HasData(
+            new VehiclePort { VehicleId = 1, ConnectorId = 1 },
+            new VehiclePort { VehicleId = 1, ConnectorId = 2 },
+
+            new VehiclePort { VehicleId = 2, ConnectorId = 2 },
+            new VehiclePort { VehicleId = 2, ConnectorId = 3 },
+
+            new VehiclePort { VehicleId = 3, ConnectorId = 3 },
+            new VehiclePort { VehicleId = 3, ConnectorId = 2 },
+
+            new VehiclePort { VehicleId = 4, ConnectorId = 1 },
+
+            new VehiclePort { VehicleId = 5, ConnectorId = 2 },
+            new VehiclePort { VehicleId = 5, ConnectorId = 1 }
+        );
     }
 
     public DbSet<Driver> Drivers { get; set; } = null!;
@@ -541,5 +559,5 @@ public class AppDbContext : DbContext
     public DbSet<AccountPackage> AccountPackages { get; set; } = null!;
 
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
-
+    public DbSet<VehiclePort> VehiclePorts { get; set; } = null!;
 }
