@@ -539,7 +539,6 @@ public class AppDbContext : DbContext
     public DbSet<ChargingPoint> ChargingPoints { get; set; } = null!;
     public DbSet<ChargingPort> ChargingPorts { get; set; } = null!;
     public DbSet<AccountPackage> AccountPackages { get; set; } = null!;
-
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
 }
