@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using TestServer.Package;
 namespace TestServer.Models
 {
     public class Vehicle
@@ -11,8 +11,10 @@ namespace TestServer.Models
         public string Name { get; set; } = string.Empty;
         public string LicensePlate { get; set; } = string.Empty;
         public int BatteryCapacity { get; set; }
-        public int VehicleTypeId { get; set; } 
 
+        [ForeignKey("VehicleType")]
+        public int VehicleTypeId { get; set; } 
+        public VehicleType? VehicleType { get; set; }
         
         public ICollection<VehiclePort> VehiclePorts { get; set; } = new List<VehiclePort>();
 

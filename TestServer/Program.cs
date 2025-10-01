@@ -272,17 +272,19 @@ app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
 // Endpoint cho Vehicles
 app.MapGet("/vehicles", async (AppDbContext db) =>
 {
-    var vehicles = await db.Vehicles 
+    var vehicles = await db.Vehicles
         .Include(v => v.VehiclePorts)
-        .ThenInclude(vp => vp.Connector)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
         .ToListAsync();
-    
+
     var vehicleDtos = vehicles.Select(v => new VehicleDto
     {
         VehicleId = v.VehicleId,
         Name = v.Name,
         LicensePlate = v.LicensePlate,
         BatteryCapacity = v.BatteryCapacity,
+        VehicleType = v.VehicleType.Name, // ✅ lấy tên thay vì object
         ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     }).ToList();
 
@@ -291,10 +293,29 @@ app.MapGet("/vehicles", async (AppDbContext db) =>
 
 app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
 {
-    var vehicle = await db.Vehicles.FindAsync(id);
-    return vehicle != null ? Results.Ok(vehicle) : Results.NotFound($"Vehicle with ID {id} not found.");
+    var vehicle = await db.Vehicles
+        .Include(v => v.VehiclePorts)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
+        .FirstOrDefaultAsync(v => v.VehicleId == id);
 
+    if (vehicle == null)
+        return Results.NotFound($"Vehicle with ID {id} not found.");
+
+    var vehicleDto = new VehicleDto
+    {
+        VehicleId = vehicle.VehicleId,
+        Name = vehicle.Name,
+        LicensePlate = vehicle.LicensePlate,
+        BatteryCapacity = vehicle.BatteryCapacity,
+        VehicleType = vehicle.VehicleType.Name, // ✅ sửa chỗ này
+        ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    };
+
+    return Results.Ok(vehicleDto);
 });
+
+
 
 // Endpoint cho VehiclePorts (lấy tất cả)
 app.MapGet("/vehicleports", async (AppDbContext db) =>
