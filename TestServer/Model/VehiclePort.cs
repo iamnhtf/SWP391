@@ -7,7 +7,7 @@ namespace TestServer.Models
     public class VehiclePort
     {
         [ForeignKey("Vehicle")]
-        public string VehicleId { get; set; } = string.Empty;
+        public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; } = null!;
         [ForeignKey("Connector")]
         public int ConnectorId { get; set; }

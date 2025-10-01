@@ -282,6 +282,32 @@ app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
 
 });
 
+// Endpoint cho VehiclePorts (lấy tất cả)
+app.MapGet("/vehicleports", async (AppDbContext db) =>
+{
+    var vehiclePorts = await db.VehiclePorts
+        .Include(vp => vp.Vehicle)
+        .Include(vp => vp.Connector)
+        .ToListAsync();
+
+    return Results.Ok(vehiclePorts);
+});
+
+// Endpoint lấy theo vehicleId (vehicleId phải là int)
+app.MapGet("/vehicleports/{vehicleId:int}", async (int vehicleId, AppDbContext db) =>
+{
+    var vehiclePorts = await db.VehiclePorts
+        .Include(vp => vp.Vehicle)
+        .Include(vp => vp.Connector)
+        .Where(vp => vp.VehicleId == vehicleId)
+        .ToListAsync();
+
+    if (vehiclePorts.Count == 0)
+        return Results.NotFound($"No vehicle ports found for Vehicle ID {vehicleId}.");
+
+    return Results.Ok(vehiclePorts);
+});
+
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
 {
