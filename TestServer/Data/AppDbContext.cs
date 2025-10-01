@@ -521,12 +521,13 @@ public class AppDbContext : DbContext
             );
 
         modelBuilder.Entity<Vehicle>().HasData(
-            new Vehicle { VehicleId = 1, Name = "D1", VehicleTypeId = 1, LicensePlate = "ABC-123" },
-            new Vehicle { VehicleId = 2, Name = "D1", VehicleTypeId = 2, LicensePlate = "XYZ-789" },
-            new Vehicle { VehicleId = 3, Name = "D2", VehicleTypeId = 3, LicensePlate = "LMN-456" },
-            new Vehicle { VehicleId = 4, Name = "D3", VehicleTypeId = 1, LicensePlate = "DEF-321" },
-            new Vehicle { VehicleId = 5, Name = "D4", VehicleTypeId = 2, LicensePlate = "UVW-987" }
+            new Vehicle { VehicleId = 1, Name = "Tesla Model 3", VehicleTypeId = 1, LicensePlate = "51B-67890", BatteryCapacity = 0 },
+            new Vehicle { VehicleId = 2, Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 0 },
+            new Vehicle { VehicleId = 3, Name = "Toyota Camry", VehicleTypeId = 3, LicensePlate = "29C-56789", BatteryCapacity = 0 },
+            new Vehicle { VehicleId = 4, Name = "Hyundai Ioniq 5", VehicleTypeId = 1, LicensePlate = "88D-45678", BatteryCapacity = 0 },
+            new Vehicle { VehicleId = 5, Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 0 }
         );
+
 
         modelBuilder.Entity<VehiclePort>().HasKey(vp => new { vp.VehicleId, vp.ConnectorId });
 
