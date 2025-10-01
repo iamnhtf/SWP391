@@ -8,9 +8,10 @@ namespace TestServer.Models
     {
         [ForeignKey("Vehicle")]
         public string VehicleId { get; set; } = string.Empty;
-
+        public Vehicle Vehicle { get; set; } = null!;
         [ForeignKey("Connector")]
         public int ConnectorId { get; set; }
+        public Connector Connector { get; set; } = null!;
 
     }
 }

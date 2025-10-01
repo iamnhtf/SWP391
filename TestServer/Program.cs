@@ -268,11 +268,13 @@ app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
 
     return Results.Ok(portInfoDto);
 });
+
 // Endpoint cho Vehicles
 app.MapGet("/vehicles", async (AppDbContext db) =>
 {
     return await db.Vehicles.ToListAsync();
 });
+
 app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
 {
     var vehicle = await db.Vehicles.FindAsync(id);
