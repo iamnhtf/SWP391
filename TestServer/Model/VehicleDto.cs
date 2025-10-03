@@ -9,7 +9,8 @@ namespace TestServer.Models
         public string Name { get; set; } = string.Empty;  
         public string LicensePlate { get; set; } = string.Empty; 
         public int BatteryCapacity { get; set; } = 0;    
-
+        public string VehicleType { get; set; } = string.Empty;
+        
         public List<string> ConnectorNames { get; set; } = new List<string>();
     }
 }
