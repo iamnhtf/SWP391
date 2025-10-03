@@ -6,6 +6,7 @@ using MySql.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
 using TestServer.Package;
+using TestServer.Crud;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySQL(connectionString);
 });
+
+// Đăng ký DriverCrud service
+builder.Services.AddScoped<DriverCrud>();
 
 // Thêm dịch vụ để phục vụ các file tĩnh
 builder.Services.AddControllersWithViews();
@@ -65,21 +69,62 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-// Endpoint cho DRIVERS
-app.MapGet("/drivers", async (AppDbContext db) =>
+// DRIVER CRUD ENDPOINTS
+// Get All Drivers
+app.MapGet("/drivers", async (DriverCrud driverCrud) =>
 {
-    return await db.Drivers.ToListAsync();
+    var drivers = await driverCrud.GetAllDrivers();
+    return Results.Ok(drivers);
 });
 
-app.MapGet("/drivers/{id}", async (int id, AppDbContext db) =>
+// Get Driver by ID
+app.MapGet("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
 {
-    //ràng buộc id phải là số dương
     if (id <= 0)
     {
         return Results.BadRequest("Driver ID must be a positive integer.");
     }
-    var driver = await db.Drivers.FindAsync(id);
+    
+    var driver = await driverCrud.GetDriver(id);
     return driver != null ? Results.Ok(driver) : Results.NotFound($"Driver with ID {id} not found.");
+});
+
+// Create Driver
+app.MapPost("/drivers", async (Driver driver, DriverCrud driverCrud) =>
+{
+    try
+    {
+        var createdDriver = await driverCrud.CreateDriver(driver);
+        return Results.Created($"/drivers/{createdDriver.Id}", createdDriver);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Error creating driver: {ex.Message}");
+    }
+});
+
+// Update Driver
+app.MapPut("/drivers/{id}", async (int id, Driver driver, DriverCrud driverCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Driver ID must be a positive integer.");
+    }
+    
+    var updatedDriver = await driverCrud.UpdateDriver(id, driver);
+    return updatedDriver != null ? Results.Ok(updatedDriver) : Results.NotFound($"Driver with ID {id} not found.");
+});
+
+// Delete Driver
+app.MapDelete("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Driver ID must be a positive integer.");
+    }
+    
+    var deleted = await driverCrud.DeleteDriver(id);
+    return deleted ? Results.NoContent() : Results.NotFound($"Driver with ID {id} not found.");
 });
 
 // Endpoint cho CHARGING STATIONS
@@ -284,7 +329,7 @@ app.MapGet("/vehicles", async (AppDbContext db) =>
         Name = v.Name,
         LicensePlate = v.LicensePlate,
         BatteryCapacity = v.BatteryCapacity,
-        VehicleType = v.VehicleType.Name, // ✅ lấy tên thay vì object
+        VehicleType = v.VehicleType.Name, 
         ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     }).ToList();
 
@@ -308,7 +353,7 @@ app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
         Name = vehicle.Name,
         LicensePlate = vehicle.LicensePlate,
         BatteryCapacity = vehicle.BatteryCapacity,
-        VehicleType = vehicle.VehicleType.Name, // ✅ sửa chỗ này
+        VehicleType = vehicle.VehicleType.Name, 
         ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     };
 
