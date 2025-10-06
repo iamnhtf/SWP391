@@ -413,6 +413,28 @@ app.MapGet("/vehiclesforcustomer/{uid}", async (string uid, AppDbContext db) =>
 
 });
 
+app.MapGet("/vehiclesforcustomer/{uid}/{connectorName}", async (string uid, string connectorName, AppDbContext db) =>
+{
+    var vehicles = await db.Vehicles
+        .Where(v => v.CustomerId == uid && 
+                    v.VehiclePorts.Any(vp => vp.Connector.Name == connectorName))
+        .Include(v => v.VehiclePorts)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
+        .ToListAsync();
+
+    var vehicleDtos = vehicles.Select(v => new VehicleDto
+    {
+        VehicleId = v.VehicleId,
+        Name = v.Name,
+        LicensePlate = v.LicensePlate,
+        BatteryCapacity = v.BatteryCapacity,
+        VehicleType = v.VehicleType.Name,
+        ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    }).ToList();
+
+    return Results.Ok(vehicleDtos);
+});
 
 
 // Endpoint cho VehiclePorts (lấy tất cả)
