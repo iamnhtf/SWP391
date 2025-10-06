@@ -80,7 +80,7 @@ app.MapGet("/customers", async (CustomerCrud customerCrud) =>
 });
 
 // Get Customer by ID
-app.MapGet("/customers/{id}", async (string id, CustomerCrud customerCrud) =>
+app.MapGet("/customer/{id}", async (string id, CustomerCrud customerCrud) =>
 {
     if (string.IsNullOrWhiteSpace(id))
     {
