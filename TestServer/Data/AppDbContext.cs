@@ -500,11 +500,11 @@ public class AppDbContext : DbContext
             );
 
         modelBuilder.Entity<Vehicle>().HasData(
-            new Vehicle { VehicleId = 1, Name = "Tesla Model 3", VehicleTypeId = 2, LicensePlate = "51B-67890", BatteryCapacity = 75 },
-            new Vehicle { VehicleId = 2, Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 82 },
-            new Vehicle { VehicleId = 3, Name = "Nissan Leaf", VehicleTypeId = 2, LicensePlate = "29C-56789", BatteryCapacity = 40 },
-            new Vehicle { VehicleId = 4, Name = "Hyundai Ioniq 5", VehicleTypeId = 2, LicensePlate = "88D-45678", BatteryCapacity = 77 },
-            new Vehicle { VehicleId = 5, Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 74 }
+            new Vehicle { VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Tesla Model 3", VehicleTypeId = 2, LicensePlate = "51B-67890", BatteryCapacity = 75 },
+            new Vehicle { VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 82 },
+            new Vehicle { VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nissan Leaf", VehicleTypeId = 2, LicensePlate = "29C-56789", BatteryCapacity = 40 },
+            new Vehicle { VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Hyundai Ioniq 5", VehicleTypeId = 2, LicensePlate = "88D-45678", BatteryCapacity = 77 },
+            new Vehicle { VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 74 }
         );
 
 

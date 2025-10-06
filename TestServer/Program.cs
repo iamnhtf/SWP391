@@ -383,11 +383,34 @@ app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
         Name = vehicle.Name,
         LicensePlate = vehicle.LicensePlate,
         BatteryCapacity = vehicle.BatteryCapacity,
-        VehicleType = vehicle.VehicleType.Name, 
+        VehicleType = vehicle.VehicleType.Name,
         ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     };
 
     return Results.Ok(vehicleDto);
+});
+
+app.MapGet("/vehiclesforcustomer/{uid}", async (string uid, AppDbContext db) =>
+{
+    var vehicles = await db.Vehicles
+        .Where(v => v.CustomerId == uid)
+        .Include(v => v.VehiclePorts)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
+        .ToListAsync();
+
+    var vehicleDtos = vehicles.Select(v => new VehicleDto
+    {
+        VehicleId = v.VehicleId,
+        Name = v.Name,
+        LicensePlate = v.LicensePlate,
+        BatteryCapacity = v.BatteryCapacity,
+        VehicleType = v.VehicleType.Name, 
+        ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    }).ToList();
+
+    return Results.Ok(vehicleDtos);
+
 });
 
 
@@ -444,6 +467,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+
 
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
