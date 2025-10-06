@@ -79,16 +79,18 @@ app.MapGet("/customers", async (CustomerCrud customerCrud) =>
     return Results.Ok(customers);
 });
 
-//Get Customer by ID
-app.MapGet("/customers/{id}", async (int id, CustomerCrud customerCrud) =>
+// Get Customer by ID
+app.MapGet("/customers/{id}", async (string id, CustomerCrud customerCrud) =>
 {
-    if (id <= 0)
+    if (string.IsNullOrWhiteSpace(id))
     {
-        return Results.BadRequest("Customer ID must be a positive integer.");
+        return Results.BadRequest("Customer ID must not be empty.");
     }
 
     var customer = await customerCrud.GetCustomerById(id);
-    return customer != null ? Results.Ok(customer) : Results.NotFound($"Customer with ID {id} not found.");
+    return customer != null
+        ? Results.Ok(customer)
+        : Results.NotFound($"Customer with ID '{id}' not found.");
 });
 
 // Create Customer
@@ -106,28 +108,33 @@ app.MapPost("/customers", async (Customer customer, CustomerCrud customerCrud) =
 });
 
 // Update Customer
-app.MapPut("/customers/{id}", async (int id, Customer customer, CustomerCrud customerCrud) =>
+app.MapPut("/customers/{id}", async (string id, Customer customer, CustomerCrud customerCrud) =>
 {
-    if (id <= 0)
+    if (string.IsNullOrWhiteSpace(id))
     {
-        return Results.BadRequest("Customer ID must be a positive integer.");
+        return Results.BadRequest("Customer ID must not be empty.");
     }
 
     var updatedCustomer = await customerCrud.UpdateCustomer(id, customer);
-    return updatedCustomer != null ? Results.Ok(updatedCustomer) : Results.NotFound($"Customer with ID {id} not found.");
+    return updatedCustomer != null
+        ? Results.Ok(updatedCustomer)
+        : Results.NotFound($"Customer with ID '{id}' not found.");
 });
 
 // Delete Customer
-app.MapDelete("/customers/{id}", async (int id, CustomerCrud customerCrud) =>
+app.MapDelete("/customers/{id}", async (string id, CustomerCrud customerCrud) =>
 {
-    if (id <= 0)
+    if (string.IsNullOrWhiteSpace(id))
     {
-        return Results.BadRequest("Customer ID must be a positive integer.");
+        return Results.BadRequest("Customer ID must not be empty.");
     }
 
     var deleted = await customerCrud.DeleteCustomer(id);
-    return deleted ? Results.NoContent() : Results.NotFound($"Customer with ID {id} not found.");
+    return deleted
+        ? Results.NoContent()
+        : Results.NotFound($"Customer with ID '{id}' not found.");
 });
+
 
 // Endpoint cho CHARGING STATIONS
 // Get all stations (basic info)
