@@ -8,6 +8,9 @@ namespace TestServer.Models
         [Key]
         public int VehicleId { get; set; }
 
+        [ForeignKey("Customer")]
+        public string CustomerId { get; set; } = string.Empty;
+
         public string Name { get; set; } = string.Empty;
         public string LicensePlate { get; set; } = string.Empty;
         public int BatteryCapacity { get; set; }

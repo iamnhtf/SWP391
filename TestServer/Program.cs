@@ -23,8 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString);
 });
 
-// Đăng ký DriverCrud service
-builder.Services.AddScoped<DriverCrud>();
+// Đăng ký CustomerCrud service
+builder.Services.AddScoped<CustomerCrud>();
 
 // Thêm dịch vụ để phục vụ các file tĩnh
 builder.Services.AddControllersWithViews();
@@ -69,62 +69,43 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-// DRIVER CRUD ENDPOINTS
-// Get All Drivers
-app.MapGet("/drivers", async (DriverCrud driverCrud) =>
-{
-    var drivers = await driverCrud.GetAllDrivers();
-    return Results.Ok(drivers);
-});
-
-// Get Driver by ID
-app.MapGet("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
-{
-    if (id <= 0)
-    {
-        return Results.BadRequest("Driver ID must be a positive integer.");
-    }
-    
-    var driver = await driverCrud.GetDriver(id);
-    return driver != null ? Results.Ok(driver) : Results.NotFound($"Driver with ID {id} not found.");
-});
-
-// Create Driver
-app.MapPost("/drivers", async (Driver driver, DriverCrud driverCrud) =>
+// CUSTOMER CRUD ENDPOINTS
+// Create Customer
+app.MapPost("/customers", async (Customer customer, CustomerCrud customerCrud) =>
 {
     try
     {
-        var createdDriver = await driverCrud.CreateDriver(driver);
-        return Results.Created($"/drivers/{createdDriver.Id}", createdDriver);
+        var createdCustomer = await customerCrud.CreateCustomer(customer);
+        return Results.Created($"/customers/{createdCustomer.Id}", createdCustomer);
     }
     catch (Exception ex)
     {
-        return Results.BadRequest($"Error creating driver: {ex.Message}");
+        return Results.BadRequest($"Error creating customer: {ex.Message}");
     }
 });
 
-// Update Driver
-app.MapPut("/drivers/{id}", async (int id, Driver driver, DriverCrud driverCrud) =>
+// Update Customer
+app.MapPut("/customers/{id}", async (int id, Customer customer, CustomerCrud customerCrud) =>
 {
     if (id <= 0)
     {
-        return Results.BadRequest("Driver ID must be a positive integer.");
+        return Results.BadRequest("Customer ID must be a positive integer.");
     }
-    
-    var updatedDriver = await driverCrud.UpdateDriver(id, driver);
-    return updatedDriver != null ? Results.Ok(updatedDriver) : Results.NotFound($"Driver with ID {id} not found.");
+
+    var updatedCustomer = await customerCrud.UpdateCustomer(id, customer);
+    return updatedCustomer != null ? Results.Ok(updatedCustomer) : Results.NotFound($"Customer with ID {id} not found.");
 });
 
-// Delete Driver
-app.MapDelete("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
+// Delete Customer
+app.MapDelete("/customers/{id}", async (int id, CustomerCrud customerCrud) =>
 {
     if (id <= 0)
     {
-        return Results.BadRequest("Driver ID must be a positive integer.");
+        return Results.BadRequest("Customer ID must be a positive integer.");
     }
-    
-    var deleted = await driverCrud.DeleteDriver(id);
-    return deleted ? Results.NoContent() : Results.NotFound($"Driver with ID {id} not found.");
+
+    var deleted = await customerCrud.DeleteCustomer(id);
+    return deleted ? Results.NoContent() : Results.NotFound($"Customer with ID {id} not found.");
 });
 
 // Endpoint cho CHARGING STATIONS

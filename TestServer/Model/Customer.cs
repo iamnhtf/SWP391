@@ -5,11 +5,13 @@ using TestServer.Package;
 
 namespace TestServer.Models;
 
-public class Driver
+public class Customer
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Tự động tăng giá trị
-    public int Id { get; set; }
+
+    [StringLength(100)]
+    public string Id { get; set; } = string.Empty;
 
     [Required]
     [StringLength(100)]
@@ -17,18 +19,11 @@ public class Driver
 
     [Required]
     [StringLength(100)]
-    public string LicenseNumber { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
-    [StringLength(20)]
+    [StringLength(15)]
     public string PhoneNumber { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(200)]   
-    public string Car { get; set; } = string.Empty;
-        
-    public double TotalSpend { get; set; } = 0;
-
-    public int? AccountPackageId { get; set; }
-    [ForeignKey("AccountPackageId")]
-    public AccountPackage? AccountPackage { get; set; }
+    [StringLength(255)]
+    public string Address { get; set; } = string.Empty;
 }

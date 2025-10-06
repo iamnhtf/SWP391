@@ -15,59 +15,71 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Driver>().HasData(
-            new Driver { Id = 1, Name = "Nguyễn Xuân Thịnh" },
-            new Driver { Id = 2, Name = "Nguyễn Hưng Thái" },
-            new Driver { Id = 3, Name = "Nguyễn Bùi Đăng Khôi" },
-            new Driver { Id = 4, Name = "Lê Minh Đức" },
-            new Driver { Id = 5, Name = "Vũ Thế Anh" }
+        modelBuilder.Entity<Customer>().HasData(
+            new Customer { Id = "C001", Name = "Nguyễn Xuân Thịnh", Email = "thinh.nguyen@example.com", PhoneNumber = "0901234567", Address = "Quận 1, TP.HCM" },
+            new Customer { Id = "C002", Name = "Nguyễn Hưng Thái", Email = "thai.nguyen@example.com", PhoneNumber = "0912345678", Address = "Quận 3, TP.HCM" },
+            new Customer { Id = "C003", Name = "Nguyễn Bùi Đăng Khôi", Email = "khoi.nguyen@example.com", PhoneNumber = "0923456789", Address = "Quận 7, TP.HCM" },
+            new Customer { Id = "C004", Name = "Lê Minh Đức", Email = "duc.le@example.com", PhoneNumber = "0934567890", Address = "Quận Bình Thạnh, TP.HCM" },
+            new Customer { Id = "C005", Name = "Vũ Thế Anh", Email = "theanh.vu@example.com", PhoneNumber = "0945678901", Address = "Quận 10, TP.HCM" },
+            new Customer { Id = "C006", Name = "Trần Văn Hùng", Email = "vhung.tran@example.com", PhoneNumber = "0951122334", Address = "Quận Tân Bình, TP.HCM" },
+            new Customer { Id = "C007", Name = "Phạm Thị Lan", Email = "lan.pham@example.com", PhoneNumber = "0962233445", Address = "Quận 5, TP.HCM" },
+            new Customer { Id = "C008", Name = "Hoàng Anh Tuấn", Email = "tuan.hoang@example.com", PhoneNumber = "0973344556", Address = "Quận 2, TP.HCM" },
+            new Customer { Id = "C009", Name = "Đỗ Minh Quân", Email = "mqun.do@example.com", PhoneNumber = "0984455667", Address = "Quận 4, TP.HCM" },
+            new Customer { Id = "C010", Name = "Lê Thị Hòa", Email = "hoa.le@example.com", PhoneNumber = "0905566778", Address = "Quận Phú Nhuận, TP.HCM" }
         );
 
         // Thêm 4 trạm sạc ở TP.HCM
         modelBuilder.Entity<ChargingStation>().HasData(
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 1,
         Name = "Landmark 81 Charging Station",
         Location = "Vincom Landmark 81, Binh Thanh District, Ho Chi Minh City",
         Latitude = 10.7944,
         Longitude = 106.7215
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 2,
         Name = "Cong Hoa Charging Station",
         Location = "Vincom Cong Hoa, Tan Binh District, Ho Chi Minh City",
         Latitude = 10.8013,
         Longitude = 106.6500
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 3,
         Name = "Ba Thang Hai Charging Station",
         Location = "Vincom Ba Thang Hai, District 10, Ho Chi Minh City",
         Latitude = 10.7721,
         Longitude = 106.6678
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 4,
         Name = "Leman Luxury Apartments Station",
         Location = "Leman Luxury Building, District 3, Ho Chi Minh City",
         Latitude = 10.7795,
         Longitude = 106.6888
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 5,
         Name = "Huynh Hieu Thien Station",
         Location = "Nguyen Van Luong Street, District 6, Ho Chi Minh City",
         Latitude = 10.7482,
         Longitude = 106.6361
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 6,
         Name = "Sky89 Station",
         Location = "Hoang Quoc Viet Street, District 7, Ho Chi Minh City",
         Latitude = 10.7358,
         Longitude = 106.7251
     },
-    new ChargingStation {
+    new ChargingStation
+    {
         Id = 7,
         Name = "Center Dong Khoi Station",
         Location = "Le Thanh Ton Street, District 1, Ho Chi Minh City",
@@ -76,14 +88,6 @@ public class AppDbContext : DbContext
     }
 );
 
-
-        // AccountPackage
-        modelBuilder.Entity<AccountPackage>().HasData(
-        new AccountPackage { Id = 1, Name = "Normal", MinTotalSpend = 0, DiscountPercent = 0 },
-        new AccountPackage { Id = 2, Name = "Silver", MinTotalSpend = 100000, DiscountPercent = 5 },
-        new AccountPackage { Id = 3, Name = "Gold", MinTotalSpend = 200000, DiscountPercent = 10 },
-        new AccountPackage { Id = 4, Name = "Diamond", MinTotalSpend = 300000, DiscountPercent = 15 }
-);
 
         // VehicleType
         modelBuilder.Entity<VehicleType>().HasData(
@@ -520,9 +524,10 @@ public class AppDbContext : DbContext
             new VehiclePort { VehicleId = 5, ConnectorId = 2 },
             new VehiclePort { VehicleId = 5, ConnectorId = 1 }
         );
+
     }
 
-    public DbSet<Driver> Drivers { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
     public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
     public DbSet<VehicleType> VehicleTypes { get; set; } = null!;
     public DbSet<Connector> Connectors { get; set; } = null!;
@@ -530,7 +535,6 @@ public class AppDbContext : DbContext
     public DbSet<TimeRange> TimeRanges { get; set; } = null!;
     public DbSet<ChargingPoint> ChargingPoints { get; set; } = null!;
     public DbSet<ChargingPort> ChargingPorts { get; set; } = null!;
-    public DbSet<AccountPackage> AccountPackages { get; set; } = null!;
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
     public DbSet<VehiclePort> VehiclePorts { get; set; } = null!;
 }
