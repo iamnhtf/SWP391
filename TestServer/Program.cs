@@ -7,6 +7,7 @@ using TestServer.Data;
 using TestServer.Models;
 using TestServer.Package;
 using TestServer.Crud;
+using TestServer.Models.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -389,6 +390,26 @@ app.MapGet("/vehicleports/{vehicleId:int}", async (int vehicleId, AppDbContext d
 
     return Results.Ok(vehiclePorts);
 });
+
+// Endpoint cho VehicleConnectorTypes
+app.MapGet("/vehicleconnectortypes", async (AppDbContext db) =>
+{
+    var vehicleConnectorTypes = await db.VehicleConnectorTypes
+        .Include(vct => vct.Vehicle)
+        .Include(vct => vct.Connector)
+        .ToListAsync();
+
+    var vehicleConnectorTypeDtos = vehicleConnectorTypes.Select(vct => new VehicleConnectorTypeDto
+    {
+        VehicleId = vct.VehicleId,
+        VehicleName = vct.Vehicle.Name,
+        ConnectorId = vct.ConnectorId,
+        ConnectorName = vct.Connector.Name
+    }).ToList();
+
+    return Results.Ok(vehicleConnectorTypeDtos);
+});
+
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())

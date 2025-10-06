@@ -525,6 +525,18 @@ public class AppDbContext : DbContext
             new VehiclePort { VehicleId = 5, ConnectorId = 1 }
         );
 
+        modelBuilder.Entity<VehicleConnectorType>().HasKey(vtc => new { vtc.VehicleId, vtc.ConnectorId });
+
+        modelBuilder.Entity<VehicleConnectorType>().HasData(
+            new VehicleConnectorType { VehicleId = 1, ConnectorId = 1 }, 
+            new VehicleConnectorType { VehicleId = 1, ConnectorId = 2 }, 
+
+            new VehicleConnectorType { VehicleId = 2, ConnectorId = 2 }, 
+            new VehicleConnectorType { VehicleId = 2, ConnectorId = 1 }, 
+
+            new VehicleConnectorType { VehicleId = 3, ConnectorId = 1 }, 
+            new VehicleConnectorType { VehicleId = 3, ConnectorId = 2 }  
+        );
     }
 
     public DbSet<Customer> Customers { get; set; } = null!;
@@ -537,4 +549,5 @@ public class AppDbContext : DbContext
     public DbSet<ChargingPort> ChargingPorts { get; set; } = null!;
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
     public DbSet<VehiclePort> VehiclePorts { get; set; } = null!;
+    public DbSet<VehicleConnectorType> VehicleConnectorTypes { get; set; } = null!;
 }
