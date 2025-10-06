@@ -67,76 +67,6 @@ public class AppDbContext : DbContext
             new TimeRange { Id = 2, Range = "17:01–21:00" },
             new TimeRange { Id = 3, Range = "21:01–06:00" }
         );
-
-        // PriceList (54 records, giá theo VND)
-        modelBuilder.Entity<PriceList>().HasData(
-            // Xe máy - AC
-            new PriceList { Id = 1, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 1, Price = 3500 },
-            new PriceList { Id = 2, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 2, Price = 4500 },
-            new PriceList { Id = 3, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 3, Price = 3000 },
-            new PriceList { Id = 4, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 1, Price = 4000 },
-            new PriceList { Id = 5, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 2, Price = 5500 },
-            new PriceList { Id = 6, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 3, Price = 3500 },
-            new PriceList { Id = 7, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 1, Price = 5500 },
-            new PriceList { Id = 8, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 2, Price = 7000 },
-            new PriceList { Id = 9, VehicleTypeId = 1, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 3, Price = 4500 },
-
-            // Xe máy - CCS (DC)
-            new PriceList { Id = 10, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 1, Price = 4500 },
-            new PriceList { Id = 11, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 2, Price = 6000 },
-            new PriceList { Id = 12, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 3, Price = 4000 },
-            new PriceList { Id = 13, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 1, Price = 6000 },
-            new PriceList { Id = 14, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 2, Price = 7500 },
-            new PriceList { Id = 15, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 3, Price = 5000 },
-            new PriceList { Id = 16, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 1, Price = 7000 },
-            new PriceList { Id = 17, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 2, Price = 9000 },
-            new PriceList { Id = 18, VehicleTypeId = 1, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 3, Price = 6000 },
-
-            // Xe máy - CHAdeMO (DC)
-            new PriceList { Id = 19, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 1, Price = 4500 },
-            new PriceList { Id = 20, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 2, Price = 6000 },
-            new PriceList { Id = 21, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 3, Price = 4000 },
-            new PriceList { Id = 22, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 1, Price = 6000 },
-            new PriceList { Id = 23, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 2, Price = 7500 },
-            new PriceList { Id = 24, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 3, Price = 5000 },
-            new PriceList { Id = 25, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 1, Price = 7000 },
-            new PriceList { Id = 26, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 2, Price = 9000 },
-            new PriceList { Id = 27, VehicleTypeId = 1, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 3, Price = 6000 },
-
-            // Ô tô - AC
-            new PriceList { Id = 28, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 1, Price = 4500 },
-            new PriceList { Id = 29, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 2, Price = 6000 },
-            new PriceList { Id = 30, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 1, TimeRangeId = 3, Price = 4000 },
-            new PriceList { Id = 31, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 1, Price = 5500 },
-            new PriceList { Id = 32, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 2, Price = 7000 },
-            new PriceList { Id = 33, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 2, TimeRangeId = 3, Price = 4500 },
-            new PriceList { Id = 34, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 1, Price = 6500 },
-            new PriceList { Id = 35, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 2, Price = 8000 },
-            new PriceList { Id = 36, VehicleTypeId = 2, ConnectorId = 1, PowerRangeId = 3, TimeRangeId = 3, Price = 5500 },
-
-            // Ô tô - CCS (DC)
-            new PriceList { Id = 37, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 1, Price = 5500 },
-            new PriceList { Id = 38, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 2, Price = 7000 },
-            new PriceList { Id = 39, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 1, TimeRangeId = 3, Price = 5000 },
-            new PriceList { Id = 40, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 1, Price = 7000 },
-            new PriceList { Id = 41, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 2, Price = 9000 },
-            new PriceList { Id = 42, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 2, TimeRangeId = 3, Price = 6500 },
-            new PriceList { Id = 43, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 1, Price = 8500 },
-            new PriceList { Id = 44, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 2, Price = 10500 },
-            new PriceList { Id = 45, VehicleTypeId = 2, ConnectorId = 2, PowerRangeId = 3, TimeRangeId = 3, Price = 7500 },
-
-            // Ô tô - CHAdeMO (DC)
-            new PriceList { Id = 46, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 1, Price = 5500 },
-            new PriceList { Id = 47, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 2, Price = 7000 },
-            new PriceList { Id = 48, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 1, TimeRangeId = 3, Price = 5000 },
-            new PriceList { Id = 49, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 1, Price = 7000 },
-            new PriceList { Id = 50, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 2, Price = 9000 },
-            new PriceList { Id = 51, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 2, TimeRangeId = 3, Price = 6500 },
-            new PriceList { Id = 52, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 1, Price = 8500 },
-            new PriceList { Id = 53, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 2, Price = 10500 },
-            new PriceList { Id = 54, VehicleTypeId = 2, ConnectorId = 3, PowerRangeId = 3, TimeRangeId = 3, Price = 7500 }
-        );
-
         modelBuilder.Entity<ChargingPort>()
                 .Property(c => c.Status)
                 .HasConversion<string>();
@@ -551,7 +481,6 @@ public class AppDbContext : DbContext
     public DbSet<Driver> Drivers { get; set; } = null!;
     public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
     public DbSet<VehicleType> VehicleTypes { get; set; } = null!;
-    public DbSet<PriceList> PriceLists { get; set; } = null!;
     public DbSet<Connector> Connectors { get; set; } = null!;
     public DbSet<PowerRange> PowerRanges { get; set; } = null!;
     public DbSet<TimeRange> TimeRanges { get; set; } = null!;

@@ -139,17 +139,6 @@ app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
     return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
 });
 
-// Endpoints cho PriceList
-app.MapGet("/pricelist", async (AppDbContext db) =>
-{
-    return await db.PriceLists
-    .Include(p => p.VehicleType)
-    .Include(p => p.Connector)
-    .Include(p => p.PowerRange)
-    .Include(p => p.TimeRange)
-    .ToListAsync();
-});
-
 // Endpoint cho VehicleType
 app.MapGet("/vehicletypes", async (AppDbContext db) =>
 {
