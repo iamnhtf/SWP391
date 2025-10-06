@@ -25,14 +25,58 @@ public class AppDbContext : DbContext
 
         // Thêm 4 trạm sạc ở TP.HCM
         modelBuilder.Entity<ChargingStation>().HasData(
-            new ChargingStation { Id = 1, Name = "Landmark 81 Charging Station", Location = "Vincom Landmark 81, Binh Thanh District, Ho Chi Minh City" },
-            new ChargingStation { Id = 2, Name = "Cong Hoa Charging Station", Location = "Vincom Cong Hoa, Tan Binh District, Ho Chi Minh City" },
-            new ChargingStation { Id = 3, Name = "Ba Thang Hai Charging Station", Location = "Vincom Ba Thang Hai, District 10, Ho Chi Minh City" },
-            new ChargingStation { Id = 4, Name = "Leman Luxury Apartments Station", Location = "Leman Luxury Building, District 3, Ho Chi Minh City" },
-            new ChargingStation { Id = 5, Name = "Huynh Hieu Thien Station", Location = "Nguyen Van Luong Street, District 6, Ho Chi Minh City" },
-            new ChargingStation { Id = 6, Name = "Sky89 Station", Location = "Hoang Quoc Viet Street, District 7, Ho Chi Minh City" },
-            new ChargingStation { Id = 7, Name = "Center Dong Khoi Station", Location = "Le Thanh Ton Street, District 1, Ho Chi Minh City" }
-        );
+    new ChargingStation {
+        Id = 1,
+        Name = "Landmark 81 Charging Station",
+        Location = "Vincom Landmark 81, Binh Thanh District, Ho Chi Minh City",
+        Latitude = 10.7944,
+        Longitude = 106.7215
+    },
+    new ChargingStation {
+        Id = 2,
+        Name = "Cong Hoa Charging Station",
+        Location = "Vincom Cong Hoa, Tan Binh District, Ho Chi Minh City",
+        Latitude = 10.8013,
+        Longitude = 106.6500
+    },
+    new ChargingStation {
+        Id = 3,
+        Name = "Ba Thang Hai Charging Station",
+        Location = "Vincom Ba Thang Hai, District 10, Ho Chi Minh City",
+        Latitude = 10.7721,
+        Longitude = 106.6678
+    },
+    new ChargingStation {
+        Id = 4,
+        Name = "Leman Luxury Apartments Station",
+        Location = "Leman Luxury Building, District 3, Ho Chi Minh City",
+        Latitude = 10.7795,
+        Longitude = 106.6888
+    },
+    new ChargingStation {
+        Id = 5,
+        Name = "Huynh Hieu Thien Station",
+        Location = "Nguyen Van Luong Street, District 6, Ho Chi Minh City",
+        Latitude = 10.7482,
+        Longitude = 106.6361
+    },
+    new ChargingStation {
+        Id = 6,
+        Name = "Sky89 Station",
+        Location = "Hoang Quoc Viet Street, District 7, Ho Chi Minh City",
+        Latitude = 10.7358,
+        Longitude = 106.7251
+    },
+    new ChargingStation {
+        Id = 7,
+        Name = "Center Dong Khoi Station",
+        Location = "Le Thanh Ton Street, District 1, Ho Chi Minh City",
+        Latitude = 10.7765,
+        Longitude = 106.7032
+    }
+);
+
+
         // AccountPackage
         modelBuilder.Entity<AccountPackage>().HasData(
         new AccountPackage { Id = 1, Name = "Normal", MinTotalSpend = 0, DiscountPercent = 0 },

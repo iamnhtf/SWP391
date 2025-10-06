@@ -128,15 +128,73 @@ app.MapDelete("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
 });
 
 // Endpoint cho CHARGING STATIONS
+// Get all stations (basic info)
 app.MapGet("/chargingstations", async (AppDbContext db) =>
 {
-    return await db.ChargingStations.ToListAsync();
+    var stations = await db.ChargingStations
+        .Select(station => new
+        {
+            station.Id,
+            station.Name,
+            station.Location,
+            station.Latitude,
+            station.Longitude
+        })
+        .ToListAsync();
+
+    return Results.Ok(stations);
 });
 
+// Get a specific station by ID
 app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
 {
-    var station = await db.ChargingStations.FindAsync(id);
-    return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
+    var station = await db.ChargingStations
+        .Where(s => s.Id == id)
+        .Select(s => new
+        {
+            s.Id,
+            s.Name,
+            s.Location,
+            s.Latitude,
+            s.Longitude
+        })
+        .FirstOrDefaultAsync();
+
+    return station != null
+        ? Results.Ok(station)
+        : Results.NotFound($"Charging station with ID {id} not found.");
+});
+
+// Get all stations with full nested structure (points, ports, connectors)
+app.MapGet("/allchargingstations", async (AppDbContext db) =>
+{
+    var stations = await db.ChargingStations
+        .Include(station => station.ChargingPoints)
+            .ThenInclude(point => point.ChargingPorts)
+                .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var stationDtos = stations.Select(station => new ChargingStationDto
+    {
+        Id = station.Id,
+        Name = station.Name,
+        Location = station.Location,
+        Latitude = station.Latitude,
+        Longitude = station.Longitude,
+        Points = station.ChargingPoints.Select(point => new ChargingPointDto
+        {
+            Id = point.Id,
+            Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+            {
+                Id = port.Id,
+                ConnectorName = port.Connector.Name,
+                Power = port.Power,
+                Status = port.Status.ToString()
+            }).ToList()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(stationDtos);
 });
 
 // Endpoint cho VehicleType
@@ -161,32 +219,6 @@ app.MapGet("/powerrange", async (AppDbContext db) =>
 app.MapGet("/timeranges", async (AppDbContext db) =>
 {
     return await db.TimeRanges.ToListAsync();
-});
-
-app.MapGet("/allchargingstations", async (AppDbContext db) =>
-{
-    var stations = await db.ChargingStations
-        .Include(station => station.ChargingPoints)
-            .ThenInclude(point => point.ChargingPorts)
-                .ThenInclude(port => port.Connector)
-        .ToListAsync();
-
-    var stationDtos = stations.Select(station => new ChargingStationDto {
-        Id = station.Id,
-        Name = station.Name,
-        Location = station.Location,
-        Points = station.ChargingPoints.Select(point => new ChargingPointDto {
-            Id = point.Id,
-            Ports = point.ChargingPorts.Select(port => new ChargingPortDto {
-                Id = port.Id,
-                ConnectorName = port.Connector.Name,
-                Power = port.Power,
-                Status = port.Status.ToString()
-            }).ToList()
-        }).ToList()
-    }).ToList();
-
-    return Results.Ok(stationDtos);
 });
 
 // Endpoint cho ChargingPoints (tất cả)

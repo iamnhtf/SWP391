@@ -13,5 +13,8 @@ public class ChargingStation
         [Required]
         public string Location { get; set; } = string.Empty;
 
+        public double Latitude { get; set; } = 0;
+        public double Longitude { get; set; } = 0;
+
         public ICollection<ChargingPoint> ChargingPoints { get; set; } = new List<ChargingPoint>();
     }
