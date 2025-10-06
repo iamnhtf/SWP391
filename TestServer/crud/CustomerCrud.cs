@@ -19,6 +19,12 @@ public class CustomerCrud
         return await _context.Customers.ToListAsync();
     }
 
+    // Get Customer by ID
+    public async Task<Customer?> GetCustomerById(int id)
+    {
+        return await _context.Customers.FindAsync(id);
+    }
+
     // Create Customer
     public async Task<Customer> CreateCustomer(Customer customer)
     {

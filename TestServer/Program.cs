@@ -78,6 +78,19 @@ app.MapGet("/customers", async (CustomerCrud customerCrud) =>
     var customers = await customerCrud.GetAllCustomers();
     return Results.Ok(customers);
 });
+
+//Get Customer by ID
+app.MapGet("/customers/{id}", async (int id, CustomerCrud customerCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Customer ID must be a positive integer.");
+    }
+
+    var customer = await customerCrud.GetCustomerById(id);
+    return customer != null ? Results.Ok(customer) : Results.NotFound($"Customer with ID {id} not found.");
+});
+
 // Create Customer
 app.MapPost("/customers", async (Customer customer, CustomerCrud customerCrud) =>
 {
