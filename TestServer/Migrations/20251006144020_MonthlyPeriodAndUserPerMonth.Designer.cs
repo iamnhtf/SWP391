@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestServer.Data;
 
@@ -10,9 +11,11 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251006144020_MonthlyPeriodAndUserPerMonth")]
+    partial class MonthlyPeriodAndUserPerMonth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2469,23 +2472,6 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Package.MonthlyPeriod", b =>
-                {
-                    b.Property<int>("PeriodId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Month")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("PeriodId");
-
-                    b.ToTable("MonthlyPeriods");
-                });
-
             modelBuilder.Entity("TestServer.Package.PowerRange", b =>
                 {
                     b.Property<int>("Id")
@@ -2571,36 +2557,6 @@ namespace TestServer.Migrations
                             Id = 3,
                             Range = "21:01–06:00"
                         });
-                });
-
-            modelBuilder.Entity("TestServer.Package.UsersPerMonth", b =>
-                {
-                    b.Property<int>("UserMonthId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<float>("AmountPaid")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("PeriodId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("TotalEnergy")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TotalSessions")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserMonthId");
-
-                    b.HasIndex("Id");
-
-                    b.HasIndex("PeriodId");
-
-                    b.ToTable("UsersPerMonths");
                 });
 
             modelBuilder.Entity("TestServer.Package.VehicleType", b =>
@@ -2738,23 +2694,6 @@ namespace TestServer.Migrations
                     b.Navigation("Connector");
 
                     b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("TestServer.Package.UsersPerMonth", b =>
-                {
-                    b.HasOne("TestServer.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("Id");
-
-                    b.HasOne("TestServer.Package.MonthlyPeriod", "MonthlyPeriod")
-                        .WithMany()
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("MonthlyPeriod");
                 });
 
             modelBuilder.Entity("TestServer.Models.ChargingPoint", b =>

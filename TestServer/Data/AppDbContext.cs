@@ -550,6 +550,10 @@ public class AppDbContext : DbContext
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
     public DbSet<VehiclePort> VehiclePorts { get; set; } = null!;
     public DbSet<VehicleConnectorType> VehicleConnectorTypes { get; set; } = null!;
-    
+
     public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
+
+    public DbSet<MonthlyPeriod> MonthlyPeriods { get; set; } = null!;
+
+    public DbSet<UsersPerMonth> UsersPerMonths { get; set; } = null!;
 }
