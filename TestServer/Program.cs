@@ -71,6 +71,13 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 // CUSTOMER CRUD ENDPOINTS
+
+// Get All Customers
+app.MapGet("/customers", async (CustomerCrud customerCrud) =>
+{
+    var customers = await customerCrud.GetAllCustomers();
+    return Results.Ok(customers);
+});
 // Create Customer
 app.MapPost("/customers", async (Customer customer, CustomerCrud customerCrud) =>
 {

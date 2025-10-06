@@ -13,6 +13,12 @@ public class CustomerCrud
         _context = context;
     }
 
+    // Get All Customers
+    public async Task<List<Customer>> GetAllCustomers()
+    {
+        return await _context.Customers.ToListAsync();
+    }
+
     // Create Customer
     public async Task<Customer> CreateCustomer(Customer customer)
     {

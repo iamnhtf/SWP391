@@ -25,7 +25,8 @@ public class AppDbContext : DbContext
             new Customer { Id = "C007", Name = "Phạm Thị Lan", Email = "lan.pham@example.com", PhoneNumber = "0962233445", Address = "Quận 5, TP.HCM" },
             new Customer { Id = "C008", Name = "Hoàng Anh Tuấn", Email = "tuan.hoang@example.com", PhoneNumber = "0973344556", Address = "Quận 2, TP.HCM" },
             new Customer { Id = "C009", Name = "Đỗ Minh Quân", Email = "mqun.do@example.com", PhoneNumber = "0984455667", Address = "Quận 4, TP.HCM" },
-            new Customer { Id = "C010", Name = "Lê Thị Hòa", Email = "hoa.le@example.com", PhoneNumber = "0905566778", Address = "Quận Phú Nhuận, TP.HCM" }
+            new Customer { Id = "C010", Name = "Lê Thị Hòa", Email = "hoa.le@example.com", PhoneNumber = "0905566778", Address = "Quận Phú Nhuận, TP.HCM" },
+            new Customer { Id = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nguyen Xuan Thinh", Email = "nguyenxuanthinh@gmail.com", PhoneNumber = "0901234567", Address = "Quận 1, TP.HCM" }
         );
 
         // Thêm 4 trạm sạc ở TP.HCM
