@@ -490,11 +490,12 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+
 app.MapPost("/createchargingsession", async (CreateChargingSessionRequest req, AppDbContext db) =>
 {
     if (req == null) return Results.BadRequest("Request body required.");
     if (req.VehicleId <= 0 || string.IsNullOrWhiteSpace(req.PortId))
-        return Results.BadRequest("vehicleId and portId required.");
+        return Results.BadRequest("vehicleId and portid required.");
 
     // validate vehicle + port
     var vehicle = await db.Vehicles.FindAsync(req.VehicleId);
@@ -513,21 +514,31 @@ app.MapPost("/createchargingsession", async (CreateChargingSessionRequest req, A
     };
     db.ChargingSessions.Add(session);
 
-    // set port status if port has a string Status property (use reflection-safe)
+    // set port status: handle string or enum Status property
     var statusProp = port.GetType().GetProperty("Status");
-    if (statusProp != null && statusProp.PropertyType == typeof(string))
+    if (statusProp != null)
     {
-        statusProp.SetValue(port, "InUse");
+        if (statusProp.PropertyType == typeof(string))
+        {
+            statusProp.SetValue(port, "InUse");
+        }
+        else if (statusProp.PropertyType.IsEnum)
+        {
+            try
+            {
+                var enumVal = Enum.Parse(statusProp.PropertyType, "InUse", ignoreCase: true);
+                statusProp.SetValue(port, enumVal);
+            }
+            catch { /* ignore if enum value not present */ }
+        }
         db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
     }
 
-    // --- update MonthlyPeriod / UsersPerMonth ---
-    // assume MonthlyPeriod has properties: Id, Month, Year
-    // assume UsersPerMonth has: CustomerId (string), PeriodId (int), TotalSessions, TotalEnergy, AmountPaid
-
+    // --- update MonthlyPeriod / VehiclePerMonth ---
     var month = req.StartTime.Month;
     var year = req.StartTime.Year;
 
+    // find period (use EF.Property for Month/Year to avoid compile-time dependency on exact MonthlyPeriod shape)
     var period = await db.MonthlyPeriods
         .FirstOrDefaultAsync(p => EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year);
 
@@ -537,63 +548,65 @@ app.MapPost("/createchargingsession", async (CreateChargingSessionRequest req, A
         period = Activator.CreateInstance(typeof(MonthlyPeriod)) as MonthlyPeriod;
         if (period != null)
         {
-            // set Month/Year via reflection to be safe
             var mpMonth = period.GetType().GetProperty("Month");
             var mpYear = period.GetType().GetProperty("Year");
             if (mpMonth != null) mpMonth.SetValue(period, month);
             if (mpYear != null) mpYear.SetValue(period, year);
             db.MonthlyPeriods.Add(period);
-            await db.SaveChangesAsync(); // need Id for UsersPerMonth FK
+            await db.SaveChangesAsync(); // ensure PK is generated
         }
     }
 
-    // obtain period id value with reflection (property name "Id" assumed)
+    // determine periodId (try common PK names)
     int periodId = 0;
-    var idProp = period?.GetType().GetProperty("Id");
-    if (idProp != null) periodId = (int) (idProp.GetValue(period) ?? 0);
+    if (period != null)
+    {
+        var idProp = period.GetType().GetProperty("MonthlyPeriodId")
+                     ?? period.GetType().GetProperty("Id")
+                     ?? period.GetType().GetProperty("PeriodId");
+        if (idProp != null)
+        {
+            periodId = (int)(idProp.GetValue(period) ?? 0);
+        }
+        else
+        {
+            try
+            {
+                periodId = (int)db.Entry(period).Property("Id").CurrentValue;
+            }
+            catch { /* ignore */ }
+        }
+    }
 
-    // customer id from vehicle - convert to string (works whether CustomerId is int or string)
-    var custIdProp = vehicle.GetType().GetProperty("CustomerId");
-    string customerId = custIdProp != null ? (custIdProp.GetValue(vehicle)?.ToString() ?? string.Empty) : string.Empty;
-
-    if (!string.IsNullOrEmpty(customerId))
+    // update VehiclePerMonth using strongly-typed model
+    if (periodId != 0)
     {
         var vehicleMonth = await db.VehiclePerMonths
-            .FirstOrDefaultAsync(up =>
-                EF.Property<string>(up, "CustomerId") == customerId &&
-                EF.Property<int>(up, "PeriodId") == periodId);
+            .FirstOrDefaultAsync(vm => vm.VehicleId == vehicle.VehicleId && vm.PeriodId == periodId);
 
         if (vehicleMonth == null)
         {
-            vehicleMonth = Activator.CreateInstance(typeof(VehiclePerMonth)) as VehiclePerMonth;
-            if (vehicleMonth != null)
+            vehicleMonth = new VehiclePerMonth
             {
-                // set CustomerId and PeriodId, TotalSessions default 0 via reflection
-                var upCust = vehicleMonth.GetType().GetProperty("CustomerId");
-                var upPeriod = vehicleMonth.GetType().GetProperty("PeriodId");
-                var upSessions = vehicleMonth.GetType().GetProperty("TotalSessions");
-                if (upCust != null) upCust.SetValue(vehicleMonth, customerId);
-                if (upPeriod != null) upPeriod.SetValue(vehicleMonth, periodId);
-                if (upSessions != null) upSessions.SetValue(vehicleMonth, 0);
-                db.VehiclePerMonths.Add(vehicleMonth);
-            }
+                VehicleId = vehicle.VehicleId,
+                PeriodId = periodId,
+                TotalSessions = 0,
+                TotalEnergy = 0,
+                AmountPaid = 0
+            };
+            db.VehiclePerMonths.Add(vehicleMonth);
         }
 
-        // increment TotalSessions
-        var tsProp = vehicleMonth?.GetType().GetProperty("TotalSessions");
-        if (tsProp != null)
-        {
-            var cur = (int)(tsProp.GetValue(vehicleMonth) ?? 0);
-            tsProp.SetValue(vehicleMonth, cur + 1);
-            db.Entry(vehicleMonth!).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        }
+        vehicleMonth.TotalSessions += 1;
+        db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
     }
 
     await db.SaveChangesAsync();
 
-    // return sessionId only or full DTO
+    // return sessionId only
     return Results.Ok(new { sessionId = session.Id });
 });
+// ...existing code...
 
 app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDbContext db) =>
 {
