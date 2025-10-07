@@ -556,5 +556,5 @@ public class AppDbContext : DbContext
 
     public DbSet<MonthlyPeriod> MonthlyPeriods { get; set; } = null!;
 
-    public DbSet<UsersPerMonth> UsersPerMonths { get; set; } = null!;
+    public DbSet<VehiclePerMonth> VehiclePerMonths { get; set; } = null!;
 }

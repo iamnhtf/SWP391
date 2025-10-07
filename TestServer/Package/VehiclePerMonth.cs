@@ -5,10 +5,10 @@ using TestServer.Models;
 
 namespace TestServer.Package
 {
-    public class UsersPerMonth
+    public class VehiclePerMonth
     {
         [Key]
-        public int UserMonthId { get; set; } = 0;
+        public int VehicleMonthId { get; set; } = 0;
 
         [ForeignKey("Customer")]
         public string Id { get; set; } = string.Empty;

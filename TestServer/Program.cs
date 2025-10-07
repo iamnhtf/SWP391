@@ -483,13 +483,197 @@ app.MapGet("/vehicleconnectortypes", async (AppDbContext db) =>
 });
 
 
+
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+app.MapPost("/createchargingsession", async (CreateChargingSessionRequest req, AppDbContext db) =>
+{
+    if (req == null) return Results.BadRequest("Request body required.");
+    if (req.VehicleId <= 0 || string.IsNullOrWhiteSpace(req.PortId))
+        return Results.BadRequest("vehicleId and portId required.");
 
+    // validate vehicle + port
+    var vehicle = await db.Vehicles.FindAsync(req.VehicleId);
+    if (vehicle == null) return Results.NotFound($"Vehicle {req.VehicleId} not found.");
+
+    var port = await db.ChargingPorts.FindAsync(req.PortId);
+    if (port == null) return Results.NotFound($"Port {req.PortId} not found.");
+
+    // create session
+    var session = new ChargingSession
+    {
+        VehicleId = req.VehicleId,
+        PortId = req.PortId,
+        StartTime = req.StartTime,
+        Status = ChargingSession.SessionStatus.charging
+    };
+    db.ChargingSessions.Add(session);
+
+    // set port status if port has a string Status property (use reflection-safe)
+    var statusProp = port.GetType().GetProperty("Status");
+    if (statusProp != null && statusProp.PropertyType == typeof(string))
+    {
+        statusProp.SetValue(port, "InUse");
+        db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+    }
+
+    // --- update MonthlyPeriod / UsersPerMonth ---
+    // assume MonthlyPeriod has properties: Id, Month, Year
+    // assume UsersPerMonth has: CustomerId (string), PeriodId (int), TotalSessions, TotalEnergy, AmountPaid
+
+    var month = req.StartTime.Month;
+    var year = req.StartTime.Year;
+
+    var period = await db.MonthlyPeriods
+        .FirstOrDefaultAsync(p => EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year);
+
+    if (period == null)
+    {
+        // create new MonthlyPeriod with Month/Year — adjust property names if different
+        period = Activator.CreateInstance(typeof(MonthlyPeriod)) as MonthlyPeriod;
+        if (period != null)
+        {
+            // set Month/Year via reflection to be safe
+            var mpMonth = period.GetType().GetProperty("Month");
+            var mpYear = period.GetType().GetProperty("Year");
+            if (mpMonth != null) mpMonth.SetValue(period, month);
+            if (mpYear != null) mpYear.SetValue(period, year);
+            db.MonthlyPeriods.Add(period);
+            await db.SaveChangesAsync(); // need Id for UsersPerMonth FK
+        }
+    }
+
+    // obtain period id value with reflection (property name "Id" assumed)
+    int periodId = 0;
+    var idProp = period?.GetType().GetProperty("Id");
+    if (idProp != null) periodId = (int) (idProp.GetValue(period) ?? 0);
+
+    // customer id from vehicle - convert to string (works whether CustomerId is int or string)
+    var custIdProp = vehicle.GetType().GetProperty("CustomerId");
+    string customerId = custIdProp != null ? (custIdProp.GetValue(vehicle)?.ToString() ?? string.Empty) : string.Empty;
+
+    if (!string.IsNullOrEmpty(customerId))
+    {
+        var vehicleMonth = await db.VehiclePerMonths
+            .FirstOrDefaultAsync(up =>
+                EF.Property<string>(up, "CustomerId") == customerId &&
+                EF.Property<int>(up, "PeriodId") == periodId);
+
+        if (vehicleMonth == null)
+        {
+            vehicleMonth = Activator.CreateInstance(typeof(VehiclePerMonth)) as VehiclePerMonth;
+            if (vehicleMonth != null)
+            {
+                // set CustomerId and PeriodId, TotalSessions default 0 via reflection
+                var upCust = vehicleMonth.GetType().GetProperty("CustomerId");
+                var upPeriod = vehicleMonth.GetType().GetProperty("PeriodId");
+                var upSessions = vehicleMonth.GetType().GetProperty("TotalSessions");
+                if (upCust != null) upCust.SetValue(vehicleMonth, customerId);
+                if (upPeriod != null) upPeriod.SetValue(vehicleMonth, periodId);
+                if (upSessions != null) upSessions.SetValue(vehicleMonth, 0);
+                db.VehiclePerMonths.Add(vehicleMonth);
+            }
+        }
+
+        // increment TotalSessions
+        var tsProp = vehicleMonth?.GetType().GetProperty("TotalSessions");
+        if (tsProp != null)
+        {
+            var cur = (int)(tsProp.GetValue(vehicleMonth) ?? 0);
+            tsProp.SetValue(vehicleMonth, cur + 1);
+            db.Entry(vehicleMonth!).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+    }
+
+    await db.SaveChangesAsync();
+
+    // return sessionId only or full DTO
+    return Results.Ok(new { sessionId = session.Id });
+});
+
+app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDbContext db) =>
+{
+    if (req == null) return Results.BadRequest("Request body required.");
+
+    var session = await db.ChargingSessions.FindAsync(req.SessionId);
+    if (session == null) return Results.NotFound($"Session {req.SessionId} not found.");
+    if (session.Status == ChargingSession.SessionStatus.Completed) return Results.BadRequest("Session already completed.");
+
+    session.EndTime = req.EndTime;
+    session.EnergyConsumed = req.EnergyConsumed;
+    session.TotalCost = req.TotalCost;
+    session.Status = ChargingSession.SessionStatus.Completed;
+    db.Entry(session).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+    // update VehiclePerMonth totals for the month of session.StartTime
+    var start = session.StartTime;
+    var month = start.Month;
+    var year = start.Year;
+
+    var period = await db.MonthlyPeriods
+        .FirstOrDefaultAsync(p => EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year);
+
+    int periodId = 0;
+    if (period != null)
+    {
+        var idProp2 = period.GetType().GetProperty("Id");
+        if (idProp2 != null) periodId = (int)(idProp2.GetValue(period) ?? 0);
+    }
+
+    // get customer id from vehicle
+    var vehicle = await db.Vehicles.FindAsync(session.VehicleId);
+    var custIdProp2 = vehicle?.GetType().GetProperty("CustomerId");
+    string customerId = custIdProp2 != null ? (custIdProp2.GetValue(vehicle)?.ToString() ?? string.Empty) : string.Empty;
+
+    if (!string.IsNullOrEmpty(customerId) && periodId != 0)
+    {
+        var vehicleMonth = await db.VehiclePerMonths
+            .FirstOrDefaultAsync(up =>
+                EF.Property<string>(up, "CustomerId") == customerId &&
+                EF.Property<int>(up, "PeriodId") == periodId);
+
+        if (vehicleMonth != null)
+        {
+            // add energy and amount
+            var teProp = vehicleMonth.GetType().GetProperty("TotalEnergy");
+            var taProp = vehicleMonth.GetType().GetProperty("AmountPaid");
+
+            if (teProp != null)
+            {
+                var cur = Convert.ToDouble(teProp.GetValue(vehicleMonth) ?? 0);
+                teProp.SetValue(vehicleMonth, (float)(cur + req.EnergyConsumed));
+            }
+
+            if (taProp != null)
+            {
+                var cur2 = Convert.ToDouble(taProp.GetValue(vehicleMonth) ?? 0);
+                taProp.SetValue(vehicleMonth, (float)(cur2 + req.TotalCost));
+            }
+
+            db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+    }
+
+    // free port if exists
+    var port = await db.ChargingPorts.FindAsync(session.PortId);
+    if (port != null)
+    {
+        var statusProp = port.GetType().GetProperty("Status");
+        if (statusProp != null && statusProp.PropertyType == typeof(string))
+        {
+            statusProp.SetValue(port, "Available");
+            db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+    }
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new { sessionId = session.Id });
+});
 
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)

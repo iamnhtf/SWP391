@@ -32,5 +32,7 @@ public class ChargingSession
             charging,
             Completed,
         }
+         // NEW: lưu trạng thái phiên sạc (mặc định là charging)
+        public SessionStatus Status { get; set; } = SessionStatus.charging;
         public ICollection<ChargingPoint> ChargingPoints { get; set; } = new List<ChargingPoint>();
     }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestServer.Data;
 
@@ -10,9 +11,11 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251007140158_UpdateAPI")]
+    partial class UpdateAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2584,9 +2587,9 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Package.VehiclePerMonth", b =>
+            modelBuilder.Entity("TestServer.Package.UsersPerMonth", b =>
                 {
-                    b.Property<int>("VehicleMonthId")
+                    b.Property<int>("UserMonthId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -2605,13 +2608,13 @@ namespace TestServer.Migrations
                     b.Property<int>("TotalSessions")
                         .HasColumnType("int");
 
-                    b.HasKey("VehicleMonthId");
+                    b.HasKey("UserMonthId");
 
                     b.HasIndex("Id");
 
                     b.HasIndex("PeriodId");
 
-                    b.ToTable("VehiclePerMonths");
+                    b.ToTable("UsersPerMonths");
                 });
 
             modelBuilder.Entity("TestServer.Package.VehicleType", b =>
@@ -2751,7 +2754,7 @@ namespace TestServer.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("TestServer.Package.VehiclePerMonth", b =>
+            modelBuilder.Entity("TestServer.Package.UsersPerMonth", b =>
                 {
                     b.HasOne("TestServer.Models.Customer", "Customer")
                         .WithMany()
