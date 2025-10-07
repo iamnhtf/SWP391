@@ -34,58 +34,58 @@ public class AppDbContext : DbContext
     new ChargingStation
     {
         Id = 1,
-        Name = "Landmark 81 Charging Station",
-        Location = "Vincom Landmark 81, Binh Thanh District, Ho Chi Minh City",
-        Latitude = 10.7944,
-        Longitude = 106.7215
+        Name = "Parking lot S778 Nguyen Van Qua",
+        Location = "778 Nguyen Van Qua, Dong Hung Thuan Ward, District 12, Ho Chi Minh City",
+        Latitude = 10.846289725256499, 
+        Longitude = 106.63358659588795
     },
     new ChargingStation
     {
         Id = 2,
-        Name = "Cong Hoa Charging Station",
-        Location = "Vincom Cong Hoa, Tan Binh District, Ho Chi Minh City",
-        Latitude = 10.8013,
-        Longitude = 106.6500
+        Name = "Léman Luxury Apartments",
+        Location = "Basement B3, Léman Luxury Apartments, 117 Nguyễn Đình Chiểu, Ward 6, District 3, Ho Chi Minh City",
+        Latitude = 10.778019786911162,
+        Longitude = 106.68989161819898
     },
     new ChargingStation
     {
         Id = 3,
-        Name = "Ba Thang Hai Charging Station",
-        Location = "Vincom Ba Thang Hai, District 10, Ho Chi Minh City",
-        Latitude = 10.7721,
-        Longitude = 106.6678
+        Name = "Summer Square Apartment Complex",
+        Location = "243 Tan Hoa Dong, Ward 14, District 6, Ho Chi Minh City",
+        Latitude = 10.759974990301892,
+        Longitude = 106.62537124357758 
     },
     new ChargingStation
     {
         Id = 4,
-        Name = "Leman Luxury Apartments Station",
-        Location = "Leman Luxury Building, District 3, Ho Chi Minh City",
-        Latitude = 10.7795,
-        Longitude = 106.6888
+        Name = "Golden King Apartment Complex",
+        Location = "Basement B2, 15 Nguyen Luong Bang, Tan Phu Ward, District 7, Ho Chi Minh City",
+        Latitude = 10.726400325147486, 
+        Longitude = 106.72395755358133
     },
     new ChargingStation
     {
         Id = 5,
-        Name = "Huynh Hieu Thien Station",
-        Location = "Nguyen Van Luong Street, District 6, Ho Chi Minh City",
-        Latitude = 10.7482,
-        Longitude = 106.6361
+        Name = "TTTM VinCom+ Nam Long",
+        Location = "71 Tran Trong Cung, Tan Thuan Dong Ward, District 7, Ho Chi Minh City",
+        Latitude = 10.744180504637178, 
+        Longitude = 106.73212781504205
     },
     new ChargingStation
     {
         Id = 6,
-        Name = "Sky89 Station",
-        Location = "Hoang Quoc Viet Street, District 7, Ho Chi Minh City",
-        Latitude = 10.7358,
-        Longitude = 106.7251
+        Name = "VinFast - Chevrolet Phu My Hung Car Dealership",
+        Location = "54 Nguyen Thi Thap, Binh Thuan Ward, District 7, Ho Chi Minh City",
+        Latitude = 10.73838097555118, 
+        Longitude = 106.72723544339814
     },
     new ChargingStation
     {
         Id = 7,
-        Name = "Center Dong Khoi Station",
-        Location = "Le Thanh Ton Street, District 1, Ho Chi Minh City",
-        Latitude = 10.7765,
-        Longitude = 106.7032
+        Name = "Green View Apartment Complex",
+        Location = "Green View, Tân Phú Ward, District 7, Ho Chi Minh City",
+        Latitude = 10.721662104756106, 
+        Longitude = 106.72691002973274
     }
 );
 
