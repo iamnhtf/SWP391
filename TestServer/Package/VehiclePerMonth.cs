@@ -10,9 +10,9 @@ namespace TestServer.Package
         [Key]
         public int VehicleMonthId { get; set; } = 0;
 
-        [ForeignKey("Customer")]
-        public string Id { get; set; } = string.Empty;
-        public Customer Customer { get; set; } = null!;
+        [ForeignKey("Vehicle")]
+        public int VehicleId { get; set; } = 0;
+        public Vehicle Vehicle { get; set; } = null!;
 
         [ForeignKey("MonthlyPeriod")]
         public int PeriodId { get; set; } = 0;
