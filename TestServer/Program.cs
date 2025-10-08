@@ -696,7 +696,8 @@ app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDb
 app.MapGet("/pricetables", async (AppDbContext db) =>
 {
     var priceTables = await db.PriceTables
-        .Select(p => new {
+        .Select(p => new
+        {
             p.Id,
             p.PricePerKWh,
             p.PenaltyFeePerMinute,
@@ -708,6 +709,23 @@ app.MapGet("/pricetables", async (AppDbContext db) =>
     return Results.Ok(priceTables);
 });
 
+//Lay price table active
+app.MapGet("/pricetable/active", async (AppDbContext db) =>
+{
+    var activePriceTables = await db.PriceTables
+        .Where(p => p.ValidFrom <= DateTime.Now && p.ValidTo >= DateTime.Now)
+        .Select(p => new
+        {
+            p.Id,
+            p.PricePerKWh,
+            p.PenaltyFeePerMinute,
+            ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd"),
+            ValidTo = p.ValidTo.ToString("yyyy-MM-dd")
+        })
+        .FirstOrDefaultAsync();
+
+    return Results.Ok(activePriceTables);
+});
 
 // Lấy PriceTable theo ID
 app.MapGet("/pricetables/{id:int}", async (int id, AppDbContext db) =>
