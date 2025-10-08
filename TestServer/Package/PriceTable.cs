@@ -14,4 +14,9 @@ namespace TestServer.Package
         public DateTime ValidFrom { get; set; } = DateTime.Now;
         public DateTime ValidTo { get; set; } = DateTime.Now.AddYears(1);
     }
+
+    public enum PriceTableStatus {
+        Active,
+        Inactive
+    }
 };

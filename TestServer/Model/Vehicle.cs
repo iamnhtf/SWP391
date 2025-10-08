@@ -18,8 +18,16 @@ namespace TestServer.Models
         [ForeignKey("VehicleType")]
         public int VehicleTypeId { get; set; } 
         public VehicleType? VehicleType { get; set; }
+        public VehicleStatus Status { get; set; } = VehicleStatus.Available;
         
         public ICollection<VehiclePort> VehiclePorts { get; set; } = new List<VehiclePort>();
 
+    }
+
+    public enum VehicleStatus
+    {
+        Available,
+        InUse,
+        Faulty
     }
 }

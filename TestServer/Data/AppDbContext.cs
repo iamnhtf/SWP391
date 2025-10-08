@@ -88,7 +88,9 @@ public class AppDbContext : DbContext
         Longitude = 106.72691002973274
     }
 );
-
+    modelBuilder.Entity<Vehicle>()
+    .Property(v => v.Status)
+    .HasConversion<string>();
 
         // VehicleType
         modelBuilder.Entity<VehicleType>().HasData(
@@ -500,11 +502,11 @@ public class AppDbContext : DbContext
             );
 
         modelBuilder.Entity<Vehicle>().HasData(
-            new Vehicle { VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Tesla Model 3", VehicleTypeId = 2, LicensePlate = "51B-67890", BatteryCapacity = 75 },
-            new Vehicle { VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 82 },
-            new Vehicle { VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nissan Leaf", VehicleTypeId = 2, LicensePlate = "29C-56789", BatteryCapacity = 40 },
-            new Vehicle { VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Hyundai Ioniq 5", VehicleTypeId = 2, LicensePlate = "88D-45678", BatteryCapacity = 77 },
-            new Vehicle { VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 74 }
+            new Vehicle { VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Tesla Model 3", VehicleTypeId = 2, LicensePlate = "51B-67890", BatteryCapacity = 75, Status = VehicleStatus.Available },
+            new Vehicle { VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 82, Status = VehicleStatus.Faulty },
+            new Vehicle { VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nissan Leaf", VehicleTypeId = 2, LicensePlate = "29C-56789", BatteryCapacity = 40, Status = VehicleStatus.InUse },
+            new Vehicle { VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Hyundai Ioniq 5", VehicleTypeId = 2, LicensePlate = "88D-45678", BatteryCapacity = 77, Status = VehicleStatus.Faulty },
+            new Vehicle { VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 74, Status = VehicleStatus.Available }
         );
 
 
@@ -538,18 +540,32 @@ public class AppDbContext : DbContext
             new VehicleConnectorType { VehicleId = 3, ConnectorId = 1 },
             new VehicleConnectorType { VehicleId = 3, ConnectorId = 2 }
         );
+
+        modelBuilder.Entity<PriceTable>().HasData(
+            new PriceTable { Id = 1, PricePerKWh = 4500, PenaltyFeePerMinute = 300, ValidFrom = new DateTime(2025, 1, 1), ValidTo = new DateTime(2025, 12, 31) }
+        );
     }
 
     public DbSet<Customer> Customers { get; set; } = null!;
+
     public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
+
     public DbSet<VehicleType> VehicleTypes { get; set; } = null!;
+
     public DbSet<Connector> Connectors { get; set; } = null!;
+
     public DbSet<PowerRange> PowerRanges { get; set; } = null!;
+
     public DbSet<TimeRange> TimeRanges { get; set; } = null!;
+
     public DbSet<ChargingPoint> ChargingPoints { get; set; } = null!;
+
     public DbSet<ChargingPort> ChargingPorts { get; set; } = null!;
+
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
+
     public DbSet<VehiclePort> VehiclePorts { get; set; } = null!;
+
     public DbSet<VehicleConnectorType> VehicleConnectorTypes { get; set; } = null!;
 
     public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
@@ -557,4 +573,6 @@ public class AppDbContext : DbContext
     public DbSet<MonthlyPeriod> MonthlyPeriods { get; set; } = null!;
 
     public DbSet<VehiclePerMonth> VehiclePerMonths { get; set; } = null!;
+
+    public DbSet<PriceTable> PriceTables { get; set; } = null!;
 }

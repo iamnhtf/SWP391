@@ -10,6 +10,7 @@ namespace TestServer.Models
         public string LicensePlate { get; set; } = string.Empty; 
         public int BatteryCapacity { get; set; } = 0;    
         public string VehicleType { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty; // enum -> string
         
         public List<string> ConnectorNames { get; set; } = new List<string>();
     }

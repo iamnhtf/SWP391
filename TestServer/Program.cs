@@ -360,6 +360,7 @@ app.MapGet("/vehicles", async (AppDbContext db) =>
         LicensePlate = v.LicensePlate,
         BatteryCapacity = v.BatteryCapacity,
         VehicleType = v.VehicleType.Name, 
+        Status = v.Status.ToString(),
         ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     }).ToList();
 
@@ -384,6 +385,7 @@ app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
         LicensePlate = vehicle.LicensePlate,
         BatteryCapacity = vehicle.BatteryCapacity,
         VehicleType = vehicle.VehicleType.Name,
+        Status = vehicle.Status.ToString(),
         ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     };
 
@@ -406,6 +408,7 @@ app.MapGet("/vehiclesforcustomer/{uid}", async (string uid, AppDbContext db) =>
         LicensePlate = v.LicensePlate,
         BatteryCapacity = v.BatteryCapacity,
         VehicleType = v.VehicleType.Name, 
+        Status = v.Status.ToString(),
         ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     }).ToList();
 
@@ -430,6 +433,7 @@ app.MapGet("/vehiclesforcustomer/{uid}/{connectorName}", async (string uid, stri
         LicensePlate = v.LicensePlate,
         BatteryCapacity = v.BatteryCapacity,
         VehicleType = v.VehicleType.Name,
+        Status = v.Status.ToString(),
         ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
     }).ToList();
 
@@ -688,6 +692,21 @@ app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDb
     return Results.Ok(new { sessionId = session.Id });
 });
 
+// Lấy tất cả PriceTable
+app.MapGet("/pricetables", async (AppDbContext db) =>
+{
+    var priceTables = await db.PriceTables.ToListAsync();
+    return Results.Ok(priceTables);
+});
+
+// Lấy PriceTable theo ID
+app.MapGet("/pricetables/{id}", async (int id, AppDbContext db) =>
+{
+    var priceTable = await db.PriceTables.FindAsync(id);
+    return priceTable is not null 
+        ? Results.Ok(priceTable) 
+        : Results.NotFound($"PriceTable with ID {id} not found.");
+});
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
