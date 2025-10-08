@@ -714,6 +714,7 @@ app.MapGet("/pricetable/active", async (AppDbContext db) =>
 {
     var activePriceTables = await db.PriceTables
         .Where(p => p.ValidFrom <= DateTime.Now && p.ValidTo >= DateTime.Now)
+        .Where(p => p.Status == PriceTableStatus.Active)
         .Select(p => new
         {
             p.Id,

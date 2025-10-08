@@ -542,7 +542,7 @@ public class AppDbContext : DbContext
         );
 
         modelBuilder.Entity<PriceTable>().HasData(
-            new PriceTable { Id = 1, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31) }
+            new PriceTable { Id = 1, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active }
         );
     }
 
