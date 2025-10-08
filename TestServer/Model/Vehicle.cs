@@ -18,7 +18,7 @@ namespace TestServer.Models
         [ForeignKey("VehicleType")]
         public int VehicleTypeId { get; set; } 
         public VehicleType? VehicleType { get; set; }
-        public VehicleStatus Status { get; set; } = VehicleStatus.Available;
+        public VehicleStatus Status { get; set; } = VehicleStatus.Active;
         
         public ICollection<VehiclePort> VehiclePorts { get; set; } = new List<VehiclePort>();
 
@@ -26,8 +26,7 @@ namespace TestServer.Models
 
     public enum VehicleStatus
     {
-        Available,
-        InUse,
-        Faulty
+        Active,
+        Blocked,
     }
 }
