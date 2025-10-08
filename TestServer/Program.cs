@@ -695,17 +695,38 @@ app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDb
 // Lấy tất cả PriceTable
 app.MapGet("/pricetables", async (AppDbContext db) =>
 {
-    var priceTables = await db.PriceTables.ToListAsync();
+    var priceTables = await db.PriceTables
+        .Select(p => new {
+            p.Id,
+            p.PricePerKWh,
+            p.PenaltyFeePerMinute,
+            ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd"),
+            ValidTo = p.ValidTo.ToString("yyyy-MM-dd")
+        })
+        .ToListAsync();
+
     return Results.Ok(priceTables);
 });
 
+
 // Lấy PriceTable theo ID
-app.MapGet("/pricetables/{id}", async (int id, AppDbContext db) =>
+app.MapGet("/pricetables/{id:int}", async (int id, AppDbContext db) =>
 {
-    var priceTable = await db.PriceTables.FindAsync(id);
-    return priceTable is not null 
-        ? Results.Ok(priceTable) 
-        : Results.NotFound($"PriceTable with ID {id} not found.");
+    var priceTable = await db.PriceTables
+        .Where(p => p.Id == id)
+        .Select(p => new {
+            p.Id,
+            p.PricePerKWh,
+            p.PenaltyFeePerMinute,
+            ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss"),
+            ValidTo = p.ValidTo.ToString("yyyy-MM-dd HH:mm:ss")
+        })
+        .FirstOrDefaultAsync();
+
+    if (priceTable == null)
+        return Results.NotFound(new { message = $"PriceTable with ID {id} not found." });
+
+    return Results.Ok(priceTable);
 });
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
