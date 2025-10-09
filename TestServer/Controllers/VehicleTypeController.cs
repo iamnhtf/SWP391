@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 
 namespace TestServer.Controllers
@@ -16,10 +17,7 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return await db.VehicleTypes.ToListAsync();
+            return Ok(await db.VehicleTypes.ToListAsync());
         }
     }
-
-    
-
 }

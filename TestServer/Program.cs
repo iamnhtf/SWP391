@@ -30,7 +30,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = null;
         options.JsonSerializerOptions.MaxDepth = 64; // tăng nếu cần
     });
 
@@ -53,21 +53,6 @@ app.UseStaticFiles();  // Cho phép phục vụ các file tĩnh
 // **LƯU Ý**: Không cần app.MapGet("/") ở đây vì index.html đã được phục vụ bởi UseDefaultFiles/UseStaticFiles.
 
 app.MapControllers();
-
-app.MapGet("/weatherforecast", () =>
-{
-    var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 // CUSTOMER CRUD ENDPOINTS
 
@@ -672,9 +657,3 @@ app.MapGet("/pricetables/{id:int}", async (int id, AppDbContext db) =>
 
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
-
-// Định nghĩa record (PHẢI NẰM SAU app.Run() HOẶC TÁCH RA FILE RIÊNG)
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
