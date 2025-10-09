@@ -4215,31 +4215,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ASUS TUF F15\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\XuanThinh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
+      "projectUniqueName": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\TestServer.csproj",
       "projectName": "TestServer",
-      "projectPath": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
-      "packagesPath": "C:\\Users\\ASUS TUF F15\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ASUS TUF F15\\Documents\\GitHub\\SWP391\\TestServer\\obj\\",
+      "projectPath": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\TestServer.csproj",
+      "packagesPath": "C:\\Users\\XuanThinh\\.nuget\\packages\\",
+      "outputPath": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\ASUS TUF F15\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\XuanThinh\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
