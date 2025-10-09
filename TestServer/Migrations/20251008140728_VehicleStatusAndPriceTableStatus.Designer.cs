@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestServer.Data;
 
@@ -10,9 +11,11 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251008140728_VehicleStatusAndPriceTableStatus")]
+    partial class VehicleStatusAndPriceTableStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,10 +27,15 @@ namespace TestServer.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("ChargingSessionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChargingSessionId");
 
                     b.HasIndex("StationId");
 
@@ -2134,38 +2142,6 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Models.Connector", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Connectors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "AC"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "CCS"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "CHAdeMO"
-                        });
-                });
-
             modelBuilder.Entity("TestServer.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
@@ -2288,124 +2264,6 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Models.MonthlyPeriod", b =>
-                {
-                    b.Property<int>("PeriodId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Month")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("PeriodId");
-
-                    b.ToTable("MonthlyPeriods");
-                });
-
-            modelBuilder.Entity("TestServer.Models.PowerRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PowerRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "0-7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "7-50"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "50-150"
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Models.PriceTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<float>("PenaltyFeePerMinute")
-                        .HasColumnType("float");
-
-                    b.Property<float>("PricePerKWh")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("ValidTo")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PriceTables");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            PenaltyFeePerMinute = 1000f,
-                            PricePerKWh = 3858f,
-                            Status = 0,
-                            ValidFrom = new DateTime(2024, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValidTo = new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Models.TimeRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TimeRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "06:01–17:00"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "17:01–21:00"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "21:01–06:00"
-                        });
-                });
-
             modelBuilder.Entity("TestServer.Models.Vehicle", b =>
                 {
                     b.Property<int>("VehicleId")
@@ -2448,7 +2306,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "51B-67890",
                             Name = "Tesla Model 3",
-                            Status = "Active",
+                            Status = "Available",
                             VehicleTypeId = 2
                         },
                         new
@@ -2458,7 +2316,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "30A-12345",
                             Name = "VinFast VF 8",
-                            Status = "Active",
+                            Status = "Faulty",
                             VehicleTypeId = 2
                         },
                         new
@@ -2468,7 +2326,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "29C-56789",
                             Name = "Nissan Leaf",
-                            Status = "Blocked",
+                            Status = "InUse",
                             VehicleTypeId = 2
                         },
                         new
@@ -2478,7 +2336,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "88D-45678",
                             Name = "Hyundai Ioniq 5",
-                            Status = "Active",
+                            Status = "Faulty",
                             VehicleTypeId = 2
                         },
                         new
@@ -2488,7 +2346,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "77E-99999",
                             Name = "Kia EV6",
-                            Status = "Blocked",
+                            Status = "Available",
                             VehicleTypeId = 2
                         });
                 });
@@ -2538,36 +2396,6 @@ namespace TestServer.Migrations
                             VehicleId = 3,
                             ConnectorId = 2
                         });
-                });
-
-            modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>
-                {
-                    b.Property<int>("VehicleMonthId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<float>("AmountPaid")
-                        .HasColumnType("float");
-
-                    b.Property<int>("PeriodId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("TotalEnergy")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TotalSessions")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("VehicleMonthId");
-
-                    b.HasIndex("PeriodId");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("VehiclePerMonths");
                 });
 
             modelBuilder.Entity("TestServer.Models.VehiclePort", b =>
@@ -2632,7 +2460,183 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Models.VehicleType", b =>
+            modelBuilder.Entity("TestServer.Package.Connector", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Connectors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AC"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "CCS"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "CHAdeMO"
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Package.MonthlyPeriod", b =>
+                {
+                    b.Property<int>("PeriodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("PeriodId");
+
+                    b.ToTable("MonthlyPeriods");
+                });
+
+            modelBuilder.Entity("TestServer.Package.PowerRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Range")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PowerRanges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Range = "0-7"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Range = "7-50"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Range = "50-150"
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Package.PriceTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<float>("PenaltyFeePerMinute")
+                        .HasColumnType("float");
+
+                    b.Property<float>("PricePerKWh")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ValidTo")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PriceTables");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PenaltyFeePerMinute = 300f,
+                            PricePerKWh = 4500f,
+                            ValidFrom = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Package.TimeRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Range")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TimeRanges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Range = "06:01–17:00"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Range = "17:01–21:00"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Range = "21:01–06:00"
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Package.VehiclePerMonth", b =>
+                {
+                    b.Property<int>("VehicleMonthId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<float>("AmountPaid")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PeriodId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalEnergy")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TotalSessions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleMonthId");
+
+                    b.HasIndex("PeriodId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("VehiclePerMonths");
+                });
+
+            modelBuilder.Entity("TestServer.Package.VehicleType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2661,6 +2665,10 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.ChargingPoint", b =>
                 {
+                    b.HasOne("TestServer.Models.ChargingSession", null)
+                        .WithMany("ChargingPoints")
+                        .HasForeignKey("ChargingSessionId");
+
                     b.HasOne("TestServer.Models.ChargingStation", "ChargingStation")
                         .WithMany("ChargingPoints")
                         .HasForeignKey("StationId")
@@ -2672,7 +2680,7 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.ChargingPort", b =>
                 {
-                    b.HasOne("TestServer.Models.Connector", "Connector")
+                    b.HasOne("TestServer.Package.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2697,7 +2705,7 @@ namespace TestServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestServer.Models.PriceTable", "Price")
+                    b.HasOne("TestServer.Package.PriceTable", "Price")
                         .WithMany()
                         .HasForeignKey("PriceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2718,7 +2726,7 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.Vehicle", b =>
                 {
-                    b.HasOne("TestServer.Models.VehicleType", "VehicleType")
+                    b.HasOne("TestServer.Package.VehicleType", "VehicleType")
                         .WithMany()
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2729,7 +2737,7 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.VehicleConnectorType", b =>
                 {
-                    b.HasOne("TestServer.Models.Connector", "Connector")
+                    b.HasOne("TestServer.Package.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2746,28 +2754,9 @@ namespace TestServer.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>
-                {
-                    b.HasOne("TestServer.Models.MonthlyPeriod", "MonthlyPeriod")
-                        .WithMany()
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TestServer.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MonthlyPeriod");
-
-                    b.Navigation("Vehicle");
-                });
-
             modelBuilder.Entity("TestServer.Models.VehiclePort", b =>
                 {
-                    b.HasOne("TestServer.Models.Connector", "Connector")
+                    b.HasOne("TestServer.Package.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2784,9 +2773,33 @@ namespace TestServer.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("TestServer.Package.VehiclePerMonth", b =>
+                {
+                    b.HasOne("TestServer.Package.MonthlyPeriod", "MonthlyPeriod")
+                        .WithMany()
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TestServer.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonthlyPeriod");
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("TestServer.Models.ChargingPoint", b =>
                 {
                     b.Navigation("ChargingPorts");
+                });
+
+            modelBuilder.Entity("TestServer.Models.ChargingSession", b =>
+                {
+                    b.Navigation("ChargingPoints");
                 });
 
             modelBuilder.Entity("TestServer.Models.ChargingStation", b =>

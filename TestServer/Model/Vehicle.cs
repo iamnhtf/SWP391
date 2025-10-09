@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TestServer.Package;
+
 namespace TestServer.Models
 {
     public class Vehicle
@@ -18,8 +18,15 @@ namespace TestServer.Models
         [ForeignKey("VehicleType")]
         public int VehicleTypeId { get; set; } 
         public VehicleType? VehicleType { get; set; }
+        public VehicleStatus Status { get; set; } = VehicleStatus.Active;
         
         public ICollection<VehiclePort> VehiclePorts { get; set; } = new List<VehiclePort>();
 
+    }
+
+    public enum VehicleStatus
+    {
+        Active,
+        Blocked,
     }
 }

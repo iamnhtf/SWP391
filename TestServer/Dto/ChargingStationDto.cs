@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TestServer.Models
+namespace TestServer.Dto
 {
     public class ChargingStationDto
     {
