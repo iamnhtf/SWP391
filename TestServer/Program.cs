@@ -206,6 +206,39 @@ app.MapGet("/allchargingstations", async (AppDbContext db) =>
     return Results.Ok(stationDtos);
 });
 
+//// Get all stations for name with full nested structure (points, ports, connectors)
+app.MapGet("/allchargingstations/{name}", async (string name, AppDbContext db) =>
+{
+    var stations = await db.ChargingStations
+        .Where(s => s.Name.ToLower().Contains(name.ToLower()) || s.Location.ToLower().Contains(name.ToLower()))
+        .Include(station => station.ChargingPoints)
+            .ThenInclude(point => point.ChargingPorts)
+                .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var stationDtos = stations.Select(station => new ChargingStationDto
+    {
+        Id = station.Id,
+        Name = station.Name,
+        Location = station.Location,
+        Latitude = station.Latitude,
+        Longitude = station.Longitude,
+        Points = station.ChargingPoints.Select(point => new ChargingPointDto
+        {
+            Id = point.Id,
+            Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+            {
+                Id = port.Id,
+                ConnectorName = port.Connector.Name,
+                Power = port.Power,
+                Status = port.Status.ToString()
+            }).ToList()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(stationDtos);
+});
+
 // Endpoint cho VehicleType
 app.MapGet("/vehicletypes", async (AppDbContext db) =>
 {
