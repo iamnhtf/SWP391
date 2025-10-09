@@ -119,68 +119,6 @@ app.MapDelete("/customers/{id}", async (string id, CustomerCrud customerCrud) =>
         : Results.NotFound($"Customer with ID '{id}' not found.");
 });
 
-// Endpoint cho PowerRange
-app.MapGet("/powerrange", async (AppDbContext db) =>
-{
-    return await db.PowerRanges.ToListAsync();
-});
-
-// Endpoint cho TimeRange
-app.MapGet("/timeranges", async (AppDbContext db) =>
-{
-    return await db.TimeRanges.ToListAsync();
-});
-
-// Endpoint cho ChargingPoints (tất cả)
-app.MapGet("/chargingpoints", async (AppDbContext db) =>
-{
-    var points = await db.ChargingPoints
-        .Include(p => p.ChargingStation)
-        .Include(p => p.ChargingPorts)
-            .ThenInclude(port => port.Connector)
-        .ToListAsync();
-
-    var pointDtos = points.Select(p => new ChargingPointDto
-    {
-        Id = p.Id,
-        Ports = p.ChargingPorts.Select(port => new ChargingPortDto
-        {
-            Id = port.Id,
-            ConnectorName = port.Connector.Name,
-            Power = port.Power,
-            Status = port.Status.ToString()
-        }).ToList()
-    }).ToList();
-
-    return Results.Ok(pointDtos);
-});
-
-// Endpoint cho ChargingPoint theo Id
-app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
-{
-    var point = await db.ChargingPoints
-        .Include(p => p.ChargingStation)
-        .Include(p => p.ChargingPorts)
-            .ThenInclude(port => port.Connector)
-        .FirstOrDefaultAsync(p => p.Id == id);
-
-    if (point == null)
-        return Results.NotFound($"Charging point with ID {id} not found.");
-
-    var pointDto = new ChargingPointDto
-    {
-        Id = point.Id,
-        Ports = point.ChargingPorts.Select(port => new ChargingPortDto
-        {
-            Id = port.Id,
-            ConnectorName = port.Connector.Name,
-            Power = port.Power,
-            Status = port.Status.ToString()
-        }).ToList()
-    };
-
-    return Results.Ok(pointDto);
-});
 
 // Endpoint cho ChargingPorts (tất cả)
 app.MapGet("/chargingports", async (AppDbContext db) =>
