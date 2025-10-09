@@ -4215,24 +4215,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\XuanThinh\\.nuget\\packages\\": {}
+    "C:\\Users\\PC\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\TestServer.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\OneDrive\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
       "projectName": "TestServer",
-      "projectPath": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\TestServer.csproj",
-      "packagesPath": "C:\\Users\\XuanThinh\\.nuget\\packages\\",
-      "outputPath": "D:\\PERSONAL\\FPT Course\\SE 5\\SWP\\BACKEND\\SWP391\\TestServer\\obj\\",
+      "projectPath": "C:\\Users\\PC\\OneDrive\\Documents\\GitHub\\SWP391\\TestServer\\TestServer.csproj",
+      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\PC\\OneDrive\\Documents\\GitHub\\SWP391\\TestServer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\XuanThinh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
