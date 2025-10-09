@@ -591,3 +591,6 @@ C:\Users\PC\OneDrive\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\refint\
 C:\Users\PC\OneDrive\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\TestServer.pdb
 C:\Users\PC\OneDrive\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\TestServer.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Documents\GitHub\SWP391\TestServer\obj\Debug\net9.0\ref\TestServer.dll
+D:\PERSONAL\FPT Course\SE 5\SWP\BACKEND\SWP391\TestServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\PERSONAL\FPT Course\SE 5\SWP\BACKEND\SWP391\TestServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\PERSONAL\FPT Course\SE 5\SWP\BACKEND\SWP391\TestServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

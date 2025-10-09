@@ -16,9 +16,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString);
 });
 
-// Thêm dịch vụ để phục vụ các file tĩnh
-builder.Services.AddControllersWithViews();
+// 2️⃣ Thêm dịch vụ Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
+// Thêm dịch vụ để phục vụ các file tĩnh
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
@@ -35,6 +37,12 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
+}
+else
+{
+    // Chỉ bật Swagger trong môi trường Development
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // Middleware này cần đứng TRƯỚC các mapping khác
