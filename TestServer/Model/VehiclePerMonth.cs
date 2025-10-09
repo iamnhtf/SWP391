@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using TestServer.Models;
 
 
-namespace TestServer.Package
+namespace TestServer.Models
 {
     public class VehiclePerMonth
     {

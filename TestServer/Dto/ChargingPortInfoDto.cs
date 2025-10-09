@@ -1,7 +1,7 @@
-// ChargingPortDto.cs
-namespace TestServer.Models
+// ChargingPortInfoDto.cs
+namespace TestServer.Dto
 {
-    public class ChargingPortDto
+    public class ChargingPortInfoDto
     {
         public string Id { get; set; } = string.Empty;
 
@@ -10,5 +10,9 @@ namespace TestServer.Models
 
         public int Power { get; set; } = 0;
         public string Status { get; set; } = string.Empty; // enum -> string
+
+        // Thông tin ChargingPoint
+        public string ChargingPointId { get; set; } = string.Empty;
+        public string ChargingStationName { get; set; } = string.Empty;
     }
 }

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace TestServer.Package
+namespace TestServer.Models
 {
     public class PriceTable
     {

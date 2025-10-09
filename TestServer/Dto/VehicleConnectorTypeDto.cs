@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using TestServer.Package;
 using System.Collections.Generic;
 
-namespace TestServer.Models.DTOs
+namespace TestServer.Dto
 {
     public class VehicleConnectorTypeDto
     {
