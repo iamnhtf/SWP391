@@ -119,12 +119,6 @@ app.MapDelete("/customers/{id}", async (string id, CustomerCrud customerCrud) =>
         : Results.NotFound($"Customer with ID '{id}' not found.");
 });
 
-// Endpoint cho Connector
-app.MapGet("/connectors", async (AppDbContext db) =>
-{
-    return await db.Connectors.ToListAsync();
-});
-
 // Endpoint cho PowerRange
 app.MapGet("/powerrange", async (AppDbContext db) =>
 {
