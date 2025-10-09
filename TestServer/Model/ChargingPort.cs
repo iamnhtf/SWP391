@@ -1,7 +1,6 @@
 // ChargingPort.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TestServer.Package;
 
 namespace TestServer.Models
 {

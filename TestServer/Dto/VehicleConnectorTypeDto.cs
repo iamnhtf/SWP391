@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using TestServer.Package;
 using System.Collections.Generic;
 
 namespace TestServer.Dto

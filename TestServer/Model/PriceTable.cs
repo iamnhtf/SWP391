@@ -17,8 +17,9 @@ namespace TestServer.Models
         public PriceTableStatus Status { get; set; } = PriceTableStatus.Active;
     }
 
-    public enum PriceTableStatus {
+    public enum PriceTableStatus
+    {
         Active,
         Inactive
     }
-};
+}

@@ -1,13 +1,10 @@
-// File: Program.cs
-
-// 1. Các câu lệnh using - Đặt ở đầu file
 using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
-using TestServer.Package;
 using TestServer.Crud;
 using TestServer.Models.DTOs;
+using TestServer.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -547,7 +544,7 @@ app.MapPost("/createchargingsession", async (CreateChargingSessionRequest req, A
         VehicleId = req.VehicleId,
         PortId = req.PortId,
         StartTime = req.StartTime,
-        Status = ChargingSession.SessionStatus.charging
+        Status = SessionStatus.charging
     };
     db.ChargingSessions.Add(session);
 
@@ -651,12 +648,12 @@ app.MapPost("/stopchargingsession", async (StopChargingSessionRequest req, AppDb
 
     var session = await db.ChargingSessions.FindAsync(req.SessionId);
     if (session == null) return Results.NotFound($"Session {req.SessionId} not found.");
-    if (session.Status == ChargingSession.SessionStatus.Completed) return Results.BadRequest("Session already completed.");
+    if (session.Status == SessionStatus.Completed) return Results.BadRequest("Session already completed.");
 
     session.EndTime = req.EndTime;
     session.EnergyConsumed = req.EnergyConsumed;
     session.TotalCost = req.TotalCost;
-    session.Status = ChargingSession.SessionStatus.Completed;
+    session.Status = SessionStatus.Completed;
     db.Entry(session).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
     // update VehiclePerMonth totals for the month of session.StartTime
