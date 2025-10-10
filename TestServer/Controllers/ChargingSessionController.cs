@@ -119,6 +119,7 @@ namespace TestServer.Controllers
                         PeriodId = periodId,
                         TotalSessions = 0,
                         TotalEnergy = 0,
+                        TotalCost = 0,
                         AmountPaid = 0
                     };
                     db.VehiclePerMonths.Add(vehicleMonth);
@@ -160,54 +161,56 @@ namespace TestServer.Controllers
             int periodId = 0;
             if (period != null)
             {
-                var idProp2 = period.GetType().GetProperty("Id");
-                if (idProp2 != null) periodId = (int)(idProp2.GetValue(period) ?? 0);
+                var idProp = period.GetType().GetProperty("MonthlyPeriodId")
+                            ?? period.GetType().GetProperty("Id")
+                            ?? period.GetType().GetProperty("PeriodId");
+                if (idProp != null)
+                {
+                    periodId = (int)(idProp.GetValue(period) ?? 0);
+                }
+                else
+                {
+                    try
+                    {
+                        periodId = (int)db.Entry(period).Property("Id").CurrentValue;
+                    }
+                    catch { /* ignore */ }
+                }
             }
 
-            // get customer id from vehicle
-            var vehicle = await db.Vehicles.FindAsync(session.VehicleId);
-            var custIdProp2 = vehicle?.GetType().GetProperty("CustomerId");
-            string customerId = custIdProp2 != null ? (custIdProp2.GetValue(vehicle)?.ToString() ?? string.Empty) : string.Empty;
-
-            if (!string.IsNullOrEmpty(customerId) && periodId != 0)
+            // update VehiclePerMonth using strongly-typed model (VehicleId)
+            if (periodId != 0)
             {
                 var vehicleMonth = await db.VehiclePerMonths
-                    .FirstOrDefaultAsync(up =>
-                        EF.Property<string>(up, "CustomerId") == customerId &&
-                        EF.Property<int>(up, "PeriodId") == periodId);
+                    .FirstOrDefaultAsync(vm => vm.VehicleId == session.VehicleId && vm.PeriodId == periodId);
 
                 if (vehicleMonth != null)
                 {
-                    // add energy and amount
-                    var teProp = vehicleMonth.GetType().GetProperty("TotalEnergy");
-                    var taProp = vehicleMonth.GetType().GetProperty("AmountPaid");
-
-                    if (teProp != null)
-                    {
-                        var cur = Convert.ToDouble(teProp.GetValue(vehicleMonth) ?? 0);
-                        teProp.SetValue(vehicleMonth, (float)(cur + req.EnergyConsumed));
-                    }
-
-                    if (taProp != null)
-                    {
-                        var cur2 = Convert.ToDouble(taProp.GetValue(vehicleMonth) ?? 0);
-                        taProp.SetValue(vehicleMonth, (float)(cur2 + req.TotalCost));
-                    }
-
+                    vehicleMonth.TotalEnergy += req.EnergyConsumed;
+                    vehicleMonth.TotalCost += req.TotalCost;
                     db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 }
             }
 
             // free port if exists
             var port = await db.ChargingPorts.FindAsync(session.PortId);
-            if (port != null)
+            var statusProp = port.GetType().GetProperty("Status");
+            if (statusProp != null)
             {
-                var statusProp = port.GetType().GetProperty("Status");
-                if (statusProp != null && statusProp.PropertyType == typeof(string))
+                if (statusProp.PropertyType == typeof(string))
                 {
                     statusProp.SetValue(port, "Available");
-                    db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 }
+                else if (statusProp.PropertyType.IsEnum)
+                {
+                    try
+                    {
+                        var enumVal = Enum.Parse(statusProp.PropertyType, "Available", ignoreCase: true);
+                        statusProp.SetValue(port, enumVal);
+                    }
+                    catch { /* ignore if enum value not present */ }
+                }
+                db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
             await db.SaveChangesAsync();

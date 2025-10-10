@@ -22,6 +22,8 @@ namespace TestServer.Models
 
         public float TotalEnergy { get; set; } = 0;
 
+        public float TotalCost { get; set; } = 0;
+
         public float AmountPaid { get; set; } = 0;
     }
 };
