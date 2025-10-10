@@ -216,7 +216,33 @@ namespace TestServer.Controllers
             await db.SaveChangesAsync();
 
             return Ok(new { sessionId = session.Id });
-        } 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var sessions = await db.ChargingSessions
+                .AsNoTracking()
+                .Include(s => s.Vehicle)
+                .OrderByDescending(s => s.EndTime)
+                .ThenByDescending(s => s.StartTime)
+                .ToListAsync();
+
+            var dtos = sessions.Select(s => new ChargingSessionDto
+            {
+                SessionId = s.Id,
+                VehicleId = s.VehicleId,
+                PortId = s.PortId,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                EnergyConsumed = s.EnergyConsumed,
+                TotalCost = s.TotalCost,
+                Status = s.Status.ToString()
+            }).ToList();
+
+            return Ok(dtos);
+        }
+        
         // GET api/ChargingSession/bycustomer/{customerId}
         [HttpGet("bycustomer/{customerId}")]
         public async Task<IActionResult> GetByCustomer(string customerId)
@@ -228,6 +254,8 @@ namespace TestServer.Controllers
                 .AsNoTracking()
                 .Include(s => s.Vehicle)
                 .Where(s => s.Vehicle != null && s.Vehicle.CustomerId == customerId)
+                .OrderByDescending(s => s.EndTime)
+                .ThenByDescending(s => s.StartTime)
                 .ToListAsync();
 
             var dtos = sessions.Select(s => new ChargingSessionDto
