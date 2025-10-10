@@ -254,6 +254,11 @@ namespace TestServer.Controllers
                 .AsNoTracking()
                 .Include(s => s.Vehicle)
                 .Where(s => s.Vehicle != null && s.Vehicle.CustomerId == customerId)
+                .Include(s => s.ChargingPort)
+                    .ThenInclude(p => p.ChargingPoint)
+                        .ThenInclude(cp => cp.ChargingStation)
+                .Include(s => s.ChargingPort)
+                    .ThenInclude(p => p.Connector)
                 .OrderByDescending(s => s.EndTime)
                 .ThenByDescending(s => s.StartTime)
                 .ToListAsync();
@@ -267,7 +272,9 @@ namespace TestServer.Controllers
                 EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
                 EnergyConsumed = s.EnergyConsumed,
                 TotalCost = s.TotalCost,
-                Status = s.Status.ToString()
+                Status = s.Status.ToString(),
+                StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
+                PortType = s.ChargingPort?.Connector?.Name.ToString()
             }).ToList();
 
             return Ok(dtos);
