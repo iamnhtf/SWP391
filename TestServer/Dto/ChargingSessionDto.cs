@@ -7,6 +7,7 @@ namespace TestServer.Dto
         public int VehicleId { get; set; }
         public string PortId { get; set; } = string.Empty;
         public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string Status { get; set; } = string.Empty;
     }
 }
