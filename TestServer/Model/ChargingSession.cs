@@ -18,9 +18,9 @@ namespace TestServer.Models
         public string PortId { get; set; } = string.Empty;
         public ChargingPort ChargingPort { get; set; } = null!;
 
-        [ForeignKey("Price")]
-        public int PriceId { get; set; } = 0;
-        public PriceTable Price { get; set; } = null!;
+        // [ForeignKey("Price")]
+        // public int PriceId { get; set; } = 0;
+        // public PriceTable Price { get; set; } = null!;
 
         public DateTime StartTime { get; set; } = DateTime.Now;
         public DateTime? EndTime { get; set; } = null;

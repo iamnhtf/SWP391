@@ -125,7 +125,7 @@ namespace TestServer.Controllers
                 }
 
                 vehicleMonth.TotalSessions += 1;
-                db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
             await db.SaveChangesAsync();
