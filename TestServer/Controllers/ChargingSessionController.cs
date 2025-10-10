@@ -216,6 +216,30 @@ namespace TestServer.Controllers
             await db.SaveChangesAsync();
 
             return Ok(new { sessionId = session.Id });
-        }    
+        } 
+        // GET api/ChargingSession/bycustomer/{customerId}
+        [HttpGet("bycustomer/{customerId}")]
+        public async Task<IActionResult> GetByCustomer(string customerId)
+        {
+            if (string.IsNullOrWhiteSpace(customerId))
+                return BadRequest("customerId required.");
+
+            var sessions = await db.ChargingSessions
+                .AsNoTracking()
+                .Include(s => s.Vehicle)
+                .Where(s => s.Vehicle != null && s.Vehicle.CustomerId == customerId)
+                .ToListAsync();
+
+            var dtos = sessions.Select(s => new ChargingSessionDto
+            {
+                SessionId = s.Id,
+                VehicleId = s.VehicleId,
+                PortId = s.PortId,
+                StartTime = s.StartTime,
+                Status = s.Status.ToString()
+            }).ToList();
+
+            return Ok(dtos);
+        }
     }
 }
