@@ -237,6 +237,8 @@ namespace TestServer.Controllers
                 PortId = s.PortId,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                EnergyConsumed = s.EnergyConsumed,
+                TotalCost = s.TotalCost,
                 Status = s.Status.ToString()
             }).ToList();
 
