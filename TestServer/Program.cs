@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
+using TestServer.Services.VNPAY;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IVnPayService, VnPayService>();
 
 // 2. Thêm dịch vụ DbContext và đọc chuỗi kết nối
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -49,7 +52,9 @@ else
 app.UseDefaultFiles(); 
 app.UseStaticFiles();  
 
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
