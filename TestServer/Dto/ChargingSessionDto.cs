@@ -8,6 +8,8 @@ namespace TestServer.Dto
         public string PortId { get; set; } = string.Empty;
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public float EnergyConsumed { get; set; }
+        public float TotalCost { get; set; }
         public string Status { get; set; } = string.Empty;
     }
 }
