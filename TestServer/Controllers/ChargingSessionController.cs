@@ -236,6 +236,7 @@ namespace TestServer.Controllers
                 VehicleId = s.VehicleId,
                 PortId = s.PortId,
                 StartTime = s.StartTime,
+                EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
                 Status = s.Status.ToString()
             }).ToList();
 
