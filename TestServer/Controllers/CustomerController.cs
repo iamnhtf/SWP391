@@ -19,8 +19,8 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var customers = await db.Customers.ToListAsync();
-            return Ok(customers);
+            var vehicles = await db.Vehicles.ToListAsync();
+            return Ok(vehicles);
         }
 
         [HttpGet("{id}")]
