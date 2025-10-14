@@ -14,6 +14,7 @@ namespace TestServer.Controllers
         {
             db = context;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

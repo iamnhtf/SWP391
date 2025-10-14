@@ -19,14 +19,14 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var stations = await db.ChargingStations
-                .Select(station => new
+            var stations = await db
+                .ChargingStations.Select(station => new
                 {
                     station.Id,
                     station.Name,
                     station.Location,
                     station.Latitude,
-                    station.Longitude
+                    station.Longitude,
                 })
                 .ToListAsync();
 
@@ -36,15 +36,15 @@ namespace TestServer.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var station = await db.ChargingStations
-                .Where(s => s.Id == id)
+            var station = await db
+                .ChargingStations.Where(s => s.Id == id)
                 .Select(s => new
                 {
                     s.Id,
                     s.Name,
                     s.Location,
                     s.Latitude,
-                    s.Longitude
+                    s.Longitude,
                 })
                 .FirstOrDefaultAsync();
 
@@ -56,31 +56,37 @@ namespace TestServer.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllNested()
         {
-            var stations = await db.ChargingStations
-                .Include(station => station.ChargingPoints)
-                    .ThenInclude(point => point.ChargingPorts)
-                        .ThenInclude(port => port.Connector)
+            var stations = await db
+                .ChargingStations.Include(station => station.ChargingPoints)
+                .ThenInclude(point => point.ChargingPorts)
+                .ThenInclude(port => port.Connector)
                 .ToListAsync();
 
-            var stationDtos = stations.Select(station => new ChargingStationDto
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Location = station.Location,
-                Latitude = station.Latitude,
-                Longitude = station.Longitude,
-                Points = station.ChargingPoints.Select(point => new ChargingPointDto
+            var stationDtos = stations
+                .Select(station => new ChargingStationDto
                 {
-                    Id = point.Id,
-                    Ports = point.ChargingPorts.Select(port => new ChargingPortDto
-                    {
-                        Id = port.Id,
-                        ConnectorName = port.Connector.Name,
-                        Power = port.Power,
-                        Status = port.Status.ToString()
-                    }).ToList()
-                }).ToList()
-            }).ToList();
+                    Id = station.Id,
+                    Name = station.Name,
+                    Location = station.Location,
+                    Latitude = station.Latitude,
+                    Longitude = station.Longitude,
+                    Points = station
+                        .ChargingPoints.Select(point => new ChargingPointDto
+                        {
+                            Id = point.Id,
+                            Ports = point
+                                .ChargingPorts.Select(port => new ChargingPortDto
+                                {
+                                    Id = port.Id,
+                                    ConnectorName = port.Connector.Name,
+                                    Power = port.Power,
+                                    Status = port.Status.ToString(),
+                                })
+                                .ToList(),
+                        })
+                        .ToList(),
+                })
+                .ToList();
 
             return Ok(stationDtos);
         }
@@ -88,32 +94,41 @@ namespace TestServer.Controllers
         [HttpGet("all/{name}")]
         public async Task<IActionResult> GetAllNestedByName(string name)
         {
-                var stations = await db.ChargingStations
-                .Where(s => s.Name.ToLower().Contains(name.ToLower()) || s.Location.ToLower().Contains(name.ToLower()))
+            var stations = await db
+                .ChargingStations.Where(s =>
+                    s.Name.ToLower().Contains(name.ToLower())
+                    || s.Location.ToLower().Contains(name.ToLower())
+                )
                 .Include(station => station.ChargingPoints)
-                    .ThenInclude(point => point.ChargingPorts)
-                        .ThenInclude(port => port.Connector)
+                .ThenInclude(point => point.ChargingPorts)
+                .ThenInclude(port => port.Connector)
                 .ToListAsync();
 
-            var stationDtos = stations.Select(station => new ChargingStationDto
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Location = station.Location,
-                Latitude = station.Latitude,
-                Longitude = station.Longitude,
-                Points = station.ChargingPoints.Select(point => new ChargingPointDto
+            var stationDtos = stations
+                .Select(station => new ChargingStationDto
                 {
-                    Id = point.Id,
-                    Ports = point.ChargingPorts.Select(port => new ChargingPortDto
-                    {
-                        Id = port.Id,
-                        ConnectorName = port.Connector.Name,
-                        Power = port.Power,
-                        Status = port.Status.ToString()
-                    }).ToList()
-                }).ToList()
-            }).ToList();
+                    Id = station.Id,
+                    Name = station.Name,
+                    Location = station.Location,
+                    Latitude = station.Latitude,
+                    Longitude = station.Longitude,
+                    Points = station
+                        .ChargingPoints.Select(point => new ChargingPointDto
+                        {
+                            Id = point.Id,
+                            Ports = point
+                                .ChargingPorts.Select(port => new ChargingPortDto
+                                {
+                                    Id = port.Id,
+                                    ConnectorName = port.Connector.Name,
+                                    Power = port.Power,
+                                    Status = port.Status.ToString(),
+                                })
+                                .ToList(),
+                        })
+                        .ToList(),
+                })
+                .ToList();
 
             return Ok(stationDtos);
         }

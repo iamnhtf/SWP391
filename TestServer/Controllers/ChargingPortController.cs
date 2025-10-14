@@ -19,26 +19,27 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var ports = await db.ChargingPorts
-            .Include(p => p.Connector)
-            .ToListAsync();
+            var ports = await db.ChargingPorts.Include(p => p.Connector).ToListAsync();
 
-            var portDtos = ports.Select(p => new ChargingPortDto
-            {
-                Id = p.Id,
-                ConnectorName = p.Connector.Name,
-                Power = p.Power,
-                Status = p.Status.ToString()
-            }).ToList();
+            var portDtos = ports
+                .Select(p => new ChargingPortDto
+                {
+                    Id = p.Id,
+                    ConnectorName = p.Connector.Name,
+                    Power = p.Power,
+                    Status = p.Status.ToString(),
+                })
+                .ToList();
 
             return Ok(portDtos);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var port = await db.ChargingPorts
-            .Include(p => p.Connector)
-            .FirstOrDefaultAsync(p => p.Id == id);
+            var port = await db
+                .ChargingPorts.Include(p => p.Connector)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (port == null)
                 return NotFound($"Charging port with ID {id} not found.");
@@ -48,19 +49,20 @@ namespace TestServer.Controllers
                 Id = port.Id,
                 ConnectorName = port.Connector.Name,
                 Power = port.Power,
-                Status = port.Status.ToString()
+                Status = port.Status.ToString(),
             };
 
             return Ok(portDto);
         }
+
         [HttpGet("info/{id}")]
         public async Task<IActionResult> GetInfo(string id)
         {
-             var port = await db.ChargingPorts
-            .Include(p => p.Connector)
-            .Include(p => p.ChargingPoint)
-            .ThenInclude(cp => cp.ChargingStation)
-            .FirstOrDefaultAsync(p => p.Id == id);
+            var port = await db
+                .ChargingPorts.Include(p => p.Connector)
+                .Include(p => p.ChargingPoint)
+                .ThenInclude(cp => cp.ChargingStation)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (port == null)
                 return NotFound($"Charging port with ID {id} not found.");
@@ -73,7 +75,6 @@ namespace TestServer.Controllers
                 Status = port.Status.ToString(),
                 ChargingPointId = port.ChargingPoint.Id,
                 ChargingStationName = port.ChargingPoint.ChargingStation.Name,
-
             };
 
             return Ok(portInfoDto);

@@ -18,18 +18,23 @@ namespace TestServer.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateChargingSession([FromBody] CreateChargingSessionRequest req)
+        public async Task<IActionResult> CreateChargingSession(
+            [FromBody] CreateChargingSessionRequest req
+        )
         {
-            if (req == null) return BadRequest("Request body required.");
+            if (req == null)
+                return BadRequest("Request body required.");
             if (req.VehicleId <= 0 || string.IsNullOrWhiteSpace(req.PortId))
                 return BadRequest("vehicleId and portid required.");
 
             // validate vehicle + port
             var vehicle = await db.Vehicles.FindAsync(req.VehicleId);
-            if (vehicle == null) return NotFound($"Vehicle {req.VehicleId} not found.");
+            if (vehicle == null)
+                return NotFound($"Vehicle {req.VehicleId} not found.");
 
             var port = await db.ChargingPorts.FindAsync(req.PortId);
-            if (port == null) return NotFound($"Port {req.PortId} not found.");
+            if (port == null)
+                return NotFound($"Port {req.PortId} not found.");
 
             // create session
             var session = new ChargingSession
@@ -37,7 +42,7 @@ namespace TestServer.Controllers
                 VehicleId = req.VehicleId,
                 PortId = req.PortId,
                 StartTime = req.StartTime,
-                Status = SessionStatus.charging
+                Status = SessionStatus.charging,
             };
             db.ChargingSessions.Add(session);
 
@@ -53,10 +58,16 @@ namespace TestServer.Controllers
                 {
                     try
                     {
-                        var enumVal = Enum.Parse(statusProp.PropertyType, "InUse", ignoreCase: true);
+                        var enumVal = Enum.Parse(
+                            statusProp.PropertyType,
+                            "InUse",
+                            ignoreCase: true
+                        );
                         statusProp.SetValue(port, enumVal);
                     }
-                    catch { /* ignore if enum value not present */ }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
                 }
                 db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
@@ -66,8 +77,9 @@ namespace TestServer.Controllers
             var year = req.StartTime.Year;
 
             // find period (use EF.Property for Month/Year to avoid compile-time dependency on exact MonthlyPeriod shape)
-            var period = await db.MonthlyPeriods
-                .FirstOrDefaultAsync(p => EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year);
+            var period = await db.MonthlyPeriods.FirstOrDefaultAsync(p =>
+                EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year
+            );
 
             if (period == null)
             {
@@ -77,8 +89,10 @@ namespace TestServer.Controllers
                 {
                     var mpMonth = period.GetType().GetProperty("Month");
                     var mpYear = period.GetType().GetProperty("Year");
-                    if (mpMonth != null) mpMonth.SetValue(period, month);
-                    if (mpYear != null) mpYear.SetValue(period, year);
+                    if (mpMonth != null)
+                        mpMonth.SetValue(period, month);
+                    if (mpYear != null)
+                        mpYear.SetValue(period, year);
                     db.MonthlyPeriods.Add(period);
                     await db.SaveChangesAsync(); // ensure PK is generated
                 }
@@ -88,9 +102,11 @@ namespace TestServer.Controllers
             int periodId = 0;
             if (period != null)
             {
-                var idProp = period.GetType().GetProperty("MonthlyPeriodId")
-                            ?? period.GetType().GetProperty("Id")
-                            ?? period.GetType().GetProperty("PeriodId");
+                var idProp =
+                    period.GetType().GetProperty("MonthlyPeriodId") ?? period
+                        .GetType()
+                        .GetProperty("Id")
+                    ?? period.GetType().GetProperty("PeriodId");
                 if (idProp != null)
                 {
                     periodId = (int)(idProp.GetValue(period) ?? 0);
@@ -101,15 +117,18 @@ namespace TestServer.Controllers
                     {
                         periodId = (int)db.Entry(period).Property("Id").CurrentValue;
                     }
-                    catch { /* ignore */ }
+                    catch
+                    { /* ignore */
+                    }
                 }
             }
 
             // update VehiclePerMonth using strongly-typed model
             if (periodId != 0)
             {
-                var vehicleMonth = await db.VehiclePerMonths
-                    .FirstOrDefaultAsync(vm => vm.VehicleId == vehicle.VehicleId && vm.PeriodId == periodId);
+                var vehicleMonth = await db.VehiclePerMonths.FirstOrDefaultAsync(vm =>
+                    vm.VehicleId == vehicle.VehicleId && vm.PeriodId == periodId
+                );
 
                 if (vehicleMonth == null)
                 {
@@ -120,7 +139,7 @@ namespace TestServer.Controllers
                         TotalSessions = 0,
                         TotalEnergy = 0,
                         TotalCost = 0,
-                        AmountPaid = 0
+                        AmountPaid = 0,
                     };
                     db.VehiclePerMonths.Add(vehicleMonth);
                 }
@@ -136,13 +155,18 @@ namespace TestServer.Controllers
         }
 
         [HttpPost("stop")]
-        public async Task<IActionResult> StopChargingSession([FromBody] StopChargingSessionRequest req)
+        public async Task<IActionResult> StopChargingSession(
+            [FromBody] StopChargingSessionRequest req
+        )
         {
-            if (req == null) return BadRequest("Request body required.");
+            if (req == null)
+                return BadRequest("Request body required.");
 
             var session = await db.ChargingSessions.FindAsync(req.SessionId);
-            if (session == null) return NotFound($"Session {req.SessionId} not found.");
-            if (session.Status == SessionStatus.Completed) return BadRequest("Session already completed.");
+            if (session == null)
+                return NotFound($"Session {req.SessionId} not found.");
+            if (session.Status == SessionStatus.Completed)
+                return BadRequest("Session already completed.");
 
             session.EndTime = req.EndTime;
             session.EnergyConsumed = req.EnergyConsumed;
@@ -155,15 +179,18 @@ namespace TestServer.Controllers
             var month = start.Month;
             var year = start.Year;
 
-            var period = await db.MonthlyPeriods
-                .FirstOrDefaultAsync(p => EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year);
+            var period = await db.MonthlyPeriods.FirstOrDefaultAsync(p =>
+                EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year
+            );
 
             int periodId = 0;
             if (period != null)
             {
-                var idProp = period.GetType().GetProperty("MonthlyPeriodId")
-                            ?? period.GetType().GetProperty("Id")
-                            ?? period.GetType().GetProperty("PeriodId");
+                var idProp =
+                    period.GetType().GetProperty("MonthlyPeriodId") ?? period
+                        .GetType()
+                        .GetProperty("Id")
+                    ?? period.GetType().GetProperty("PeriodId");
                 if (idProp != null)
                 {
                     periodId = (int)(idProp.GetValue(period) ?? 0);
@@ -174,21 +201,27 @@ namespace TestServer.Controllers
                     {
                         periodId = (int)db.Entry(period).Property("Id").CurrentValue;
                     }
-                    catch { /* ignore */ }
+                    catch
+                    { /* ignore */
+                    }
                 }
             }
 
             // update VehiclePerMonth using strongly-typed model (VehicleId)
             if (periodId != 0)
             {
-                var vehicleMonth = await db.VehiclePerMonths
-                    .FirstOrDefaultAsync(vm => vm.VehicleId == session.VehicleId && vm.PeriodId == periodId);
+                var vehicleMonth = await db.VehiclePerMonths.FirstOrDefaultAsync(vm =>
+                    vm.VehicleId == session.VehicleId && vm.PeriodId == periodId
+                );
 
                 if (vehicleMonth != null)
                 {
                     vehicleMonth.TotalEnergy += req.EnergyConsumed;
                     vehicleMonth.TotalCost += req.TotalCost;
-                    db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    db.Entry(vehicleMonth).State = Microsoft
+                        .EntityFrameworkCore
+                        .EntityState
+                        .Modified;
                 }
             }
 
@@ -205,10 +238,16 @@ namespace TestServer.Controllers
                 {
                     try
                     {
-                        var enumVal = Enum.Parse(statusProp.PropertyType, "Available", ignoreCase: true);
+                        var enumVal = Enum.Parse(
+                            statusProp.PropertyType,
+                            "Available",
+                            ignoreCase: true
+                        );
                         statusProp.SetValue(port, enumVal);
                     }
-                    catch { /* ignore if enum value not present */ }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
                 }
                 db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
@@ -221,28 +260,30 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var sessions = await db.ChargingSessions
-                .AsNoTracking()
+            var sessions = await db
+                .ChargingSessions.AsNoTracking()
                 .Include(s => s.Vehicle)
                 .OrderByDescending(s => s.EndTime)
                 .ThenByDescending(s => s.StartTime)
                 .ToListAsync();
 
-            var dtos = sessions.Select(s => new ChargingSessionDto
-            {
-                SessionId = s.Id,
-                VehicleId = s.VehicleId,
-                PortId = s.PortId,
-                StartTime = s.StartTime,
-                EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
-                EnergyConsumed = s.EnergyConsumed,
-                TotalCost = s.TotalCost,
-                Status = s.Status.ToString()
-            }).ToList();
+            var dtos = sessions
+                .Select(s => new ChargingSessionDto
+                {
+                    SessionId = s.Id,
+                    VehicleId = s.VehicleId,
+                    PortId = s.PortId,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    EnergyConsumed = s.EnergyConsumed,
+                    TotalCost = s.TotalCost,
+                    Status = s.Status.ToString(),
+                })
+                .ToList();
 
             return Ok(dtos);
         }
-        
+
         // GET api/ChargingSession/bycustomer/{customerId}
         [HttpGet("bycustomer/{customerId}")]
         public async Task<IActionResult> GetByCustomer(string customerId)
@@ -250,32 +291,34 @@ namespace TestServer.Controllers
             if (string.IsNullOrWhiteSpace(customerId))
                 return BadRequest("customerId required.");
 
-            var sessions = await db.ChargingSessions
-                .AsNoTracking()
+            var sessions = await db
+                .ChargingSessions.AsNoTracking()
                 .Include(s => s.Vehicle)
                 .Where(s => s.Vehicle != null && s.Vehicle.CustomerId == customerId)
                 .Include(s => s.ChargingPort)
-                    .ThenInclude(p => p.ChargingPoint)
-                        .ThenInclude(cp => cp.ChargingStation)
+                .ThenInclude(p => p.ChargingPoint)
+                .ThenInclude(cp => cp.ChargingStation)
                 .Include(s => s.ChargingPort)
-                    .ThenInclude(p => p.Connector)
+                .ThenInclude(p => p.Connector)
                 .OrderByDescending(s => s.EndTime)
                 .ThenByDescending(s => s.StartTime)
                 .ToListAsync();
 
-            var dtos = sessions.Select(s => new ChargingSessionDto
-            {
-                SessionId = s.Id,
-                VehicleId = s.VehicleId,
-                PortId = s.PortId,
-                StartTime = s.StartTime,
-                EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
-                EnergyConsumed = s.EnergyConsumed,
-                TotalCost = s.TotalCost,
-                Status = s.Status.ToString(),
-                StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
-                PortType = s.ChargingPort?.Connector?.Name.ToString()
-            }).ToList();
+            var dtos = sessions
+                .Select(s => new ChargingSessionDto
+                {
+                    SessionId = s.Id,
+                    VehicleId = s.VehicleId,
+                    PortId = s.PortId,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    EnergyConsumed = s.EnergyConsumed,
+                    TotalCost = s.TotalCost,
+                    Status = s.Status.ToString(),
+                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
+                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
+                })
+                .ToList();
 
             return Ok(dtos);
         }

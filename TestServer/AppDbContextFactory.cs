@@ -1,9 +1,9 @@
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using TestServer.Data; 
 using MySql.EntityFrameworkCore;
+using TestServer.Data;
 
 public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
@@ -15,7 +15,9 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
             DirectoryInfo parentDir = Directory.GetParent(basePath);
             if (parentDir == null)
             {
-                throw new DirectoryNotFoundException("Could not find appsettings.json. Ensure you are running the command from the project root directory.");
+                throw new DirectoryNotFoundException(
+                    "Could not find appsettings.json. Ensure you are running the command from the project root directory."
+                );
             }
             basePath = parentDir.FullName;
         }
@@ -31,7 +33,9 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 
         if (string.IsNullOrEmpty(connectionString))
         {
-            throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Ensure it is configured in appsettings.json or environment variables.");
+            throw new InvalidOperationException(
+                "Connection string 'DefaultConnection' not found. Ensure it is configured in appsettings.json or environment variables."
+            );
         }
 
         builder.UseMySQL(connectionString);

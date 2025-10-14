@@ -22,5 +22,4 @@ namespace TestServer.Controllers
             return Ok(monthlyPeriods);
         }
     }
-
 }

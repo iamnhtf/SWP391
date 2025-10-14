@@ -1,4 +1,3 @@
-
 namespace TestServer.Dto
 {
     public class ChargingSessionDto

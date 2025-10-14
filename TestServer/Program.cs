@@ -11,7 +11,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 if (string.IsNullOrEmpty(connectionString))
 {
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or via environment variables.");
+    throw new InvalidOperationException(
+        "Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or via environment variables."
+    );
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -24,13 +26,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Thêm dịch vụ để phục vụ các file tĩnh
-builder.Services.AddControllersWithViews()
+builder
+    .Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = null;
         options.JsonSerializerOptions.MaxDepth = 64; // tăng nếu cần
     });
-
 
 builder.Services.AddRazorPages();
 
@@ -49,12 +51,10 @@ else
 }
 
 // Middleware này cần đứng TRƯỚC các mapping khác
-app.UseDefaultFiles(); 
-app.UseStaticFiles();  
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())

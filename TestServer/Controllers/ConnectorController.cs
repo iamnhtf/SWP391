@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TestServer.Data;
 using Microsoft.EntityFrameworkCore;
+using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
 

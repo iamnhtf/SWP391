@@ -19,23 +19,27 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var points = await db.ChargingPoints
-                .Include(p => p.ChargingStation)
+            var points = await db
+                .ChargingPoints.Include(p => p.ChargingStation)
                 .Include(p => p.ChargingPorts)
-                    .ThenInclude(port => port.Connector)
+                .ThenInclude(port => port.Connector)
                 .ToListAsync();
 
-            var pointDtos = points.Select(p => new ChargingPointDto
-            {
-                Id = p.Id,
-                Ports = p.ChargingPorts.Select(port => new ChargingPortDto
+            var pointDtos = points
+                .Select(p => new ChargingPointDto
                 {
-                    Id = port.Id,
-                    ConnectorName = port.Connector.Name,
-                    Power = port.Power,
-                    Status = port.Status.ToString()
-                }).ToList()
-            }).ToList();
+                    Id = p.Id,
+                    Ports = p
+                        .ChargingPorts.Select(port => new ChargingPortDto
+                        {
+                            Id = port.Id,
+                            ConnectorName = port.Connector.Name,
+                            Power = port.Power,
+                            Status = port.Status.ToString(),
+                        })
+                        .ToList(),
+                })
+                .ToList();
 
             return Ok(pointDtos);
         }
@@ -43,11 +47,11 @@ namespace TestServer.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var point = await db.ChargingPoints
-            .Include(p => p.ChargingStation)
-            .Include(p => p.ChargingPorts)
+            var point = await db
+                .ChargingPoints.Include(p => p.ChargingStation)
+                .Include(p => p.ChargingPorts)
                 .ThenInclude(port => port.Connector)
-            .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (point == null)
                 return NotFound($"Charging point with ID {id} not found.");
@@ -55,13 +59,15 @@ namespace TestServer.Controllers
             var pointDto = new ChargingPointDto
             {
                 Id = point.Id,
-                Ports = point.ChargingPorts.Select(port => new ChargingPortDto
-                {
-                    Id = port.Id,
-                    ConnectorName = port.Connector.Name,
-                    Power = port.Power,
-                    Status = port.Status.ToString()
-                }).ToList()
+                Ports = point
+                    .ChargingPorts.Select(port => new ChargingPortDto
+                    {
+                        Id = port.Id,
+                        ConnectorName = port.Connector.Name,
+                        Power = port.Power,
+                        Status = port.Status.ToString(),
+                    })
+                    .ToList(),
             };
 
             return Ok(pointDto);

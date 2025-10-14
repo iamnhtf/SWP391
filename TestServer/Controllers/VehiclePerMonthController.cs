@@ -37,8 +37,8 @@ namespace TestServer.Controllers
         [HttpGet("forcustomer/{customerId}")]
         public async Task<IActionResult> GetForCustomer(string customerId)
         {
-            var vehiclePerMonth = await db.VehiclePerMonths
-                .Include(v => v.Vehicle)
+            var vehiclePerMonth = await db
+                .VehiclePerMonths.Include(v => v.Vehicle)
                 .Include(v => v.MonthlyPeriod)
                 .Where(v => v.Vehicle.CustomerId == customerId)
                 .OrderByDescending(v => v.MonthlyPeriod.Year)
@@ -59,11 +59,10 @@ namespace TestServer.Controllers
                 TotalSessions = v.TotalSessions,
                 TotalEnergy = v.TotalEnergy,
                 TotalCost = v.TotalCost,
-                AmountPaid = v.AmountPaid
+                AmountPaid = v.AmountPaid,
             });
 
             return Ok(result);
         }
     }
-
 }

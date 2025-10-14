@@ -16,26 +16,28 @@ namespace TestServer.Controllers
         {
             db = context;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var vehicles = await db.Vehicles
-            .Include(v => v.VehiclePorts)
-            .ThenInclude(vp => vp.Connector)
-            .Include(v => v.VehicleType)
-            .ToListAsync();
+            var vehicles = await db
+                .Vehicles.Include(v => v.VehiclePorts)
+                .ThenInclude(vp => vp.Connector)
+                .Include(v => v.VehicleType)
+                .ToListAsync();
 
-            var vehicleDtos = vehicles.Select(v => new VehicleDto
-            {
-                VehicleId = v.VehicleId,
-                Name = v.Name,
-                LicensePlate = v.LicensePlate,
-                BatteryCapacity = v.BatteryCapacity,
-                VehicleType = v.VehicleType.Name,
-                Status = v.Status.ToString(),
-                ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
-            }).ToList();
+            var vehicleDtos = vehicles
+                .Select(v => new VehicleDto
+                {
+                    VehicleId = v.VehicleId,
+                    Name = v.Name,
+                    LicensePlate = v.LicensePlate,
+                    BatteryCapacity = v.BatteryCapacity,
+                    VehicleType = v.VehicleType.Name,
+                    Status = v.Status.ToString(),
+                    ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
+                })
+                .ToList();
 
             return Ok(vehicleDtos);
         }
@@ -43,11 +45,11 @@ namespace TestServer.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var vehicle = await db.Vehicles
-            .Include(v => v.VehiclePorts)
-            .ThenInclude(vp => vp.Connector)
-            .Include(v => v.VehicleType)
-            .FirstOrDefaultAsync(v => v.VehicleId == id);
+            var vehicle = await db
+                .Vehicles.Include(v => v.VehiclePorts)
+                .ThenInclude(vp => vp.Connector)
+                .Include(v => v.VehicleType)
+                .FirstOrDefaultAsync(v => v.VehicleId == id);
 
             if (vehicle == null)
                 return NotFound($"Vehicle with ID {id} not found.");
@@ -60,7 +62,7 @@ namespace TestServer.Controllers
                 BatteryCapacity = vehicle.BatteryCapacity,
                 VehicleType = vehicle.VehicleType.Name,
                 Status = vehicle.Status.ToString(),
-                ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+                ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
             };
 
             return Ok(vehicleDto);
@@ -69,47 +71,53 @@ namespace TestServer.Controllers
         [HttpGet("forcustomer/{uid}")]
         public async Task<IActionResult> GetByUserId(string uid)
         {
-            var vehicles = await db.Vehicles
-            .Where(v => v.CustomerId == uid)
-            .Include(v => v.VehiclePorts)
-            .ThenInclude(vp => vp.Connector)
-            .Include(v => v.VehicleType)
-            .ToListAsync();
+            var vehicles = await db
+                .Vehicles.Where(v => v.CustomerId == uid)
+                .Include(v => v.VehiclePorts)
+                .ThenInclude(vp => vp.Connector)
+                .Include(v => v.VehicleType)
+                .ToListAsync();
 
-            var vehicleDtos = vehicles.Select(v => new VehicleDto
-            {
-                VehicleId = v.VehicleId,
-                Name = v.Name,
-                LicensePlate = v.LicensePlate,
-                BatteryCapacity = v.BatteryCapacity,
-                VehicleType = v.VehicleType.Name,
-                Status = v.Status.ToString(),
-                ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
-            }).ToList();
+            var vehicleDtos = vehicles
+                .Select(v => new VehicleDto
+                {
+                    VehicleId = v.VehicleId,
+                    Name = v.Name,
+                    LicensePlate = v.LicensePlate,
+                    BatteryCapacity = v.BatteryCapacity,
+                    VehicleType = v.VehicleType.Name,
+                    Status = v.Status.ToString(),
+                    ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
+                })
+                .ToList();
             return Ok(vehicleDtos);
         }
 
         [HttpGet("forcustomer/{uid}/{connectorName}")]
         public async Task<IActionResult> GetByUserIdAndConnector(string uid, string connectorName)
         {
-            var vehicles = await db.Vehicles
-            .Where(v => v.CustomerId == uid &&
-                v.VehiclePorts.Any(vp => vp.Connector.Name == connectorName))
-            .Include(v => v.VehiclePorts)
-            .ThenInclude(vp => vp.Connector)
-            .Include(v => v.VehicleType)
-            .ToListAsync();
+            var vehicles = await db
+                .Vehicles.Where(v =>
+                    v.CustomerId == uid
+                    && v.VehiclePorts.Any(vp => vp.Connector.Name == connectorName)
+                )
+                .Include(v => v.VehiclePorts)
+                .ThenInclude(vp => vp.Connector)
+                .Include(v => v.VehicleType)
+                .ToListAsync();
 
-            var vehicleDtos = vehicles.Select(v => new VehicleDto
-            {
-                VehicleId = v.VehicleId,
-                Name = v.Name,
-                LicensePlate = v.LicensePlate,
-                BatteryCapacity = v.BatteryCapacity,
-                VehicleType = v.VehicleType.Name,
-                Status = v.Status.ToString(),
-                ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
-            }).ToList();
+            var vehicleDtos = vehicles
+                .Select(v => new VehicleDto
+                {
+                    VehicleId = v.VehicleId,
+                    Name = v.Name,
+                    LicensePlate = v.LicensePlate,
+                    BatteryCapacity = v.BatteryCapacity,
+                    VehicleType = v.VehicleType.Name,
+                    Status = v.Status.ToString(),
+                    ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
+                })
+                .ToList();
 
             return Ok(vehicleDtos);
         }
@@ -118,23 +126,29 @@ namespace TestServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] VehicleDto vehicleDto)
         {
-            if (vehicleDto == null) 
+            if (vehicleDto == null)
                 return BadRequest("Vehicle data is required.");
 
-            if (string.IsNullOrWhiteSpace(vehicleDto.Name) || 
-                string.IsNullOrWhiteSpace(vehicleDto.LicensePlate) ||
-                string.IsNullOrWhiteSpace(vehicleDto.CustomerId))
+            if (
+                string.IsNullOrWhiteSpace(vehicleDto.Name)
+                || string.IsNullOrWhiteSpace(vehicleDto.LicensePlate)
+                || string.IsNullOrWhiteSpace(vehicleDto.CustomerId)
+            )
                 return BadRequest("Name, LicensePlate, and CustomerId are required.");
 
             // Check if license plate already exists
-            var existingVehicle = await db.Vehicles
-                .FirstOrDefaultAsync(v => v.LicensePlate == vehicleDto.LicensePlate);
+            var existingVehicle = await db.Vehicles.FirstOrDefaultAsync(v =>
+                v.LicensePlate == vehicleDto.LicensePlate
+            );
             if (existingVehicle != null)
-                return BadRequest($"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists.");
+                return BadRequest(
+                    $"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists."
+                );
 
             // Find VehicleType by name
-            var vehicleType = await db.VehicleTypes
-                .FirstOrDefaultAsync(vt => vt.Name == vehicleDto.VehicleType);
+            var vehicleType = await db.VehicleTypes.FirstOrDefaultAsync(vt =>
+                vt.Name == vehicleDto.VehicleType
+            );
             if (vehicleType == null)
                 return BadRequest($"VehicleType '{vehicleDto.VehicleType}' not found.");
 
@@ -151,7 +165,7 @@ namespace TestServer.Controllers
                 BatteryCapacity = vehicleDto.BatteryCapacity,
                 VehicleTypeId = vehicleType.Id,
                 Status = status,
-                VehiclePorts = new List<VehiclePort>()
+                VehiclePorts = new List<VehiclePort>(),
             };
 
             db.Vehicles.Add(vehicle);
@@ -160,8 +174,8 @@ namespace TestServer.Controllers
             // Handle connector assignments if provided
             if (vehicleDto.ConnectorNames != null && vehicleDto.ConnectorNames.Any())
             {
-                var connectors = await db.Connectors
-                    .Where(c => vehicleDto.ConnectorNames.Contains(c.Name))
+                var connectors = await db
+                    .Connectors.Where(c => vehicleDto.ConnectorNames.Contains(c.Name))
                     .ToListAsync();
 
                 foreach (var connector in connectors)
@@ -169,7 +183,7 @@ namespace TestServer.Controllers
                     var vehiclePort = new VehiclePort
                     {
                         VehicleId = vehicle.VehicleId,
-                        ConnectorId = connector.Id
+                        ConnectorId = connector.Id,
                     };
                     db.VehiclePorts.Add(vehiclePort);
                 }
@@ -178,8 +192,8 @@ namespace TestServer.Controllers
             }
 
             // Load the created vehicle with all related data for the response
-            var createdVehicle = await db.Vehicles
-                .Include(v => v.VehicleType)
+            var createdVehicle = await db
+                .Vehicles.Include(v => v.VehicleType)
                 .Include(v => v.VehiclePorts)
                 .ThenInclude(vp => vp.Connector)
                 .FirstOrDefaultAsync(v => v.VehicleId == vehicle.VehicleId);
@@ -194,43 +208,55 @@ namespace TestServer.Controllers
                 BatteryCapacity = createdVehicle.BatteryCapacity,
                 VehicleType = createdVehicle.VehicleType!.Name,
                 Status = createdVehicle.Status.ToString(),
-                ConnectorNames = createdVehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+                ConnectorNames = createdVehicle
+                    .VehiclePorts.Select(vp => vp.Connector.Name)
+                    .ToList(),
             };
 
-            return CreatedAtAction(nameof(GetById), new { id = vehicle.VehicleId }, createdVehicleDto);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = vehicle.VehicleId },
+                createdVehicleDto
+            );
         }
 
         // PUT api/vehicle
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] VehicleDto vehicleDto)
         {
-            if (vehicleDto == null) 
+            if (vehicleDto == null)
                 return BadRequest("Vehicle data is required.");
 
-            if (string.IsNullOrWhiteSpace(vehicleDto.Name) || 
-                string.IsNullOrWhiteSpace(vehicleDto.LicensePlate) ||
-                string.IsNullOrWhiteSpace(vehicleDto.CustomerId))
+            if (
+                string.IsNullOrWhiteSpace(vehicleDto.Name)
+                || string.IsNullOrWhiteSpace(vehicleDto.LicensePlate)
+                || string.IsNullOrWhiteSpace(vehicleDto.CustomerId)
+            )
                 return BadRequest("Name, LicensePlate, and CustomerId are required.");
 
-            var existingVehicle = await db.Vehicles
-                .Include(v => v.VehiclePorts)
+            var existingVehicle = await db
+                .Vehicles.Include(v => v.VehiclePorts)
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
-            
-            if (existingVehicle == null) 
+
+            if (existingVehicle == null)
                 return NotFound($"Vehicle with ID {id} not found.");
 
             // Check if license plate is being changed and if it conflicts with another vehicle
             if (existingVehicle.LicensePlate != vehicleDto.LicensePlate)
             {
-                var conflictingVehicle = await db.Vehicles
-                    .FirstOrDefaultAsync(v => v.LicensePlate == vehicleDto.LicensePlate && v.VehicleId != id);
+                var conflictingVehicle = await db.Vehicles.FirstOrDefaultAsync(v =>
+                    v.LicensePlate == vehicleDto.LicensePlate && v.VehicleId != id
+                );
                 if (conflictingVehicle != null)
-                    return BadRequest($"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists.");
+                    return BadRequest(
+                        $"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists."
+                    );
             }
 
             // Find VehicleType by name
-            var vehicleType = await db.VehicleTypes
-                .FirstOrDefaultAsync(vt => vt.Name == vehicleDto.VehicleType);
+            var vehicleType = await db.VehicleTypes.FirstOrDefaultAsync(vt =>
+                vt.Name == vehicleDto.VehicleType
+            );
             if (vehicleType == null)
                 return BadRequest($"VehicleType '{vehicleDto.VehicleType}' not found.");
 
@@ -256,8 +282,8 @@ namespace TestServer.Controllers
                 // Add new vehicle ports if any connectors specified
                 if (vehicleDto.ConnectorNames.Any())
                 {
-                    var connectors = await db.Connectors
-                        .Where(c => vehicleDto.ConnectorNames.Contains(c.Name))
+                    var connectors = await db
+                        .Connectors.Where(c => vehicleDto.ConnectorNames.Contains(c.Name))
                         .ToListAsync();
 
                     foreach (var connector in connectors)
@@ -265,7 +291,7 @@ namespace TestServer.Controllers
                         var vehiclePort = new VehiclePort
                         {
                             VehicleId = existingVehicle.VehicleId,
-                            ConnectorId = connector.Id
+                            ConnectorId = connector.Id,
                         };
                         db.VehiclePorts.Add(vehiclePort);
                     }
@@ -275,8 +301,8 @@ namespace TestServer.Controllers
             await db.SaveChangesAsync();
 
             // Load updated vehicle with all related data for the response
-            var updatedVehicle = await db.Vehicles
-                .Include(v => v.VehicleType)
+            var updatedVehicle = await db
+                .Vehicles.Include(v => v.VehicleType)
                 .Include(v => v.VehiclePorts)
                 .ThenInclude(vp => vp.Connector)
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
@@ -291,7 +317,9 @@ namespace TestServer.Controllers
                 BatteryCapacity = updatedVehicle.BatteryCapacity,
                 VehicleType = updatedVehicle.VehicleType!.Name,
                 Status = updatedVehicle.Status.ToString(),
-                ConnectorNames = updatedVehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+                ConnectorNames = updatedVehicle
+                    .VehiclePorts.Select(vp => vp.Connector.Name)
+                    .ToList(),
             };
 
             return Ok(updatedVehicleDto);
@@ -306,21 +334,24 @@ namespace TestServer.Controllers
 
             try
             {
-                var vehicle = await db.Vehicles
-                    .Include(v => v.VehiclePorts)
-                        .ThenInclude(vp => vp.Connector)
+                var vehicle = await db
+                    .Vehicles.Include(v => v.VehiclePorts)
+                    .ThenInclude(vp => vp.Connector)
                     .Include(v => v.VehicleType)
                     .FirstOrDefaultAsync(v => v.VehicleId == id);
 
-                if (vehicle == null) 
+                if (vehicle == null)
                     return NotFound($"Vehicle with ID {id} not found.");
 
                 // Check if vehicle has active charging sessions
-                var activeSession = await db.ChargingSessions
-                    .FirstOrDefaultAsync(cs => cs.VehicleId == id && cs.Status == SessionStatus.charging);
-                
+                var activeSession = await db.ChargingSessions.FirstOrDefaultAsync(cs =>
+                    cs.VehicleId == id && cs.Status == SessionStatus.charging
+                );
+
                 if (activeSession != null)
-                    return BadRequest("Cannot delete vehicle with active charging session. Please stop the charging session first.");
+                    return BadRequest(
+                        "Cannot delete vehicle with active charging session. Please stop the charging session first."
+                    );
 
                 // Create a DTO of the vehicle being deleted for response (before deletion)
                 var deletedVehicleDto = new VehicleDto
@@ -332,8 +363,11 @@ namespace TestServer.Controllers
                     BatteryCapacity = vehicle.BatteryCapacity,
                     VehicleType = vehicle.VehicleType?.Name ?? "Unknown",
                     Status = vehicle.Status.ToString(),
-                    ConnectorNames = vehicle.VehiclePorts?.Where(vp => vp.Connector != null)
-                        .Select(vp => vp.Connector.Name).ToList() ?? new List<string>()
+                    ConnectorNames =
+                        vehicle
+                            .VehiclePorts?.Where(vp => vp.Connector != null)
+                            .Select(vp => vp.Connector.Name)
+                            .ToList() ?? new List<string>(),
                 };
 
                 // Remove related VehiclePorts first (if not handled by cascade delete)
@@ -343,10 +377,10 @@ namespace TestServer.Controllers
                 }
 
                 // Remove VehiclePerMonth records
-                var vehiclePerMonths = await db.VehiclePerMonths
-                    .Where(vpm => vpm.VehicleId == id)
+                var vehiclePerMonths = await db
+                    .VehiclePerMonths.Where(vpm => vpm.VehicleId == id)
                     .ToListAsync();
-                
+
                 if (vehiclePerMonths.Any())
                 {
                     db.VehiclePerMonths.RemoveRange(vehiclePerMonths);
@@ -357,10 +391,13 @@ namespace TestServer.Controllers
                 await db.SaveChangesAsync();
 
                 // Return deleted vehicle info
-                return Ok(new { 
-                    message = "Vehicle deleted successfully", 
-                    deletedVehicle = deletedVehicleDto 
-                });
+                return Ok(
+                    new
+                    {
+                        message = "Vehicle deleted successfully",
+                        deletedVehicle = deletedVehicleDto,
+                    }
+                );
             }
             catch (Exception ex)
             {

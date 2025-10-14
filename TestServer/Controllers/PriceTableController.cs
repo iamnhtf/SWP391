@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TestServer.Controllers
 {
@@ -26,19 +26,20 @@ namespace TestServer.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-             var priceTable = await db.PriceTables
-            .Where(p => p.Id == id)
-            .Select(p => new {
-                p.Id,
-                p.PricePerKWh,
-                p.PenaltyFeePerMinute,
-                ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss"),
-                ValidTo = p.ValidTo.ToString("yyyy-MM-dd HH:mm:ss")
-            })
-            .FirstOrDefaultAsync();
+            var priceTable = await db
+                .PriceTables.Where(p => p.Id == id)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.PricePerKWh,
+                    p.PenaltyFeePerMinute,
+                    ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss"),
+                    ValidTo = p.ValidTo.ToString("yyyy-MM-dd HH:mm:ss"),
+                })
+                .FirstOrDefaultAsync();
 
             if (priceTable == null)
-            return NotFound(new { message = $"PriceTable with ID {id} not found." });
+                return NotFound(new { message = $"PriceTable with ID {id} not found." });
 
             return Ok(priceTable);
         }
@@ -46,18 +47,18 @@ namespace TestServer.Controllers
         [HttpGet("active")]
         public async Task<IActionResult> GetActive()
         {
-            var activePriceTables = await db.PriceTables
-            .Where(p => p.ValidFrom <= DateTime.Now && p.ValidTo >= DateTime.Now)
-            .Where(p => p.Status == PriceTableStatus.Active)
-            .Select(p => new
-        {
-            p.Id,
-            p.PricePerKWh,
-            p.PenaltyFeePerMinute,
-            ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd"),
-            ValidTo = p.ValidTo.ToString("yyyy-MM-dd")
-        })
-            .FirstOrDefaultAsync();
+            var activePriceTables = await db
+                .PriceTables.Where(p => p.ValidFrom <= DateTime.Now && p.ValidTo >= DateTime.Now)
+                .Where(p => p.Status == PriceTableStatus.Active)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.PricePerKWh,
+                    p.PenaltyFeePerMinute,
+                    ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd"),
+                    ValidTo = p.ValidTo.ToString("yyyy-MM-dd"),
+                })
+                .FirstOrDefaultAsync();
 
             return Ok(activePriceTables);
         }

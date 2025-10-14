@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TestServer.Controllers
 {
@@ -20,20 +20,17 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var vehiclePorts = await db.VehiclePorts
-            .ToListAsync();
+            var vehiclePorts = await db.VehiclePorts.ToListAsync();
             return Ok(vehiclePorts);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var vehiclePorts = await db.VehiclePorts
-            .Where(vp => vp.VehicleId == id)
-            .ToListAsync();
+            var vehiclePorts = await db.VehiclePorts.Where(vp => vp.VehicleId == id).ToListAsync();
 
             if (vehiclePorts.Count == 0)
-            return NotFound($"No vehicle ports found for Vehicle ID {id}.");
+                return NotFound($"No vehicle ports found for Vehicle ID {id}.");
 
             return Ok(vehiclePorts);
         }
