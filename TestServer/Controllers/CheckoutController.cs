@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+
 // Thêm các using cần thiết cho dự án của bạn, ví dụ:
 // using YourApp.Models; // Để dùng các Model như Order, Cart...
 // using YourApp.Services; // Để dùng các service xử lý nghiệp vụ
@@ -8,7 +9,7 @@ namespace Controllers
     public class CheckoutController : Controller
     {
         // Giả sử bạn có một service để xử lý nghiệp vụ liên quan đến đơn hàng
-        // private readonly IOrderService _orderService; 
+        // private readonly IOrderService _orderService;
 
         // public CheckoutController(IOrderService orderService)
         // {
@@ -63,9 +64,9 @@ namespace Controllers
             {
                 // Lấy thông tin từ đơn hàng vừa tạo ở trên
                 OrderId = "12345", // Ví dụ: newOrder.Id.ToString()
-                Amount = 50000,   // Ví dụ: newOrder.TotalAmount
+                Amount = 50000, // Ví dụ: newOrder.TotalAmount
                 Name = model.CustomerName,
-                OrderDescription = $"Khach hang {model.CustomerName} thanh toan don hang {12345}"
+                OrderDescription = $"Khach hang {model.CustomerName} thanh toan don hang {12345}",
             };
 
             // 3. Chuyển hướng đến action tạo URL thanh toán trong PaymentController.
