@@ -28,65 +28,65 @@ public class AppDbContext : DbContext
             new Customer { Id = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nguyen Xuan Thinh", Email = "nguyenxuanthinh@gmail.com", PhoneNumber = "0901234567", Address = "Quận 1, TP.HCM" }
         );
 
-        // Thêm 4 trạm sạc ở TP.HCM
         modelBuilder.Entity<ChargingStation>().HasData(
-    new ChargingStation
-    {
-        Id = 1,
-        Name = "Parking lot S778 Nguyen Van Qua",
-        Location = "778 Nguyen Van Qua, Dong Hung Thuan Ward, District 12, Ho Chi Minh City",
-        Latitude = 10.846289725256499, 
-        Longitude = 106.63358659588795
-    },
-    new ChargingStation
-    {
-        Id = 2,
-        Name = "Léman Luxury Apartments",
-        Location = "Basement B3, Léman Luxury Apartments, 117 Nguyễn Đình Chiểu, Ward 6, District 3, Ho Chi Minh City",
-        Latitude = 10.778019786911162,
-        Longitude = 106.68989161819898
-    },
-    new ChargingStation
-    {
-        Id = 3,
-        Name = "Summer Square Apartment Complex",
-        Location = "243 Tan Hoa Dong, Ward 14, District 6, Ho Chi Minh City",
-        Latitude = 10.759974990301892,
-        Longitude = 106.62537124357758 
-    },
-    new ChargingStation
-    {
-        Id = 4,
-        Name = "Golden King Apartment Complex",
-        Location = "Basement B2, 15 Nguyen Luong Bang, Tan Phu Ward, District 7, Ho Chi Minh City",
-        Latitude = 10.726400325147486, 
-        Longitude = 106.72395755358133
-    },
-    new ChargingStation
-    {
-        Id = 5,
-        Name = "TTTM VinCom+ Nam Long",
-        Location = "71 Tran Trong Cung, Tan Thuan Dong Ward, District 7, Ho Chi Minh City",
-        Latitude = 10.744180504637178, 
-        Longitude = 106.73212781504205
-    },
-    new ChargingStation
-    {
-        Id = 6,
-        Name = "VinFast - Chevrolet Phu My Hung Car Dealership",
-        Location = "54 Nguyen Thi Thap, Binh Thuan Ward, District 7, Ho Chi Minh City",
-        Latitude = 10.73838097555118, 
-        Longitude = 106.72723544339814
-    },
-    new ChargingStation
-    {
-        Id = 7,
-        Name = "Green View Apartment Complex",
-        Location = "Green View, Tân Phú Ward, District 7, Ho Chi Minh City",
-        Latitude = 10.721662104756106, 
-        Longitude = 106.72691002973274
-    }
-);
+            new ChargingStation
+            {
+                Id = 1,
+                Name = "Parking lot S778 Nguyen Van Qua",
+                Location = "778 Nguyen Van Qua, Dong Hung Thuan Ward, District 12, Ho Chi Minh City",
+                Latitude = 10.846289725256499, 
+                Longitude = 106.63358659588795
+            },
+            new ChargingStation
+            {
+                Id = 2,
+                Name = "Léman Luxury Apartments",
+                Location = "Basement B3, Léman Luxury Apartments, 117 Nguyễn Đình Chiểu, Ward 6, District 3, Ho Chi Minh City",
+                Latitude = 10.778019786911162,
+                Longitude = 106.68989161819898
+            },
+            new ChargingStation
+            {
+                Id = 3,
+                Name = "Summer Square Apartment Complex",
+                Location = "243 Tan Hoa Dong, Ward 14, District 6, Ho Chi Minh City",
+                Latitude = 10.759974990301892,
+                Longitude = 106.62537124357758 
+            },
+            new ChargingStation
+            {
+                Id = 4,
+                Name = "Golden King Apartment Complex",
+                Location = "Basement B2, 15 Nguyen Luong Bang, Tan Phu Ward, District 7, Ho Chi Minh City",
+                Latitude = 10.726400325147486, 
+                Longitude = 106.72395755358133
+            },
+            new ChargingStation
+            {
+                Id = 5,
+                Name = "TTTM VinCom+ Nam Long",
+                Location = "71 Tran Trong Cung, Tan Thuan Dong Ward, District 7, Ho Chi Minh City",
+                Latitude = 10.744180504637178, 
+                Longitude = 106.73212781504205
+            },
+            new ChargingStation
+            {
+                Id = 6,
+                Name = "VinFast - Chevrolet Phu My Hung Car Dealership",
+                Location = "54 Nguyen Thi Thap, Binh Thuan Ward, District 7, Ho Chi Minh City",
+                Latitude = 10.73838097555118, 
+                Longitude = 106.72723544339814
+            },
+            new ChargingStation
+            {
+                Id = 7,
+                Name = "Green View Apartment Complex",
+                Location = "Green View, Tân Phú Ward, District 7, Ho Chi Minh City",
+                Latitude = 10.721662104756106, 
+                Longitude = 106.72691002973274
+            }
+        );
+
     modelBuilder.Entity<Vehicle>()
     .Property(v => v.Status)
     .HasConversion<string>();
@@ -542,6 +542,122 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<PriceTable>().HasData(
             new PriceTable { Id = 1, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active }
+        );
+
+        // ChargingSession seed data - July to October 2025
+        modelBuilder.Entity<ChargingSession>().HasData(
+            // July 2025 sessions
+            new ChargingSession { Id = 1, VehicleId = 1, PortId = "1.1.1", StartTime = new DateTime(2025, 7, 3, 8, 15, 0), EndTime = new DateTime(2025, 7, 3, 10, 30, 0), EnergyConsumed = 41.2f, TotalCost = 159000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 2, VehicleId = 1, PortId = "2.2.1", StartTime = new DateTime(2025, 7, 8, 14, 45, 0), EndTime = new DateTime(2025, 7, 8, 16, 20, 0), EnergyConsumed = 36.8f, TotalCost = 142000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 3, VehicleId = 1, PortId = "3.3.1", StartTime = new DateTime(2025, 7, 15, 9, 30, 0), EndTime = new DateTime(2025, 7, 15, 11, 15, 0), EnergyConsumed = 39.5f, TotalCost = 152000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 4, VehicleId = 1, PortId = "4.4.1", StartTime = new DateTime(2025, 7, 22, 16, 20, 0), EndTime = new DateTime(2025, 7, 22, 18, 35, 0), EnergyConsumed = 43.1f, TotalCost = 166000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 5, VehicleId = 1, PortId = "5.5.1", StartTime = new DateTime(2025, 7, 28, 12, 10, 0), EndTime = new DateTime(2025, 7, 28, 14, 25, 0), EnergyConsumed = 41.7f, TotalCost = 161000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 6, VehicleId = 2, PortId = "1.2.2", StartTime = new DateTime(2025, 7, 5, 11, 20, 0), EndTime = new DateTime(2025, 7, 5, 13, 45, 0), EnergyConsumed = 47.3f, TotalCost = 182000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 7, VehicleId = 2, PortId = "2.4.1", StartTime = new DateTime(2025, 7, 12, 16, 10, 0), EndTime = new DateTime(2025, 7, 12, 18, 25, 0), EnergyConsumed = 43.7f, TotalCost = 168000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 8, VehicleId = 2, PortId = "3.5.1", StartTime = new DateTime(2025, 7, 18, 7, 45, 0), EndTime = new DateTime(2025, 7, 18, 9, 30, 0), EnergyConsumed = 38.1f, TotalCost = 147000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 9, VehicleId = 2, PortId = "4.6.1", StartTime = new DateTime(2025, 7, 25, 15, 30, 0), EndTime = new DateTime(2025, 7, 25, 17, 45, 0), EnergyConsumed = 45.2f, TotalCost = 174000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 10, VehicleId = 3, PortId = "1.3.1", StartTime = new DateTime(2025, 7, 4, 13, 30, 0), EndTime = new DateTime(2025, 7, 4, 15, 45, 0), EnergyConsumed = 31.2f, TotalCost = 120000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 11, VehicleId = 3, PortId = "2.6.1", StartTime = new DateTime(2025, 7, 11, 10, 15, 0), EndTime = new DateTime(2025, 7, 11, 11, 50, 0), EnergyConsumed = 28.9f, TotalCost = 111000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 12, VehicleId = 3, PortId = "3.7.1", StartTime = new DateTime(2025, 7, 19, 17, 20, 0), EndTime = new DateTime(2025, 7, 19, 19, 35, 0), EnergyConsumed = 33.1f, TotalCost = 127000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 13, VehicleId = 4, PortId = "1.4.2", StartTime = new DateTime(2025, 7, 6, 12, 45, 0), EndTime = new DateTime(2025, 7, 6, 14, 30, 0), EnergyConsumed = 40.6f, TotalCost = 156000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 14, VehicleId = 4, PortId = "2.7.1", StartTime = new DateTime(2025, 7, 14, 17, 20, 0), EndTime = new DateTime(2025, 7, 14, 19, 10, 0), EnergyConsumed = 42.3f, TotalCost = 163000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 15, VehicleId = 4, PortId = "3.8.1", StartTime = new DateTime(2025, 7, 20, 8, 30, 0), EndTime = new DateTime(2025, 7, 20, 10, 45, 0), EnergyConsumed = 37.8f, TotalCost = 146000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 16, VehicleId = 4, PortId = "4.9.1", StartTime = new DateTime(2025, 7, 26, 14, 15, 0), EndTime = new DateTime(2025, 7, 26, 16, 30, 0), EnergyConsumed = 44.7f, TotalCost = 172000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 17, VehicleId = 5, PortId = "1.5.1", StartTime = new DateTime(2025, 7, 7, 15, 40, 0), EndTime = new DateTime(2025, 7, 7, 17, 55, 0), EnergyConsumed = 45.1f, TotalCost = 174000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 18, VehicleId = 5, PortId = "2.8.1", StartTime = new DateTime(2025, 7, 16, 9, 15, 0), EndTime = new DateTime(2025, 7, 16, 11, 30, 0), EnergyConsumed = 41.7f, TotalCost = 161000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 19, VehicleId = 5, PortId = "3.9.1", StartTime = new DateTime(2025, 7, 23, 18, 45, 0), EndTime = new DateTime(2025, 7, 23, 21, 0, 0), EnergyConsumed = 47.8f, TotalCost = 184000, Status = SessionStatus.Completed },
+
+            // August 2025 sessions
+            new ChargingSession { Id = 20, VehicleId = 1, PortId = "1.1.2", StartTime = new DateTime(2025, 8, 2, 9, 15, 0), EndTime = new DateTime(2025, 8, 2, 11, 30, 0), EnergyConsumed = 40.2f, TotalCost = 155000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 21, VehicleId = 1, PortId = "2.2.2", StartTime = new DateTime(2025, 8, 9, 14, 45, 0), EndTime = new DateTime(2025, 8, 9, 16, 20, 0), EnergyConsumed = 37.6f, TotalCost = 145000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 22, VehicleId = 1, PortId = "3.3.2", StartTime = new DateTime(2025, 8, 16, 8, 30, 0), EndTime = new DateTime(2025, 8, 16, 10, 45, 0), EnergyConsumed = 38.9f, TotalCost = 150000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 23, VehicleId = 1, PortId = "4.4.2", StartTime = new DateTime(2025, 8, 23, 17, 20, 0), EndTime = new DateTime(2025, 8, 23, 19, 35, 0), EnergyConsumed = 43.1f, TotalCost = 166000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 24, VehicleId = 1, PortId = "5.5.2", StartTime = new DateTime(2025, 8, 30, 12, 10, 0), EndTime = new DateTime(2025, 8, 30, 14, 25, 0), EnergyConsumed = 41.7f, TotalCost = 161000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 25, VehicleId = 2, PortId = "1.2.3", StartTime = new DateTime(2025, 8, 4, 11, 30, 0), EndTime = new DateTime(2025, 8, 4, 14, 15, 0), EnergyConsumed = 48.9f, TotalCost = 188000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 26, VehicleId = 2, PortId = "2.3.3", StartTime = new DateTime(2025, 8, 11, 16, 45, 0), EndTime = new DateTime(2025, 8, 11, 18, 30, 0), EnergyConsumed = 44.2f, TotalCost = 170000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 27, VehicleId = 2, PortId = "3.4.3", StartTime = new DateTime(2025, 8, 18, 9, 20, 0), EndTime = new DateTime(2025, 8, 18, 11, 45, 0), EnergyConsumed = 46.5f, TotalCost = 179000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 28, VehicleId = 2, PortId = "4.5.3", StartTime = new DateTime(2025, 8, 25, 15, 15, 0), EndTime = new DateTime(2025, 8, 25, 17, 40, 0), EnergyConsumed = 42.8f, TotalCost = 165000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 29, VehicleId = 3, PortId = "1.3.2", StartTime = new DateTime(2025, 8, 6, 13, 45, 0), EndTime = new DateTime(2025, 8, 6, 15, 30, 0), EnergyConsumed = 31.8f, TotalCost = 122000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 30, VehicleId = 3, PortId = "2.4.2", StartTime = new DateTime(2025, 8, 13, 10, 30, 0), EndTime = new DateTime(2025, 8, 13, 12, 15, 0), EnergyConsumed = 29.4f, TotalCost = 113000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 31, VehicleId = 3, PortId = "3.5.2", StartTime = new DateTime(2025, 8, 20, 17, 20, 0), EndTime = new DateTime(2025, 8, 20, 19, 35, 0), EnergyConsumed = 33.1f, TotalCost = 127000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 32, VehicleId = 4, PortId = "1.4.1", StartTime = new DateTime(2025, 8, 3, 8, 45, 0), EndTime = new DateTime(2025, 8, 3, 11, 10, 0), EnergyConsumed = 44.6f, TotalCost = 172000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 33, VehicleId = 4, PortId = "2.5.1", StartTime = new DateTime(2025, 8, 10, 14, 20, 0), EndTime = new DateTime(2025, 8, 10, 16, 45, 0), EnergyConsumed = 41.3f, TotalCost = 159000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 34, VehicleId = 4, PortId = "3.6.1", StartTime = new DateTime(2025, 8, 17, 11, 15, 0), EndTime = new DateTime(2025, 8, 17, 13, 30, 0), EnergyConsumed = 38.7f, TotalCost = 149000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 35, VehicleId = 4, PortId = "4.7.1", StartTime = new DateTime(2025, 8, 24, 16, 30, 0), EndTime = new DateTime(2025, 8, 24, 18, 45, 0), EnergyConsumed = 42.9f, TotalCost = 165000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 36, VehicleId = 5, PortId = "1.5.2", StartTime = new DateTime(2025, 8, 5, 12, 30, 0), EndTime = new DateTime(2025, 8, 5, 15, 15, 0), EnergyConsumed = 49.2f, TotalCost = 200000, Status = SessionStatus.Completed },
+
+            // September 2025 sessions
+            new ChargingSession { Id = 37, VehicleId = 1, PortId = "1.1.3", StartTime = new DateTime(2025, 9, 2, 9, 15, 0), EndTime = new DateTime(2025, 9, 2, 11, 30, 0), EnergyConsumed = 40.2f, TotalCost = 155000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 38, VehicleId = 1, PortId = "2.2.1", StartTime = new DateTime(2025, 9, 8, 14, 45, 0), EndTime = new DateTime(2025, 9, 8, 16, 20, 0), EnergyConsumed = 37.6f, TotalCost = 145000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 39, VehicleId = 1, PortId = "3.3.3", StartTime = new DateTime(2025, 9, 15, 8, 30, 0), EndTime = new DateTime(2025, 9, 15, 10, 45, 0), EnergyConsumed = 38.9f, TotalCost = 150000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 40, VehicleId = 1, PortId = "4.4.3", StartTime = new DateTime(2025, 9, 22, 17, 20, 0), EndTime = new DateTime(2025, 9, 22, 19, 35, 0), EnergyConsumed = 43.1f, TotalCost = 166000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 41, VehicleId = 1, PortId = "5.5.3", StartTime = new DateTime(2025, 9, 29, 12, 10, 0), EndTime = new DateTime(2025, 9, 29, 14, 25, 0), EnergyConsumed = 41.7f, TotalCost = 161000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 42, VehicleId = 2, PortId = "1.2.1", StartTime = new DateTime(2025, 9, 4, 11, 30, 0), EndTime = new DateTime(2025, 9, 4, 14, 15, 0), EnergyConsumed = 48.9f, TotalCost = 188000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 43, VehicleId = 2, PortId = "2.3.1", StartTime = new DateTime(2025, 9, 11, 16, 45, 0), EndTime = new DateTime(2025, 9, 11, 18, 30, 0), EnergyConsumed = 44.2f, TotalCost = 170000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 44, VehicleId = 2, PortId = "3.4.1", StartTime = new DateTime(2025, 9, 18, 9, 20, 0), EndTime = new DateTime(2025, 9, 18, 11, 45, 0), EnergyConsumed = 46.5f, TotalCost = 179000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 45, VehicleId = 2, PortId = "4.5.1", StartTime = new DateTime(2025, 9, 25, 15, 15, 0), EndTime = new DateTime(2025, 9, 25, 17, 40, 0), EnergyConsumed = 42.8f, TotalCost = 165000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 46, VehicleId = 3, PortId = "1.3.3", StartTime = new DateTime(2025, 9, 6, 13, 45, 0), EndTime = new DateTime(2025, 9, 6, 15, 30, 0), EnergyConsumed = 31.8f, TotalCost = 122000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 47, VehicleId = 3, PortId = "2.4.3", StartTime = new DateTime(2025, 9, 13, 10, 30, 0), EndTime = new DateTime(2025, 9, 13, 12, 15, 0), EnergyConsumed = 29.4f, TotalCost = 113000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 48, VehicleId = 3, PortId = "3.5.3", StartTime = new DateTime(2025, 9, 20, 17, 20, 0), EndTime = new DateTime(2025, 9, 20, 19, 35, 0), EnergyConsumed = 33.1f, TotalCost = 127000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 49, VehicleId = 4, PortId = "1.4.3", StartTime = new DateTime(2025, 9, 3, 8, 45, 0), EndTime = new DateTime(2025, 9, 3, 11, 10, 0), EnergyConsumed = 44.6f, TotalCost = 172000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 50, VehicleId = 4, PortId = "2.5.2", StartTime = new DateTime(2025, 9, 10, 14, 20, 0), EndTime = new DateTime(2025, 9, 10, 16, 45, 0), EnergyConsumed = 41.3f, TotalCost = 159000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 51, VehicleId = 4, PortId = "3.6.2", StartTime = new DateTime(2025, 9, 17, 11, 15, 0), EndTime = new DateTime(2025, 9, 17, 13, 30, 0), EnergyConsumed = 38.7f, TotalCost = 149000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 52, VehicleId = 4, PortId = "4.7.2", StartTime = new DateTime(2025, 9, 24, 16, 30, 0), EndTime = new DateTime(2025, 9, 24, 18, 45, 0), EnergyConsumed = 42.9f, TotalCost = 165000, Status = SessionStatus.Completed },
+            
+
+            // October 2025 sessions (up to 12th)
+            new ChargingSession { Id = 53, VehicleId = 1, PortId = "1.1.1", StartTime = new DateTime(2025, 10, 2, 9, 15, 0), EndTime = new DateTime(2025, 10, 2, 11, 30, 0), EnergyConsumed = 40.2f, TotalCost = 155000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 54, VehicleId = 1, PortId = "2.2.2", StartTime = new DateTime(2025, 10, 8, 14, 45, 0), EndTime = new DateTime(2025, 10, 8, 16, 20, 0), EnergyConsumed = 37.6f, TotalCost = 145000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 55, VehicleId = 1, PortId = "3.3.1", StartTime = new DateTime(2025, 10, 11, 8, 30, 0), EndTime = new DateTime(2025, 10, 11, 10, 45, 0), EnergyConsumed = 38.9f, TotalCost = 150000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 56, VehicleId = 2, PortId = "1.2.2", StartTime = new DateTime(2025, 10, 3, 11, 30, 0), EndTime = new DateTime(2025, 10, 3, 14, 15, 0), EnergyConsumed = 48.9f, TotalCost = 188000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 57, VehicleId = 2, PortId = "2.3.3", StartTime = new DateTime(2025, 10, 9, 16, 45, 0), EndTime = new DateTime(2025, 10, 9, 18, 30, 0), EnergyConsumed = 44.2f, TotalCost = 170000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 58, VehicleId = 3, PortId = "1.3.1", StartTime = new DateTime(2025, 10, 5, 13, 45, 0), EndTime = new DateTime(2025, 10, 5, 15, 30, 0), EnergyConsumed = 31.8f, TotalCost = 122000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 59, VehicleId = 3, PortId = "2.4.1", StartTime = new DateTime(2025, 10, 10, 10, 30, 0), EndTime = new DateTime(2025, 10, 10, 12, 15, 0), EnergyConsumed = 29.4f, TotalCost = 113000, Status = SessionStatus.Completed },
+            
+            new ChargingSession { Id = 60, VehicleId = 4, PortId = "1.4.1", StartTime = new DateTime(2025, 10, 4, 8, 45, 0), EndTime = new DateTime(2025, 10, 4, 11, 10, 0), EnergyConsumed = 44.6f, TotalCost = 172000, Status = SessionStatus.Completed },
+            new ChargingSession { Id = 61, VehicleId = 4, PortId = "2.5.1", StartTime = new DateTime(2025, 10, 7, 14, 20, 0), EndTime = new DateTime(2025, 10, 7, 16, 45, 0), EnergyConsumed = 41.3f, TotalCost = 159000, Status = SessionStatus.Completed }
+            
+        );
+
+        // VehiclePerMonth seed data - July to October 2025
+        modelBuilder.Entity<VehiclePerMonth>().HasData(
+            // July 2025 data (PeriodId = 19)
+            new VehiclePerMonth { VehicleMonthId = 1, VehicleId = 1, PeriodId = 19, TotalSessions = 5, TotalEnergy = 202.3f, TotalCost = 780000, AmountPaid = 780000 }, 
+            new VehiclePerMonth { VehicleMonthId = 2, VehicleId = 2, PeriodId = 19, TotalSessions = 4, TotalEnergy = 174.3f, TotalCost = 671000, AmountPaid = 671000 }, 
+            new VehiclePerMonth { VehicleMonthId = 3, VehicleId = 3, PeriodId = 19, TotalSessions = 3, TotalEnergy = 93.2f, TotalCost = 358000, AmountPaid = 358000 }, 
+            new VehiclePerMonth { VehicleMonthId = 4, VehicleId = 4, PeriodId = 19, TotalSessions = 4, TotalEnergy = 165.4f, TotalCost = 637000, AmountPaid = 637000 }, 
+            new VehiclePerMonth { VehicleMonthId = 5, VehicleId = 5, PeriodId = 19, TotalSessions = 3, TotalEnergy = 134.6f, TotalCost = 519000, AmountPaid = 519000 }, 
+            
+            // August 2025 data (PeriodId = 20)
+            new VehiclePerMonth { VehicleMonthId = 6, VehicleId = 1, PeriodId = 20, TotalSessions = 5, TotalEnergy = 201.5f, TotalCost = 777000, AmountPaid = 777000 }, 
+            new VehiclePerMonth { VehicleMonthId = 7, VehicleId = 2, PeriodId = 20, TotalSessions = 4, TotalEnergy = 182.4f, TotalCost = 702000, AmountPaid = 702000 }, 
+            new VehiclePerMonth { VehicleMonthId = 8, VehicleId = 3, PeriodId = 20, TotalSessions = 3, TotalEnergy = 94.3f, TotalCost = 362000, AmountPaid = 362000 }, 
+            new VehiclePerMonth { VehicleMonthId = 9, VehicleId = 4, PeriodId = 20, TotalSessions = 4, TotalEnergy = 167.5f, TotalCost = 645000, AmountPaid = 645000 }, 
+            new VehiclePerMonth { VehicleMonthId = 10, VehicleId = 5, PeriodId = 20, TotalSessions = 3, TotalEnergy = 138.4f, TotalCost = 534000, AmountPaid = 200000 }, 
+            
+            // September 2025 data (PeriodId = 21)
+            new VehiclePerMonth { VehicleMonthId = 11, VehicleId = 1, PeriodId = 21, TotalSessions = 5, TotalEnergy = 201.5f, TotalCost = 777000, AmountPaid = 777000 }, 
+            new VehiclePerMonth { VehicleMonthId = 12, VehicleId = 2, PeriodId = 21, TotalSessions = 4, TotalEnergy = 182.4f, TotalCost = 702000, AmountPaid = 702000 }, 
+            new VehiclePerMonth { VehicleMonthId = 13, VehicleId = 3, PeriodId = 21, TotalSessions = 3, TotalEnergy = 94.3f, TotalCost = 362000, AmountPaid = 0 }, 
+            new VehiclePerMonth { VehicleMonthId = 14, VehicleId = 4, PeriodId = 21, TotalSessions = 4, TotalEnergy = 167.5f, TotalCost = 645000, AmountPaid = 645000 }, 
+            
+            // October 2025 data (PeriodId = 22) 
+            new VehiclePerMonth { VehicleMonthId = 16, VehicleId = 1, PeriodId = 22, TotalSessions = 3, TotalEnergy = 116.7f, TotalCost = 450000, AmountPaid = 0 }, 
+            new VehiclePerMonth { VehicleMonthId = 17, VehicleId = 2, PeriodId = 22, TotalSessions = 2, TotalEnergy = 93.1f, TotalCost = 358000, AmountPaid = 0 }, 
+            new VehiclePerMonth { VehicleMonthId = 18, VehicleId = 4, PeriodId = 22, TotalSessions = 2, TotalEnergy = 85.9f, TotalCost = 331000, AmountPaid = 0 }
         );
 
         // MonthlyPeriod seed data
