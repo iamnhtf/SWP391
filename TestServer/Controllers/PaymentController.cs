@@ -58,7 +58,10 @@ namespace TestServer.Controllers
 				var match = System.Text.RegularExpressions.Regex.Match(vnpOrderInfo ?? string.Empty, @"VehicleMonth\s*(\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 				if (match.Success && int.TryParse(match.Groups[1].Value, out var vehicleMonthId))
 				{
-					var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x => x.VehicleMonthId == vehicleMonthId);
+					var vpm = await _db.VehiclePerMonths
+						.Include(x => x.Vehicle)
+						.FirstOrDefaultAsync(x => x.VehicleMonthId == vehicleMonthId);
+
 					if (vpm != null)
 					{
 						var success = string.Equals(vnpResponseCode, "00") || string.Equals(vnpTxnStatus, "00");
@@ -66,8 +69,16 @@ namespace TestServer.Controllers
 						{
 							vpm.AmountPaid += (float)paidAmount;
 							if (vpm.AmountPaid > vpm.TotalCost) vpm.AmountPaid = vpm.TotalCost;
+
+							// If the vehicle was blocked, unlock it after successful payment
+							if (vpm.Vehicle != null && vpm.Vehicle.Status == VehicleStatus.Blocked)
+							{
+								vpm.Vehicle.Status = VehicleStatus.Active;
+							}
+
 							await _db.SaveChangesAsync();
 						}
+
 						response.OrderDescription = vnpOrderInfo ?? string.Empty;
 						response.OrderId = vehicleMonthId.ToString();
 						response.Success = success;
