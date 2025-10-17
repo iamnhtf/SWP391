@@ -136,21 +136,81 @@ namespace TestServer.Controllers
             )
                 return BadRequest("Name, LicensePlate, and CustomerId are required.");
 
-            // Check if license plate already exists
-            var existingVehicle = await db.Vehicles.FirstOrDefaultAsync(v =>
-                v.LicensePlate == vehicleDto.LicensePlate
-            );
-            if (existingVehicle != null)
-                return BadRequest(
-                    $"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists."
-                );
-
-            // Find VehicleType by name
+            // Find VehicleType by name (move earlier so we can use it when restoring)
             var vehicleType = await db.VehicleTypes.FirstOrDefaultAsync(vt =>
                 vt.Name == vehicleDto.VehicleType
             );
             if (vehicleType == null)
                 return BadRequest($"VehicleType '{vehicleDto.VehicleType}' not found.");
+
+            // Check if license plate already exists
+            var existingVehicle = await db.Vehicles
+                .Include(v => v.VehiclePorts)
+                .FirstOrDefaultAsync(v => v.LicensePlate == vehicleDto.LicensePlate);
+
+            if (existingVehicle != null)
+            {
+                // If existing is soft-deleted, restore and update its data
+                if (existingVehicle.Status == VehicleStatus.Deleted)
+                {
+                    existingVehicle.CustomerId = vehicleDto.CustomerId;
+                    existingVehicle.Name = vehicleDto.Name;
+                    existingVehicle.BatteryCapacity = vehicleDto.BatteryCapacity;
+                    existingVehicle.VehicleTypeId = vehicleType.Id;
+                    existingVehicle.Status = VehicleStatus.Active;
+
+                    // Update connector assignments if provided
+                    if (vehicleDto.ConnectorNames != null)
+                    {
+                        // Remove old ports
+                        var oldPorts = existingVehicle.VehiclePorts.ToList();
+                        if (oldPorts.Any()) db.VehiclePorts.RemoveRange(oldPorts);
+
+                        // Add new vehicle ports
+                        if (vehicleDto.ConnectorNames.Any())
+                        {
+                            var connectors = await db.Connectors
+                                .Where(c => vehicleDto.ConnectorNames.Contains(c.Name))
+                                .ToListAsync();
+
+                            foreach (var connector in connectors)
+                            {
+                                db.VehiclePorts.Add(new VehiclePort
+                                {
+                                    VehicleId = existingVehicle.VehicleId,
+                                    ConnectorId = connector.Id,
+                                });
+                            }
+                        }
+                    }
+
+                    await db.SaveChangesAsync();
+
+                    // Load restored vehicle for response
+                    var restoredVehicle = await db.Vehicles
+                        .Include(v => v.VehicleType)
+                        .Include(v => v.VehiclePorts)
+                        .ThenInclude(vp => vp.Connector)
+                        .FirstOrDefaultAsync(v => v.VehicleId == existingVehicle.VehicleId);
+
+                    var restoredVehicleDto = new VehicleDto
+                    {
+                        VehicleId = restoredVehicle!.VehicleId,
+                        CustomerId = restoredVehicle.CustomerId,
+                        Name = restoredVehicle.Name,
+                        LicensePlate = restoredVehicle.LicensePlate,
+                        BatteryCapacity = restoredVehicle.BatteryCapacity,
+                        VehicleType = restoredVehicle.VehicleType!.Name,
+                        Status = restoredVehicle.Status.ToString(),
+                        ConnectorNames = restoredVehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
+                    };
+
+                    return CreatedAtAction(nameof(GetById), new { id = restoredVehicle.VehicleId }, restoredVehicleDto);
+                }
+
+                // existing and not deleted -> conflict
+                return BadRequest($"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists.");
+            }
 
             // Parse status
             if (!Enum.TryParse<VehicleStatus>(vehicleDto.Status, true, out var status))
@@ -353,7 +413,11 @@ namespace TestServer.Controllers
                         "Cannot delete vehicle with active charging session. Please stop the charging session first."
                     );
 
-                // Create a DTO of the vehicle being deleted for response (before deletion)
+                // Soft-delete: mark vehicle as Deleted instead of removing rows
+                vehicle.Status = VehicleStatus.Deleted;
+                await db.SaveChangesAsync();
+
+                // Return updated vehicle info
                 var deletedVehicleDto = new VehicleDto
                 {
                     VehicleId = vehicle.VehicleId,
@@ -363,41 +427,10 @@ namespace TestServer.Controllers
                     BatteryCapacity = vehicle.BatteryCapacity,
                     VehicleType = vehicle.VehicleType?.Name ?? "Unknown",
                     Status = vehicle.Status.ToString(),
-                    ConnectorNames =
-                        vehicle
-                            .VehiclePorts?.Where(vp => vp.Connector != null)
-                            .Select(vp => vp.Connector.Name)
-                            .ToList() ?? new List<string>(),
+                    ConnectorNames = vehicle.VehiclePorts?.Where(vp => vp.Connector != null).Select(vp => vp.Connector.Name).ToList() ?? new List<string>(),
                 };
 
-                // Remove related VehiclePorts first (if not handled by cascade delete)
-                if (vehicle.VehiclePorts?.Any() == true)
-                {
-                    db.VehiclePorts.RemoveRange(vehicle.VehiclePorts);
-                }
-
-                // Remove VehiclePerMonth records
-                var vehiclePerMonths = await db
-                    .VehiclePerMonths.Where(vpm => vpm.VehicleId == id)
-                    .ToListAsync();
-
-                if (vehiclePerMonths.Any())
-                {
-                    db.VehiclePerMonths.RemoveRange(vehiclePerMonths);
-                }
-
-                // Remove the vehicle
-                db.Vehicles.Remove(vehicle);
-                await db.SaveChangesAsync();
-
-                // Return deleted vehicle info
-                return Ok(
-                    new
-                    {
-                        message = "Vehicle deleted successfully",
-                        deletedVehicle = deletedVehicleDto,
-                    }
-                );
+                return Ok(new { message = "Vehicle marked as deleted", deletedVehicle = deletedVehicleDto });
             }
             catch (Exception ex)
             {

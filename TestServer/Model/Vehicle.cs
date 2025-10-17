@@ -28,5 +28,6 @@ namespace TestServer.Models
     {
         Active,
         Blocked,
+        Deleted,
     }
 }
