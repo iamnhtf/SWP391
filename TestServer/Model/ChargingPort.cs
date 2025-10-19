@@ -27,7 +27,8 @@ namespace TestServer.Models
     {
         Available,
         InUse,
-        Faulty
+        Faulty,
+        Inactive,
     }
 
     

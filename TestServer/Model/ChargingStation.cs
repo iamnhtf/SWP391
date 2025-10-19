@@ -1,13 +1,14 @@
 using System; 
 using System.ComponentModel.DataAnnotations; 
-using System.ComponentModel.DataAnnotations.Schema; 
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestServer.Models;
-public class ChargingStation
+namespace TestServer.Models
+{
+    public class ChargingStation
     {
         [Key]
         public int Id { get; set; } = 0;
-        
+
         public string Name { get; set; } = string.Empty;
 
         [Required]
@@ -17,4 +18,12 @@ public class ChargingStation
         public double Longitude { get; set; } = 0;
 
         public ICollection<ChargingPoint> ChargingPoints { get; set; } = new List<ChargingPoint>();
+        public ChargingStationStatus Status { get; set; } = ChargingStationStatus.Active;
     }
+
+    public enum ChargingStationStatus
+    {
+        Active,
+        Inactive,
+    }
+}

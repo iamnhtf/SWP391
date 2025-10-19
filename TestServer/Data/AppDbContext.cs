@@ -34,8 +34,9 @@ public class AppDbContext : DbContext
                 Id = 1,
                 Name = "Parking lot S778 Nguyen Van Qua",
                 Location = "778 Nguyen Van Qua, Dong Hung Thuan Ward, District 12, Ho Chi Minh City",
-                Latitude = 10.846289725256499, 
-                Longitude = 106.63358659588795
+                Latitude = 10.846289725256499,
+                Longitude = 106.63358659588795,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
@@ -43,7 +44,8 @@ public class AppDbContext : DbContext
                 Name = "Léman Luxury Apartments",
                 Location = "Basement B3, Léman Luxury Apartments, 117 Nguyễn Đình Chiểu, Ward 6, District 3, Ho Chi Minh City",
                 Latitude = 10.778019786911162,
-                Longitude = 106.68989161819898
+                Longitude = 106.68989161819898,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
@@ -51,39 +53,44 @@ public class AppDbContext : DbContext
                 Name = "Summer Square Apartment Complex",
                 Location = "243 Tan Hoa Dong, Ward 14, District 6, Ho Chi Minh City",
                 Latitude = 10.759974990301892,
-                Longitude = 106.62537124357758 
+                Longitude = 106.62537124357758,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
                 Id = 4,
                 Name = "Golden King Apartment Complex",
                 Location = "Basement B2, 15 Nguyen Luong Bang, Tan Phu Ward, District 7, Ho Chi Minh City",
-                Latitude = 10.726400325147486, 
-                Longitude = 106.72395755358133
+                Latitude = 10.726400325147486,
+                Longitude = 106.72395755358133,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
                 Id = 5,
                 Name = "TTTM VinCom+ Nam Long",
                 Location = "71 Tran Trong Cung, Tan Thuan Dong Ward, District 7, Ho Chi Minh City",
-                Latitude = 10.744180504637178, 
-                Longitude = 106.73212781504205
+                Latitude = 10.744180504637178,
+                Longitude = 106.73212781504205,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
                 Id = 6,
                 Name = "VinFast - Chevrolet Phu My Hung Car Dealership",
                 Location = "54 Nguyen Thi Thap, Binh Thuan Ward, District 7, Ho Chi Minh City",
-                Latitude = 10.73838097555118, 
-                Longitude = 106.72723544339814
+                Latitude = 10.73838097555118,
+                Longitude = 106.72723544339814,
+                Status = ChargingStationStatus.Active
             },
             new ChargingStation
             {
                 Id = 7,
                 Name = "Green View Apartment Complex",
                 Location = "Green View, Tân Phú Ward, District 7, Ho Chi Minh City",
-                Latitude = 10.721662104756106, 
-                Longitude = 106.72691002973274
+                Latitude = 10.721662104756106,
+                Longitude = 106.72691002973274,
+                Status = ChargingStationStatus.Active
             }
         );
 
@@ -128,85 +135,85 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<ChargingPoint>().HasData(
         // Station 1
-        new ChargingPoint { Id = "1.1", StationId = 1 },
-        new ChargingPoint { Id = "1.2", StationId = 1 },
-        new ChargingPoint { Id = "1.3", StationId = 1 },
-        new ChargingPoint { Id = "1.4", StationId = 1 },
-        new ChargingPoint { Id = "1.5", StationId = 1 },
-        new ChargingPoint { Id = "1.6", StationId = 1 },
-        new ChargingPoint { Id = "1.7", StationId = 1 },
+        new ChargingPoint { Id = "1.1", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.2", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.3", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.4", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.5", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.6", StationId = 1, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "1.7", StationId = 1, Status = ChargingPointStatus.Active },
 
         // Station 2
-        new ChargingPoint { Id = "2.1", StationId = 2 },
-        new ChargingPoint { Id = "2.2", StationId = 2 },
-        new ChargingPoint { Id = "2.3", StationId = 2 },
-        new ChargingPoint { Id = "2.4", StationId = 2 },
-        new ChargingPoint { Id = "2.5", StationId = 2 },
-        new ChargingPoint { Id = "2.6", StationId = 2 },
-        new ChargingPoint { Id = "2.7", StationId = 2 },
-        new ChargingPoint { Id = "2.8", StationId = 2 },
-        new ChargingPoint { Id = "2.9", StationId = 2 },
-        new ChargingPoint { Id = "2.10", StationId = 2 },
+        new ChargingPoint { Id = "2.1", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.2", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.3", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.4", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.5", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.6", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.7", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.8", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.9", StationId = 2, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "2.10", StationId = 2, Status = ChargingPointStatus.Active },
 
         // Station 3
-        new ChargingPoint { Id = "3.1", StationId = 3 },
-        new ChargingPoint { Id = "3.2", StationId = 3 },
-        new ChargingPoint { Id = "3.3", StationId = 3 },
-        new ChargingPoint { Id = "3.4", StationId = 3 },
-        new ChargingPoint { Id = "3.5", StationId = 3 },
-        new ChargingPoint { Id = "3.6", StationId = 3 },
-        new ChargingPoint { Id = "3.7", StationId = 3 },
-        new ChargingPoint { Id = "3.8", StationId = 3 },
-        new ChargingPoint { Id = "3.9", StationId = 3 },
-        new ChargingPoint { Id = "3.10", StationId = 3 },
+        new ChargingPoint { Id = "3.1", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.2", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.3", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.4", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.5", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.6", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.7", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.8", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.9", StationId = 3, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "3.10", StationId = 3, Status = ChargingPointStatus.Active },
 
         // Station 4
-        new ChargingPoint { Id = "4.1", StationId = 4 },
-        new ChargingPoint { Id = "4.2", StationId = 4 },
-        new ChargingPoint { Id = "4.3", StationId = 4 },
-        new ChargingPoint { Id = "4.4", StationId = 4 },
-        new ChargingPoint { Id = "4.5", StationId = 4 },
-        new ChargingPoint { Id = "4.6", StationId = 4 },
-        new ChargingPoint { Id = "4.7", StationId = 4 },
-        new ChargingPoint { Id = "4.8", StationId = 4 },
-        new ChargingPoint { Id = "4.9", StationId = 4 },
-        new ChargingPoint { Id = "4.10", StationId = 4 },
+        new ChargingPoint { Id = "4.1", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.2", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.3", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.4", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.5", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.6", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.7", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.8", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.9", StationId = 4, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "4.10", StationId = 4, Status = ChargingPointStatus.Active },
 
         // Station 5
-        new ChargingPoint { Id = "5.1", StationId = 5 },
-        new ChargingPoint { Id = "5.2", StationId = 5 },
-        new ChargingPoint { Id = "5.3", StationId = 5 },
-        new ChargingPoint { Id = "5.4", StationId = 5 },
-        new ChargingPoint { Id = "5.5", StationId = 5 },
-        new ChargingPoint { Id = "5.6", StationId = 5 },
-        new ChargingPoint { Id = "5.7", StationId = 5 },
-        new ChargingPoint { Id = "5.8", StationId = 5 },
-        new ChargingPoint { Id = "5.9", StationId = 5 },
-        new ChargingPoint { Id = "5.10", StationId = 5 },
+        new ChargingPoint { Id = "5.1", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.2", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.3", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.4", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.5", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.6", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.7", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.8", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.9", StationId = 5, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "5.10", StationId = 5, Status = ChargingPointStatus.Active },
 
         // Station 6
-        new ChargingPoint { Id = "6.1", StationId = 6 },
-        new ChargingPoint { Id = "6.2", StationId = 6 },
-        new ChargingPoint { Id = "6.3", StationId = 6 },
-        new ChargingPoint { Id = "6.4", StationId = 6 },
-        new ChargingPoint { Id = "6.5", StationId = 6 },
-        new ChargingPoint { Id = "6.6", StationId = 6 },
-        new ChargingPoint { Id = "6.7", StationId = 6 },
-        new ChargingPoint { Id = "6.8", StationId = 6 },
-        new ChargingPoint { Id = "6.9", StationId = 6 },
-        new ChargingPoint { Id = "6.10", StationId = 6 },
+        new ChargingPoint { Id = "6.1", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.2", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.3", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.4", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.5", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.6", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.7", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.8", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.9", StationId = 6, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "6.10", StationId = 6, Status = ChargingPointStatus.Active },
 
         // Station 7
-        new ChargingPoint { Id = "7.1", StationId = 7 },
-        new ChargingPoint { Id = "7.2", StationId = 7 },
-        new ChargingPoint { Id = "7.3", StationId = 7 },
-        new ChargingPoint { Id = "7.4", StationId = 7 },
-        new ChargingPoint { Id = "7.5", StationId = 7 },
-        new ChargingPoint { Id = "7.6", StationId = 7 },
-        new ChargingPoint { Id = "7.7", StationId = 7 },
-        new ChargingPoint { Id = "7.8", StationId = 7 },
-        new ChargingPoint { Id = "7.9", StationId = 7 },
-        new ChargingPoint { Id = "7.10", StationId = 7 }
+        new ChargingPoint { Id = "7.1", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.2", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.3", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.4", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.5", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.6", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.7", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.8", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.9", StationId = 7, Status = ChargingPointStatus.Active },
+        new ChargingPoint { Id = "7.10", StationId = 7, Status = ChargingPointStatus.Active }
     );
 
 
@@ -541,7 +548,9 @@ public class AppDbContext : DbContext
         );
 
         modelBuilder.Entity<PriceTable>().HasData(
-            new PriceTable { Id = 1, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active }
+            new PriceTable { Id = 1, PricePerKWh = 3500, PenaltyFeePerMinute = 800, ValidFrom = new DateTime(2023, 1, 1), ValidTo = new DateTime(2024, 3, 18), Status = PriceTableStatus.Inactive },
+            new PriceTable { Id = 2, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active },
+            new PriceTable { Id = 3, PricePerKWh = 4000, PenaltyFeePerMinute = 1200, ValidFrom = new DateTime(2026, 1, 1), ValidTo = new DateTime(2027, 12, 31), Status = PriceTableStatus.Inactive }
         );
 
         // ChargingSession seed data - July to October 2025

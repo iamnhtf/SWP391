@@ -14,6 +14,12 @@ namespace TestServer.Models
         public ChargingStation ChargingStation { get; set; } = null!;
 
         public ICollection<ChargingPort> ChargingPorts { get; set; } = new List<ChargingPort>();
+        public ChargingPointStatus Status { get; set; } = ChargingPointStatus.Active;
+    }
 
+    public enum ChargingPointStatus
+    {
+        Active,
+        Inactive,
     }
 }
