@@ -263,6 +263,11 @@ namespace TestServer.Controllers
             var sessions = await db
                 .ChargingSessions.AsNoTracking()
                 .Include(s => s.Vehicle)
+                .Include(s => s.ChargingPort)
+                .ThenInclude(p => p.ChargingPoint)
+                .ThenInclude(cp => cp.ChargingStation)
+                .Include(s => s.ChargingPort)
+                .ThenInclude(p => p.Connector)
                 .OrderByDescending(s => s.EndTime)
                 .ThenByDescending(s => s.StartTime)
                 .ToListAsync();
@@ -272,12 +277,15 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
                     PortId = s.PortId,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
                     EnergyConsumed = s.EnergyConsumed,
                     TotalCost = s.TotalCost,
                     Status = s.Status.ToString(),
+                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
+                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
                 })
                 .ToList();
 
@@ -309,6 +317,7 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    CustomerId = customerId,
                     PortId = s.PortId,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
