@@ -36,6 +36,17 @@ builder
 
 builder.Services.AddRazorPages();
 
+// Add permissive CORS policy (open access)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,6 +64,9 @@ else
 // Middleware này cần đứng TRƯỚC các mapping khác
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+// Enable CORS globally using the AllowAll policy
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
