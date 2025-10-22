@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Dto;
+using TestServer.Models;
 
 namespace TestServer.Controllers
 {
@@ -131,6 +132,80 @@ namespace TestServer.Controllers
                 .ToList();
 
             return Ok(stationDtos);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ChargingStationDto stationDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var station = new ChargingStation
+            {
+                Name = stationDto.Name,
+                Location = stationDto.Location,
+                Latitude = stationDto.Latitude,
+                Longitude = stationDto.Longitude,
+            };
+
+            db.ChargingStations.Add(station);
+            await db.SaveChangesAsync();
+
+            return Ok(station);
+        }
+        // Deactivate station and cascade: all points -> deactivated, all ports -> Faulty/Unavailable (or custom 'Deactive')
+        // POST api/ChargingStation/stop/{id}
+        [HttpPost("stop/{id:int}")]
+        public async Task<IActionResult> DeactivateStation(int id)
+        {
+            var station = await db.ChargingStations
+                .Include(s => s.ChargingPoints)
+                .ThenInclude(p => p.ChargingPorts)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (station == null)
+                return NotFound(new { message = $"Charging station with ID {id} not found." });
+
+            // Here we interpret "deactivate station" as marking ports as Faulty (or you can add a new status Deactive)
+            foreach (var point in station.ChargingPoints)
+            {
+                // if you have a ChargingPoint status field, set it here (not present in model)
+                foreach (var port in point.ChargingPorts)
+                {
+                    // Set port to Faulty to indicate unavailable
+                    port.Status = ChargingPortStatus.Faulty;
+                }
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"Charging station {id} deactivated (ports set to Faulty)." });
+        }
+
+        // Activate station: set ports to Available and any point-level status to active
+        // POST api/ChargingStation/start/{id}
+        [HttpPost("start/{id:int}")]
+        public async Task<IActionResult> ActivateStation(int id)
+        {
+            var station = await db.ChargingStations
+                .Include(s => s.ChargingPoints)
+                .ThenInclude(p => p.ChargingPorts)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (station == null)
+                return NotFound(new { message = $"Charging station with ID {id} not found." });
+
+            foreach (var point in station.ChargingPoints)
+            {
+                foreach (var port in point.ChargingPorts)
+                {
+                    // restore as Available
+                    port.Status = ChargingPortStatus.Available;
+                }
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"Charging station {id} activated (ports set to Available)." });
         }
     }
 }
