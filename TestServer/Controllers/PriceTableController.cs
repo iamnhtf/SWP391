@@ -62,5 +62,48 @@ namespace TestServer.Controllers
 
             return Ok(activePriceTables);
         }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] PriceTableDto priceTableDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var priceTable = new PriceTable
+            {
+                PricePerKWh = priceTableDto.PricePerKWh,
+                PenaltyFeePerMinute = priceTableDto.PenaltyFeePerMinute,
+                ValidFrom = priceTableDto.ValidFrom,
+                ValidTo = priceTableDto.ValidTo,
+                Status = PriceTableStatus.Inactive // default to Inactive on create
+            };
+
+            db.PriceTables.Add(priceTable);
+            await db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetById), new { id = priceTable.Id }, priceTable);
+        }
+
+        // Activate a price table by id and deactivate all others
+        [HttpPost("activate/{id:int}")]
+        public async Task<IActionResult> Activate(int id)
+        {
+            var target = await db.PriceTables.FirstOrDefaultAsync(p => p.Id == id);
+            if (target == null)
+                return NotFound(new { message = $"PriceTable with ID {id} not found." });
+
+            // deactivate any currently active price tables
+            var actives = await db.PriceTables.Where(p => p.Status == PriceTableStatus.Active && p.Id != id).ToListAsync();
+            foreach (var a in actives)
+            {
+                a.Status = PriceTableStatus.Inactive;
+            }
+
+            // activate target
+            target.Status = PriceTableStatus.Active;
+
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"PriceTable {id} activated." });
+        }
     }
 }
