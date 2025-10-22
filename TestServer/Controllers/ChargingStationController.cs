@@ -28,6 +28,7 @@ namespace TestServer.Controllers
                     station.Location,
                     station.Latitude,
                     station.Longitude,
+                    station.Status,
                 })
                 .ToListAsync();
 
@@ -46,6 +47,7 @@ namespace TestServer.Controllers
                     s.Location,
                     s.Latitude,
                     s.Longitude,
+                    s.Status,
                 })
                 .FirstOrDefaultAsync();
 
@@ -71,10 +73,12 @@ namespace TestServer.Controllers
                     Location = station.Location,
                     Latitude = station.Latitude,
                     Longitude = station.Longitude,
+                    Status = station.Status.ToString(),
                     Points = station
                         .ChargingPoints.Select(point => new ChargingPointDto
                         {
                             Id = point.Id,
+                            Status = point.Status.ToString(),
                             Ports = point
                                 .ChargingPorts.Select(port => new ChargingPortDto
                                 {
@@ -171,14 +175,16 @@ namespace TestServer.Controllers
                 // if you have a ChargingPoint status field, set it here (not present in model)
                 foreach (var port in point.ChargingPorts)
                 {
-                    // Set port to Faulty to indicate unavailable
-                    port.Status = ChargingPortStatus.Faulty;
+                    // Set port to Inactive to indicate unavailable
+                    port.Status = ChargingPortStatus.Inactive;
                 }
+
+                point.Status = ChargingPointStatus.Inactive;
             }
 
             await db.SaveChangesAsync();
 
-            return Ok(new { message = $"Charging station {id} deactivated (ports set to Faulty)." });
+            return Ok(new { message = $"Charging station {id} deactivated (ports set to Inactive)." });
         }
 
         // Activate station: set ports to Available and any point-level status to active
@@ -201,6 +207,8 @@ namespace TestServer.Controllers
                     // restore as Available
                     port.Status = ChargingPortStatus.Available;
                 }
+
+                point.Status = ChargingPointStatus.Active;
             }
 
             await db.SaveChangesAsync();

@@ -9,6 +9,7 @@ namespace TestServer.Dto
         public string Location { get; set; } = string.Empty;
         public double Latitude { get; set; } = 0;
         public double Longitude { get; set; } = 0;
+        public string Status { get; set; } = string.Empty;
 
         public List<ChargingPointDto> Points { get; set; } = new List<ChargingPointDto>();
     }
