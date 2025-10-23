@@ -79,5 +79,26 @@ namespace TestServer.Controllers
 
             return Ok(portInfoDto);
         }
+
+        [HttpPost("active/{id}")]
+        public async Task<IActionResult> ActivatePort(string id)
+        {
+            var port = await db.ChargingPorts.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (port == null)
+                return NotFound(new { message = $"Charging port with ID {id} not found." });
+
+            port.Status = Models.ChargingPortStatus.Available;
+
+            var point = await db.ChargingPoints.FirstOrDefaultAsync(p => p.Id == port.PointId);
+            if (point != null)
+            {
+                point.Status = Models.ChargingPointStatus.Active;
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"Charging port {id} activated successfully." });
+        }
     }
 }
