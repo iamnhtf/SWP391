@@ -158,7 +158,7 @@ namespace TestServer.Controllers
         }
         // Deactivate station and cascade: all points -> deactivated, all ports -> Faulty/Unavailable (or custom 'Deactive')
         // POST api/ChargingStation/stop/{id}
-        [HttpPost("stop/{id:int}")]
+        [HttpPut("stop/{id:int}")]
         public async Task<IActionResult> DeactivateStation(int id)
         {
             var station = await db.ChargingStations
@@ -189,7 +189,7 @@ namespace TestServer.Controllers
 
         // Activate station: set ports to Available and any point-level status to active
         // POST api/ChargingStation/start/{id}
-        [HttpPost("start/{id:int}")]
+        [HttpPut("start/{id:int}")]
         public async Task<IActionResult> ActivateStation(int id)
         {
             var station = await db.ChargingStations

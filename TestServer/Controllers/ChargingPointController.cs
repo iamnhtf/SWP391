@@ -119,7 +119,7 @@ namespace TestServer.Controllers
         }
 
 
-        [HttpPost("stop/{id}")]
+        [HttpPut("stop/{id}")]
         public async Task<IActionResult> DeactivatePoint(string id)
         {
             var point = await db.ChargingPoints
@@ -139,31 +139,6 @@ namespace TestServer.Controllers
             await db.SaveChangesAsync();
 
             return Ok(new { message = $"Charging point {id} deactivated (ports set to Inactive)." });
-        }
-
-        [HttpPost("active/{id}")]
-        public async Task<IActionResult> ActivatePoint(string id)
-        {
-            var point = await db.ChargingPoints
-                .Include(p => p.ChargingPorts)
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (point == null)
-                return NotFound(new { message = $"Charging point with ID {id} not found." });
-
-            foreach (var port in point.ChargingPorts)
-            {
-                if (port.Power > 0)
-                {
-                    port.Status = Models.ChargingPortStatus.Available;
-                }
-            }
-
-            point.Status = Models.ChargingPointStatus.Active;
-
-            await db.SaveChangesAsync();
-
-            return Ok(new { message = $"Charging point {id} activated (ports set to Available)." });
         }
     }
 }
