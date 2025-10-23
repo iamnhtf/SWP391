@@ -34,68 +34,108 @@ namespace TestServer.Controllers
         [HttpGet("/Payment/PaymentCallbackVnpay")]
         public async Task<IActionResult> PaymentCallbackVnpay()
         {
-            var response = _vnPayService.PaymentExecute(Request.Query);
-
-            // Debugging: Log the response details
-            Console.WriteLine("VNPAY Payment Response:" + response);
-
+            // Cố gắng thực thi lệnh gọi service để lấy response model (có thể null nếu có lỗi)
+            PaymentResponseModel response = null;
             try
             {
-                var q = Request.Query;
-                string vnpResponseCode = q["vnp_ResponseCode"].ToString();
-                string vnpTxnRef = q["vnp_TxnRef"].ToString();
-                string vnpAmountRaw = q["vnp_Amount"].ToString();
-                string vnpOrderInfo = q["vnp_OrderInfo"].ToString();
-                string vnpTxnStatus = q["vnp_TransactionStatus"].ToString();
+                response = _vnPayService.PaymentExecute(Request.Query);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error executing VnPayService.PaymentExecute: {ex.Message}");
+                // Tạo một response model mặc định nếu service lỗi
+                response = new PaymentResponseModel { Success = false };
+            }
 
-                double paidAmount = 0;
-                if (int.TryParse(vnpAmountRaw, out var amountInt))
-                {
-                    paidAmount = amountInt / 100.0;
-                }
+            var q = Request.Query;
 
-                // Extract VehicleMonthId from order info (created earlier)
-                var match = System.Text.RegularExpressions.Regex.Match(
-                    vnpOrderInfo ?? string.Empty,
-                    @"VehicleMonth\s*(\d+)",
-                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                );
-                if (match.Success && int.TryParse(match.Groups[1].Value, out var vehicleMonthId))
+            // --- SỬA LỖI LẤY DỮ LIỆU TỪ QUERY ---
+            string vnpResponseCode = q["vnp_ResponseCode"].FirstOrDefault() ?? ""; // Lấy mã, xử lý null
+            string vnpTxnRef = q["vnp_TxnRef"].FirstOrDefault() ?? ""; // Lấy mã giao dịch, xử lý null
+            string vnpOrderInfo = q["vnp_OrderInfo"].FirstOrDefault() ?? ""; // Lấy thông tin đơn hàng, xử lý null
+            string vnpAmountRaw = q["vnp_Amount"].FirstOrDefault() ?? "0"; // Lấy số tiền, xử lý null, mặc định "0"
+            string vnpTxnStatus = q["vnp_TransactionStatus"].FirstOrDefault() ?? ""; // Lấy trạng thái giao dịch (nếu có)
+            // --- KẾT THÚC SỬA LỖI ---
+
+            string message = ""; // Biến để lưu thông báo
+
+            if (vnpResponseCode == "00") // Thành công
+            {
+                response.Success = true; // Đảm bảo Success là true
+                message = "Thanh toán thành công!";
+                Console.WriteLine($"VNPAY payment success for order {vnpTxnRef}");
+                try
                 {
-                    var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x =>
-                        x.VehicleMonthId == vehicleMonthId
+                    // --- LOGIC CẬP NHẬT DATABASE KHI THÀNH CÔNG ---
+                    var match = System.Text.RegularExpressions.Regex.Match(
+                        vnpOrderInfo,
+                        @"VehicleMonth\s*(\d+)",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
                     );
-                    if (vpm != null)
+
+                    if (
+                        match.Success && int.TryParse(match.Groups[1].Value, out var vehicleMonthId)
+                    )
                     {
-                        var success =
-                            string.Equals(vnpResponseCode, "00")
-                            || string.Equals(vnpTxnStatus, "00");
-                        if (success)
+                        var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x =>
+                            x.VehicleMonthId == vehicleMonthId
+                        );
+                        if (vpm != null)
                         {
+                            double paidAmount = 0;
+                            // Parse số tiền đã lấy an toàn ở trên
+                            if (int.TryParse(vnpAmountRaw, out var amountInt))
+                            {
+                                paidAmount = amountInt / 100.0;
+                            }
                             vpm.AmountPaid += (float)paidAmount;
                             if (vpm.AmountPaid > vpm.TotalCost)
                                 vpm.AmountPaid = vpm.TotalCost;
                             await _db.SaveChangesAsync();
+                            response.OrderId = vehicleMonthId.ToString(); // Gán OrderId nếu thành công và tìm thấy
                         }
-                        response.OrderDescription = vnpOrderInfo ?? string.Empty;
-                        response.OrderId = vehicleMonthId.ToString();
-                        response.Success = success;
+                        else
+                        {
+                            Console.WriteLine(
+                                $"VehiclePerMonth record not found for ID: {vehicleMonthId}"
+                            );
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"Could not extract VehicleMonthId from OrderInfo: {vnpOrderInfo}"
+                        );
+                    }
+                    // --- KẾT THÚC LOGIC CẬP NHẬT ---
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error updating DB after VNPAY success: {ex.Message}");
+                    response.Success = false; // Set lại false nếu cập nhật DB lỗi
+                    message = "Thanh toán thành công nhưng có lỗi khi cập nhật dữ liệu.";
                 }
             }
-			catch (Exception ex)
+            else if (vnpResponseCode == "24") // Bị hủy bởi người dùng
             {
-                return StatusCode(
-                    500,
-                    new
-                    {
-                        Message = "Error processing VNPAY callback.",
-                        Detail = ex.Message,
-                        Response = response,
-                    }
+                response.Success = false;
+                message = "Giao dịch đã bị hủy."; // Thông báo hủy cụ thể
+                Console.WriteLine($"VNPAY payment cancelled {vnpTxnRef}. Code: {vnpResponseCode}");
+            }
+            else // Các trường hợp thất bại khác
+            {
+                response.Success = false;
+                message = $"Thanh toán thất bại. Mã lỗi VNPAY: {vnpResponseCode}"; // Thông báo lỗi chung
+                Console.WriteLine(
+                    $"VNPAY payment failed for order {vnpTxnRef}. Code: {vnpResponseCode}"
                 );
             }
 
+            // Gán thông báo vào ViewBag để View có thể hiển thị
+            ViewBag.ResultMessage = message;
+            response.OrderDescription = vnpOrderInfo; // Gán lại các thông tin cần thiết khác nếu View cần
+
+            // Trả về View với model response (chứa Success=true/false) và ViewBag (chứa thông báo chi tiết)
             return View("PaymentResult", response);
         }
 
