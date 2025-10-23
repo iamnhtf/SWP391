@@ -80,25 +80,47 @@ namespace TestServer.Controllers
             return Ok(portInfoDto);
         }
 
-        [HttpPost("active/{id}")]
-        public async Task<IActionResult> ActivatePort(string id)
+        [HttpPut]
+        public async Task<IActionResult> UpdatePort([FromBody] ChargingPortDto portDto)
         {
-            var port = await db.ChargingPorts.FirstOrDefaultAsync(p => p.Id == id);
+            var port = await db.ChargingPorts.FirstOrDefaultAsync(p => p.Id == portDto.Id);
 
             if (port == null)
-                return NotFound(new { message = $"Charging port with ID {id} not found." });
+                return NotFound(new { message = $"Charging port with ID {portDto.Id} not found." });
 
-            port.Status = Models.ChargingPortStatus.Available;
+            port.Power = portDto.Power;
 
             var point = await db.ChargingPoints.FirstOrDefaultAsync(p => p.Id == port.PointId);
             if (point != null)
             {
-                point.Status = Models.ChargingPointStatus.Active;
+                if (port.Power == 0)
+                {
+                    port.Status = Models.ChargingPortStatus.Inactive;
+
+                    bool allInactive = true;
+
+                    foreach (var p in point.ChargingPorts)
+                    {
+                        if (p.Status != Models.ChargingPortStatus.Inactive)
+                        {
+                            allInactive = false;
+                            break;
+                        }
+                    }
+
+                    if (allInactive)    
+                        point.Status = Models.ChargingPointStatus.Inactive;
+                }
+                else 
+                {
+                    port.Status = Models.ChargingPortStatus.Available;
+                    point.Status = Models.ChargingPointStatus.Active;
+                }
             }
 
             await db.SaveChangesAsync();
 
-            return Ok(new { message = $"Charging port {id} activated successfully." });
+            return Ok(new { message = $"Charging port {portDto.Id} activated successfully." });
         }
     }
 }
