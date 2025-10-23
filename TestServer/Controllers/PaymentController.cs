@@ -122,6 +122,13 @@ namespace TestServer.Controllers
                 message = "Giao dịch đã bị hủy."; // Thông báo hủy cụ thể
                 Console.WriteLine($"VNPAY payment cancelled {vnpTxnRef}. Code: {vnpResponseCode}");
             }
+            else if (string.IsNullOrEmpty(vnpResponseCode) && Request?.Host.Value?.Contains("localhost", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                // Nếu không có mã phản hồi và đang chạy trên localhost, coi là giao dịch bị hủy
+                response.Success = false;
+                message = "Giao dịch tạm dừng/đã bị hủy (local).";
+                Console.WriteLine($"VNPAY payment presumed cancelled for order {vnpTxnRef}. No response code. Host: {Request?.Host}");
+            }
             else // Các trường hợp thất bại khác
             {
                 response.Success = false;
