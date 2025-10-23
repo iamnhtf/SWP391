@@ -72,5 +72,74 @@ namespace TestServer.Controllers
 
             return Ok(pointDto);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> CreatePoint(string id, [FromQuery] int stationId)
+        {
+            // check station exists
+            var station = await db.ChargingStations.FindAsync(stationId);
+            if (station == null)
+                return NotFound(new { message = $"Charging station with ID {stationId} not found." });
+
+            // if point exists, return conflict
+            var existing = await db.ChargingPoints.FindAsync(id);
+            if (existing != null)
+                return Conflict(new { message = $"Charging point with ID {id} already exists." });
+
+            var point = new Models.ChargingPoint
+            {
+                Id = id,
+                StationId = stationId
+            };
+
+            // connector ids seeded in AppDbContext: 1=AC, 2=CCS, 3=CHAdeMO
+            var ports = new List<Models.ChargingPort>
+            {
+                new Models.ChargingPort { Id = id + ".1", PointId = id, ConnectorId = 1, Power = 7, Status = Models.ChargingPortStatus.Faulty },
+                new Models.ChargingPort { Id = id + ".2", PointId = id, ConnectorId = 2, Power = 22, Status = Models.ChargingPortStatus.Faulty },
+                new Models.ChargingPort { Id = id + ".3", PointId = id, ConnectorId = 3, Power = 50, Status = Models.ChargingPortStatus.Faulty }
+            };
+
+            point.ChargingPorts = ports;
+
+            db.ChargingPoints.Add(point);
+            await db.SaveChangesAsync();
+
+            var pointDto = new ChargingPointDto
+            {
+                Id = point.Id,
+                Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+                {
+                    Id = port.Id,
+                    ConnectorName = db.Connectors.First(c => c.Id == port.ConnectorId).Name,
+                    Power = port.Power,
+                    Status = port.Status.ToString()
+                }).ToList()
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = point.Id }, pointDto);
+        }
+
+        
+        [HttpPost("stop/{id}")]
+        public async Task<IActionResult> DeactivatePoint(string id)
+        {
+            var point = await db.ChargingPoints
+                .Include(p => p.ChargingPorts)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (point == null)
+                return NotFound(new { message = $"Charging point with ID {id} not found." });
+
+            foreach (var port in point.ChargingPorts)
+            {
+                port.Status = Models.ChargingPortStatus.Faulty; // interpret Faulty as Inactive
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok(new { message = $"Charging point {id} deactivated (ports set to Faulty)." });
+        }
+        
     }
 }
