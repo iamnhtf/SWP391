@@ -145,10 +145,12 @@ namespace TestServer.Controllers
 
             var station = new ChargingStation
             {
+                Id = stationDto.Id,
                 Name = stationDto.Name,
                 Location = stationDto.Location,
                 Latitude = stationDto.Latitude,
                 Longitude = stationDto.Longitude,
+                Status = ChargingStationStatus.Inactive,
             };
 
             db.ChargingStations.Add(station);
@@ -202,13 +204,28 @@ namespace TestServer.Controllers
 
             foreach (var point in station.ChargingPoints)
             {
+                bool allInactive = true;
+
                 foreach (var port in point.ChargingPorts)
                 {
-                    // restore as Available
-                    port.Status = ChargingPortStatus.Available;
+                    if (port.Power != 0)
+                    {
+                        allInactive = false;
+                        port.Status = ChargingPortStatus.Available;
+                    }
+                    else
+                    {
+                        port.Status = ChargingPortStatus.Inactive;
+                    }
                 }
-
-                point.Status = ChargingPointStatus.Active;
+                if (allInactive == false)
+                {
+                    point.Status = ChargingPointStatus.Active;
+                }
+                else
+                {
+                    point.Status = ChargingPointStatus.Inactive;
+                }
             }
 
             await db.SaveChangesAsync();

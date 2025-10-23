@@ -93,28 +93,34 @@ namespace TestServer.Controllers
             var point = await db.ChargingPoints.FirstOrDefaultAsync(p => p.Id == port.PointId);
             if (point != null)
             {
-                if (port.Power == 0)
+                var station = await db.ChargingStations.FirstOrDefaultAsync(s => s.Id == point.StationId);
+
+                if (station != null)
                 {
-                    port.Status = Models.ChargingPortStatus.Inactive;
-
-                    bool allInactive = true;
-
-                    foreach (var p in point.ChargingPorts)
+                    if (port.Power == 0)
                     {
-                        if (p.Status != Models.ChargingPortStatus.Inactive)
-                        {
-                            allInactive = false;
-                            break;
-                        }
-                    }
+                        port.Status = Models.ChargingPortStatus.Inactive;
 
-                    if (allInactive)    
-                        point.Status = Models.ChargingPointStatus.Inactive;
-                }
-                else 
-                {
-                    port.Status = Models.ChargingPortStatus.Available;
-                    point.Status = Models.ChargingPointStatus.Active;
+                        bool allInactive = true;
+
+                        foreach (var p in point.ChargingPorts)
+                        {
+                            if (p.Status != Models.ChargingPortStatus.Inactive)
+                            {
+                                allInactive = false;
+                                break;
+                            }
+                        }
+
+                        if (allInactive)    
+                            point.Status = Models.ChargingPointStatus.Inactive;
+                    }
+                    else 
+                    {
+                        port.Status = Models.ChargingPortStatus.Available;
+                        point.Status = Models.ChargingPointStatus.Active;
+                        station.Status = Models.ChargingStationStatus.Active;
+                    }
                 }
             }
 
