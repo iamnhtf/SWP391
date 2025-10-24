@@ -11,6 +11,7 @@ namespace TestServer.Controllers
     [Route("api/[controller]")]
     public class PaymentController : Controller
     {
+        private static readonly Dictionary<int, string> _paymentStatusCache = new();
         private readonly IVnPayService _vnPayService;
         private readonly AppDbContext _db;
 
@@ -58,11 +59,14 @@ namespace TestServer.Controllers
             // --- KẾT THÚC SỬA LỖI ---
 
             string message = ""; // Biến để lưu thông báo
+            string status = "Pending";
+            var vehicleMonthId = 0;
 
             if (vnpResponseCode == "00") // Thành công
             {
                 response.Success = true; // Đảm bảo Success là true
                 message = "Thanh toán thành công!";
+                status = "Success";
                 Console.WriteLine($"VNPAY payment success for order {vnpTxnRef}");
                 try
                 {
@@ -74,7 +78,7 @@ namespace TestServer.Controllers
                     );
 
                     if (
-                        match.Success && int.TryParse(match.Groups[1].Value, out var vehicleMonthId)
+                        match.Success && int.TryParse(match.Groups[1].Value, out vehicleMonthId)
                     )
                     {
                         var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x =>
@@ -120,12 +124,14 @@ namespace TestServer.Controllers
             {
                 response.Success = false;
                 message = "Giao dịch đã bị hủy."; // Thông báo hủy cụ thể
+                status = "Cancelled";
                 Console.WriteLine($"VNPAY payment cancelled {vnpTxnRef}. Code: {vnpResponseCode}");
             }
             else // Các trường hợp thất bại khác
             {
                 response.Success = false;
                 message = $"Thanh toán thất bại. Mã lỗi VNPAY: {vnpResponseCode}"; // Thông báo lỗi chung
+                status = "Failed";
                 Console.WriteLine(
                     $"VNPAY payment failed for order {vnpTxnRef}. Code: {vnpResponseCode}"
                 );
@@ -134,6 +140,9 @@ namespace TestServer.Controllers
             // Gán thông báo vào ViewBag để View có thể hiển thị
             ViewBag.ResultMessage = message;
             response.OrderDescription = vnpOrderInfo; // Gán lại các thông tin cần thiết khác nếu View cần
+
+            // Lưu trạng thái vào cache
+            _paymentStatusCache[vehicleMonthId] = status;
 
             // Trả về View với model response (chứa Success=true/false) và ViewBag (chứa thông báo chi tiết)
             return View("PaymentResult", response);
@@ -151,6 +160,21 @@ namespace TestServer.Controllers
             );
             if (vpm == null)
                 return NotFound(new { Success = false, Message = "VehiclePerMonth not found." });
+
+            string status = _paymentStatusCache.TryGetValue(vehicleMonthId, out var s) ? s : "Pending";
+            if (status == "Cancelled" || status == "Failed")
+            {
+                return Ok(
+                    new
+                    {
+                        Success = false,
+                        VehicleMonthId = vpm.VehicleMonthId,
+                        TotalCost = vpm.TotalCost,
+                        AmountPaid = vpm.AmountPaid,
+                        Paid = false,
+                    }
+                );
+            }
 
             bool paid = vpm.AmountPaid >= vpm.TotalCost;
             return Ok(
