@@ -63,6 +63,13 @@ namespace TestServer.Controllers
             var vehicleMonthId = 0;
             double paidAmount = 0;
 
+            var match = System.Text.RegularExpressions.Regex.Match(
+                        vnpOrderInfo,
+                        @"VehicleMonth\s*(\d+)",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+            int.TryParse(match.Groups[1].Value, out vehicleMonthId);
+
             if (vnpResponseCode == "00") // Thành công
             {
                 response.Success = true; // Đảm bảo Success là true
@@ -72,15 +79,7 @@ namespace TestServer.Controllers
                 try
                 {
                     // --- LOGIC CẬP NHẬT DATABASE KHI THÀNH CÔNG ---
-                    var match = System.Text.RegularExpressions.Regex.Match(
-                        vnpOrderInfo,
-                        @"VehicleMonth\s*(\d+)",
-                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                    );
-
-                    if (
-                        match.Success && int.TryParse(match.Groups[1].Value, out vehicleMonthId)
-                    )
+                    if (match.Success)
                     {
                         var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x =>
                             x.VehicleMonthId == vehicleMonthId
@@ -189,20 +188,20 @@ namespace TestServer.Controllers
             string status = "Pending";
 
             if (lastTx != null)
-    {
-            if (lastTx.ResponseCode == "00" || lastTx.TransactionStatus == "00")
             {
-                status = "Success";
+                if (lastTx.ResponseCode == "00" || lastTx.TransactionStatus == "00")
+                {
+                    status = "Success";
+                }
+                else if (lastTx.ResponseCode == "24")
+                {
+                    status = "Cancelled";
+                }
+                else
+                {
+                    status = "Failed";
+                }
             }
-            else if (lastTx.ResponseCode == "24")
-            {
-                status = "Cancelled";
-            }
-            else
-            {
-                status = "Failed";
-            }
-        }
 
             if (status == "Cancelled" || status == "Failed")
             {
