@@ -152,6 +152,10 @@ namespace TestServer.Controllers
             });
             await _db.SaveChangesAsync();
 
+            Console.WriteLine(
+                $"Payment transaction logged for VehicleMonthId {vehicleMonthId} with response code {vnpResponseCode}."
+            );
+
             
             // Gán thông báo vào ViewBag để View có thể hiển thị
             ViewBag.ResultMessage = message;
