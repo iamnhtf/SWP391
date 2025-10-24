@@ -205,6 +205,14 @@ namespace TestServer.Controllers
 
             if (status == "Cancelled" || status == "Failed")
             {
+                // --- XÓA transaction sau khi đã đọc ---
+                if (lastTx != null)
+                {
+                    _db.PaymentTransactions.Remove(lastTx);
+                    await _db.SaveChangesAsync();
+                    Console.WriteLine($"🗑️ Deleted failed/cancelled transaction for VehicleMonthId={vehicleMonthId}");
+                }
+
                 return Ok(
                     new
                     {
@@ -218,6 +226,14 @@ namespace TestServer.Controllers
             }
 
             bool paid = vpm.AmountPaid >= vpm.TotalCost;
+
+            if (lastTx != null && paid)
+            {
+                _db.PaymentTransactions.Remove(lastTx);
+                await _db.SaveChangesAsync();
+                Console.WriteLine($"🗑️ Deleted transaction log after status check for VehicleMonthId={vehicleMonthId}");
+            }
+
             return Ok(
                 new
                 {
