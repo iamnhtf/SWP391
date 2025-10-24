@@ -728,4 +728,6 @@ public class AppDbContext : DbContext
     public DbSet<VehiclePerMonth> VehiclePerMonths { get; set; } = null!;
 
     public DbSet<PriceTable> PriceTables { get; set; } = null!;
+
+    public DbSet<PaymentTransaction> PaymentTransactions { get; set; } = null!;
 }

@@ -61,6 +61,7 @@ namespace TestServer.Controllers
             string message = ""; // Biến để lưu thông báo
             string status = "Pending";
             var vehicleMonthId = 0;
+            double paidAmount = 0;
 
             if (vnpResponseCode == "00") // Thành công
             {
@@ -86,7 +87,6 @@ namespace TestServer.Controllers
                         );
                         if (vpm != null)
                         {
-                            double paidAmount = 0;
                             // Parse số tiền đã lấy an toàn ở trên
                             if (int.TryParse(vnpAmountRaw, out var amountInt))
                             {
@@ -95,6 +95,9 @@ namespace TestServer.Controllers
                             vpm.AmountPaid += (float)paidAmount;
                             if (vpm.AmountPaid > vpm.TotalCost)
                                 vpm.AmountPaid = vpm.TotalCost;
+
+
+
                             await _db.SaveChangesAsync();
                             response.OrderId = vehicleMonthId.ToString(); // Gán OrderId nếu thành công và tìm thấy
                         }
@@ -136,7 +139,20 @@ namespace TestServer.Controllers
                     $"VNPAY payment failed for order {vnpTxnRef}. Code: {vnpResponseCode}"
                 );
             }
+            
+            // Lưu log vào bảng PaymentTransactions
+            _db.PaymentTransactions.Add(new PaymentTransaction
+            {
+                VehicleMonthId = vehicleMonthId,
+                ResponseCode = vnpResponseCode,
+                TransactionStatus = vnpTxnStatus,
+                OrderInfo = vnpOrderInfo ?? "",
+                Amount = paidAmount,
+                CreatedAt = DateTime.UtcNow
+            });
+            await _db.SaveChangesAsync();
 
+            
             // Gán thông báo vào ViewBag để View có thể hiển thị
             ViewBag.ResultMessage = message;
             response.OrderDescription = vnpOrderInfo; // Gán lại các thông tin cần thiết khác nếu View cần
@@ -161,7 +177,29 @@ namespace TestServer.Controllers
             if (vpm == null)
                 return NotFound(new { Success = false, Message = "VehiclePerMonth not found." });
 
-            string status = _paymentStatusCache.TryGetValue(vehicleMonthId, out var s) ? s : "Pending";
+            var lastTx = await _db.PaymentTransactions
+                .Where(p => p.VehicleMonthId == vehicleMonthId)
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            string status = "Pending";
+
+            if (lastTx != null)
+    {
+            if (lastTx.ResponseCode == "00" || lastTx.TransactionStatus == "00")
+            {
+                status = "Success";
+            }
+            else if (lastTx.ResponseCode == "24")
+            {
+                status = "Cancelled";
+            }
+            else
+            {
+                status = "Failed";
+            }
+        }
+
             if (status == "Cancelled" || status == "Failed")
             {
                 return Ok(
