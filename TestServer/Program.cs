@@ -3,6 +3,7 @@ using TestServer.Data;
 using TestServer.Services.VNPAY;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using TestServer.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
 // Khởi tạo Firebase Admin SDK
 FirebaseApp.Create(new AppOptions
 {
@@ -77,6 +80,7 @@ app.UseStaticFiles();
 app.UseCors("AllowAll");
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<UnityHub>("/unityhub");
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
