@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Services.VNPAY;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 
-// 2. Thêm dịch vụ DbContext và đọc chuỗi kết nối
+//Thêm dịch vụ DbContext và đọc chuỗi kết nối
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
@@ -45,6 +47,12 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
+});
+
+// Khởi tạo Firebase Admin SDK
+FirebaseApp.Create(new AppOptions
+{
+    Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json"),
 });
 
 var app = builder.Build();
