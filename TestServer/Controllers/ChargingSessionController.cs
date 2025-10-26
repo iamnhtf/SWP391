@@ -72,6 +72,32 @@ namespace TestServer.Controllers
                 db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
+            //set charging status for vehicle
+            var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
+            if (vehicleStatusProp != null)
+            {
+                if (vehicleStatusProp.PropertyType == typeof(string))
+                {
+                    vehicleStatusProp.SetValue(vehicle, "Charging");
+                }
+                else if (vehicleStatusProp.PropertyType.IsEnum)
+                {
+                    try
+                    {
+                        var enumVal = Enum.Parse(
+                            vehicleStatusProp.PropertyType,
+                            "Charging",
+                            ignoreCase: true
+                        );
+                        vehicleStatusProp.SetValue(vehicle, enumVal);
+                    }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
+                }
+                db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
             // --- update MonthlyPeriod / VehiclePerMonth ---
             var month = req.StartTime.Month;
             var year = req.StartTime.Year;
@@ -174,6 +200,33 @@ namespace TestServer.Controllers
             session.Status = SessionStatus.Completed;
             db.Entry(session).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
+            //set vehicle status to Active
+            var vehicle = await db.Vehicles.FindAsync(session.VehicleId);
+            var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
+            if (vehicleStatusProp != null)
+            {
+                if (vehicleStatusProp.PropertyType == typeof(string))
+                {
+                    vehicleStatusProp.SetValue(vehicle, "Active");
+                }
+                else if (vehicleStatusProp.PropertyType.IsEnum)
+                {
+                    try
+                    {
+                        var enumVal = Enum.Parse(
+                            vehicleStatusProp.PropertyType,
+                            "Active",
+                            ignoreCase: true
+                        );
+                        vehicleStatusProp.SetValue(vehicle, enumVal);
+                    }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
+                }
+                db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            
             // update VehiclePerMonth totals for the month of session.StartTime
             var start = session.StartTime;
             var month = start.Month;

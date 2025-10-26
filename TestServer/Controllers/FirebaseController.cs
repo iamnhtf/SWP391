@@ -117,12 +117,18 @@ namespace TestServer.Controllers
                                 break;
 
                             case "full":
-                                await _hubContext.Clients.All.SendAsync("FullCharge");
+                                await _hubContext.Clients.All.SendAsync("FullCharge", JsonSerializer.Serialize(new
+                                {
+                                    vehicleId = fullData.vehicle
+                                }));
                                 Console.WriteLine("Full charge event triggered.");
                                 break;
 
                             case "stop":
-                                await _hubContext.Clients.All.SendAsync("StopCharge");
+                                await _hubContext.Clients.All.SendAsync("StopCharge", JsonSerializer.Serialize(new
+                                {
+                                    vehicleId = fullData.vehicle
+                                }));
                                 Console.WriteLine("Stop charge event triggered.");
                                 break;
                         }
