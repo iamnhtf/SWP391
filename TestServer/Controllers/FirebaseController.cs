@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using Firebase.Database;
 using Firebase.Database.Query;
@@ -24,16 +25,21 @@ namespace TestServer.Controllers
             _hubContext = hubContext;
         }
 
-        [HttpPost("send")]
-        public async Task<IActionResult> SendData([FromBody] object portData)
+        [HttpPost("send/{portId}")]
+        public async Task<IActionResult> SendData(string portId, [FromBody] object portData)
         {
+            if (string.IsNullOrEmpty(portId))
+                return BadRequest(new { message = "Missing portId parameter." });
+
             if (portData == null)
                 return BadRequest(new { message = "Missing portData in request body." });
 
-            var portDataUrl = $"{_baseUrl}portData.json";
+            string portNode = $"Port {portId.Replace(".", "_")}";
+
+            var portDataUrl = $"{_baseUrl}sessions/{portNode}/portData.json";
             var response1 = await _client.PutAsJsonAsync(portDataUrl, portData);
 
-            var statusUrl = $"{_baseUrl}chargingCommand/status.json";
+            var statusUrl = $"{_baseUrl}sessions/{portNode}/chargingCommand/status.json";
             var response2 = await _client.PutAsJsonAsync(statusUrl, "waiting");
 
             if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
@@ -75,51 +81,56 @@ namespace TestServer.Controllers
             if (_listener != null)
                 return Ok("Already listening.");
 
-            string lastStatus = null;
+            ConcurrentDictionary<string, string> lastStatuses = new();
 
             _listener = _firebaseClient
-            .Child("chargingCommand")
+            .Child("sessions")
             .AsObservable<object>()
             .Subscribe(async snapshot =>
             {
-                if (snapshot.Object == null)
-                {
-                    Console.WriteLine("Status snapshot does not exist.");
+                if (snapshot.Object == null || snapshot.Key == null)
                     return;
-                }
 
                 try
                 {
-                    var fullData = await _firebaseClient
+                    string portId = snapshot.Key;
+
+                    var chargingCommand = await _firebaseClient
+                        .Child("sessions")
+                        .Child(portId)
                         .Child("chargingCommand")
                         .OnceSingleAsync<ChargingCommand>();
 
-                    var json = JsonSerializer.Serialize(fullData);
-                    Console.WriteLine($"Full chargingCommand: {json}");
+                    if (chargingCommand == null)
+                        return;
 
-                    if (fullData.status != lastStatus)
+                    var json = JsonSerializer.Serialize(chargingCommand);
+                    //Console.WriteLine($"[Firebase Update] {portId}: {json}");
+
+                    if (!lastStatuses.TryGetValue(portId, out var lastStatus) || chargingCommand.status != lastStatus)
                     {
-                        lastStatus = fullData.status;
-                        Console.WriteLine($"Status changed: {fullData.status}");
+                        lastStatuses[portId] = chargingCommand.status;
+                        if (lastStatus != null)
+                            Console.WriteLine($"[Status Changed] {portId} -> {chargingCommand.status}");
 
-                        switch (fullData.status)
+                        switch (chargingCommand.status)
                         {
                             case "start":
-                                float currentCapacity = (100 - fullData.battery) / 100f * fullData.maxBattery;
+                                float currentCapacity = (100 - chargingCommand.battery) / 100f * chargingCommand.maxBattery;
                                 await _hubContext.Clients.All.SendAsync("StartCharge", JsonSerializer.Serialize(new
                                 {
-                                    vehicleId = fullData.vehicle,
-                                    battery = fullData.battery,
-                                    maxBattery = fullData.maxBattery,
+                                    vehicleId = chargingCommand.vehicle,
+                                    battery = chargingCommand.battery,
+                                    maxBattery = chargingCommand.maxBattery,
                                     currentCapacity
                                 }));
-                                Console.WriteLine($"Start charging vehicle {fullData.vehicle}");
+                                Console.WriteLine($"Start charging vehicle {chargingCommand.vehicle}");
                                 break;
 
                             case "full":
                                 await _hubContext.Clients.All.SendAsync("FullCharge", JsonSerializer.Serialize(new
                                 {
-                                    vehicleId = fullData.vehicle
+                                    vehicleId = chargingCommand.vehicle
                                 }));
                                 Console.WriteLine("Full charge event triggered.");
                                 break;
@@ -127,7 +138,7 @@ namespace TestServer.Controllers
                             case "stop":
                                 await _hubContext.Clients.All.SendAsync("StopCharge", JsonSerializer.Serialize(new
                                 {
-                                    vehicleId = fullData.vehicle
+                                    vehicleId = chargingCommand.vehicle
                                 }));
                                 Console.WriteLine("Stop charge event triggered.");
                                 break;
@@ -145,10 +156,10 @@ namespace TestServer.Controllers
     }
     
     public class ChargingCommand
-{
-    public int battery { get; set; }
-    public int maxBattery { get; set; }
-    public string status { get; set; }
-    public int vehicle { get; set; }
-}
+    {
+        public int battery { get; set; }
+        public int maxBattery { get; set; }
+        public string status { get; set; }
+        public int vehicle { get; set; }
+    }
 }
