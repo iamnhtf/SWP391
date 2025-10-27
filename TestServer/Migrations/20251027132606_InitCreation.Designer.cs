@@ -11,8 +11,8 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251006144020_MonthlyPeriodAndUserPerMonth")]
-    partial class MonthlyPeriodAndUserPerMonth
+    [Migration("20251027132606_InitCreation")]
+    partial class InitCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,15 +27,13 @@ namespace TestServer.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("ChargingSessionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StationId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ChargingSessionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("StationId");
 
@@ -45,337 +43,404 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = "1.1",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.2",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.3",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.4",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.5",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.6",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "1.7",
-                            StationId = 1
+                            StationId = 1,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.1",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.2",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.3",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.4",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.5",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.6",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.7",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.8",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.9",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "2.10",
-                            StationId = 2
+                            StationId = 2,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.1",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.2",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.3",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.4",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.5",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.6",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.7",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.8",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.9",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "3.10",
-                            StationId = 3
+                            StationId = 3,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.1",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.2",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.3",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.4",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.5",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.6",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.7",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.8",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.9",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "4.10",
-                            StationId = 4
+                            StationId = 4,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.1",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.2",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.3",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.4",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.5",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.6",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.7",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.8",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.9",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "5.10",
-                            StationId = 5
+                            StationId = 5,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.1",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.2",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.3",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.4",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.5",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.6",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.7",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.8",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.9",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "6.10",
-                            StationId = 6
+                            StationId = 6,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.1",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.2",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.3",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.4",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.5",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.6",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.7",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.8",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.9",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         },
                         new
                         {
                             Id = "7.10",
-                            StationId = 7
+                            StationId = 7,
+                            Status = 0
                         });
                 });
 
@@ -2033,11 +2098,11 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("PriceId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<float>("TotalCost")
                         .HasColumnType("float");
@@ -2049,11 +2114,682 @@ namespace TestServer.Migrations
 
                     b.HasIndex("PortId");
 
-                    b.HasIndex("PriceId");
-
                     b.HasIndex("VehicleId");
 
                     b.ToTable("ChargingSessions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EndTime = new DateTime(2025, 7, 3, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.2f,
+                            PortId = "1.1.1",
+                            StartTime = new DateTime(2025, 7, 3, 8, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 159000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EndTime = new DateTime(2025, 7, 8, 16, 20, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 36.8f,
+                            PortId = "2.2.1",
+                            StartTime = new DateTime(2025, 7, 8, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 142000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EndTime = new DateTime(2025, 7, 15, 11, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 39.5f,
+                            PortId = "3.3.1",
+                            StartTime = new DateTime(2025, 7, 15, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 152000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EndTime = new DateTime(2025, 7, 22, 18, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 43.1f,
+                            PortId = "4.4.1",
+                            StartTime = new DateTime(2025, 7, 22, 16, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 166000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EndTime = new DateTime(2025, 7, 28, 14, 25, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.7f,
+                            PortId = "5.5.1",
+                            StartTime = new DateTime(2025, 7, 28, 12, 10, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 161000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            EndTime = new DateTime(2025, 7, 5, 13, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 47.3f,
+                            PortId = "1.2.2",
+                            StartTime = new DateTime(2025, 7, 5, 11, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 182000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            EndTime = new DateTime(2025, 7, 12, 18, 25, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 43.7f,
+                            PortId = "2.4.1",
+                            StartTime = new DateTime(2025, 7, 12, 16, 10, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 168000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            EndTime = new DateTime(2025, 7, 18, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.1f,
+                            PortId = "3.5.1",
+                            StartTime = new DateTime(2025, 7, 18, 7, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 147000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            EndTime = new DateTime(2025, 7, 25, 17, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 45.2f,
+                            PortId = "4.6.1",
+                            StartTime = new DateTime(2025, 7, 25, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 174000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            EndTime = new DateTime(2025, 7, 4, 15, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 31.2f,
+                            PortId = "1.3.1",
+                            StartTime = new DateTime(2025, 7, 4, 13, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 120000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            EndTime = new DateTime(2025, 7, 11, 11, 50, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 28.9f,
+                            PortId = "2.6.1",
+                            StartTime = new DateTime(2025, 7, 11, 10, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 111000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            EndTime = new DateTime(2025, 7, 19, 19, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 33.1f,
+                            PortId = "3.7.1",
+                            StartTime = new DateTime(2025, 7, 19, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 127000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 13,
+                            EndTime = new DateTime(2025, 7, 6, 14, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 40.6f,
+                            PortId = "1.4.2",
+                            StartTime = new DateTime(2025, 7, 6, 12, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 156000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 14,
+                            EndTime = new DateTime(2025, 7, 14, 19, 10, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 42.3f,
+                            PortId = "2.7.1",
+                            StartTime = new DateTime(2025, 7, 14, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 163000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 15,
+                            EndTime = new DateTime(2025, 7, 20, 10, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 37.8f,
+                            PortId = "3.8.1",
+                            StartTime = new DateTime(2025, 7, 20, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 146000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            EndTime = new DateTime(2025, 7, 26, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.7f,
+                            PortId = "4.9.1",
+                            StartTime = new DateTime(2025, 7, 26, 14, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 172000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 17,
+                            EndTime = new DateTime(2025, 7, 7, 17, 55, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 45.1f,
+                            PortId = "1.5.1",
+                            StartTime = new DateTime(2025, 7, 7, 15, 40, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 174000f,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            Id = 18,
+                            EndTime = new DateTime(2025, 7, 16, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.7f,
+                            PortId = "2.8.1",
+                            StartTime = new DateTime(2025, 7, 16, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 161000f,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            Id = 19,
+                            EndTime = new DateTime(2025, 7, 23, 21, 0, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 47.8f,
+                            PortId = "3.9.1",
+                            StartTime = new DateTime(2025, 7, 23, 18, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 184000f,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            Id = 20,
+                            EndTime = new DateTime(2025, 8, 2, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 40.2f,
+                            PortId = "1.1.2",
+                            StartTime = new DateTime(2025, 8, 2, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 155000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 21,
+                            EndTime = new DateTime(2025, 8, 9, 16, 20, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 37.6f,
+                            PortId = "2.2.2",
+                            StartTime = new DateTime(2025, 8, 9, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 145000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 22,
+                            EndTime = new DateTime(2025, 8, 16, 10, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.9f,
+                            PortId = "3.3.2",
+                            StartTime = new DateTime(2025, 8, 16, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 150000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 23,
+                            EndTime = new DateTime(2025, 8, 23, 19, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 43.1f,
+                            PortId = "4.4.2",
+                            StartTime = new DateTime(2025, 8, 23, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 166000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 24,
+                            EndTime = new DateTime(2025, 8, 30, 14, 25, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.7f,
+                            PortId = "5.5.2",
+                            StartTime = new DateTime(2025, 8, 30, 12, 10, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 161000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 25,
+                            EndTime = new DateTime(2025, 8, 4, 14, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 48.9f,
+                            PortId = "1.2.3",
+                            StartTime = new DateTime(2025, 8, 4, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 188000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 26,
+                            EndTime = new DateTime(2025, 8, 11, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.2f,
+                            PortId = "2.3.3",
+                            StartTime = new DateTime(2025, 8, 11, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 170000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 27,
+                            EndTime = new DateTime(2025, 8, 18, 11, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 46.5f,
+                            PortId = "3.4.3",
+                            StartTime = new DateTime(2025, 8, 18, 9, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 179000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 28,
+                            EndTime = new DateTime(2025, 8, 25, 17, 40, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 42.8f,
+                            PortId = "4.5.3",
+                            StartTime = new DateTime(2025, 8, 25, 15, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 165000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 29,
+                            EndTime = new DateTime(2025, 8, 6, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 31.8f,
+                            PortId = "1.3.2",
+                            StartTime = new DateTime(2025, 8, 6, 13, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 122000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 30,
+                            EndTime = new DateTime(2025, 8, 13, 12, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 29.4f,
+                            PortId = "2.4.2",
+                            StartTime = new DateTime(2025, 8, 13, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 113000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 31,
+                            EndTime = new DateTime(2025, 8, 20, 19, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 33.1f,
+                            PortId = "3.5.2",
+                            StartTime = new DateTime(2025, 8, 20, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 127000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 32,
+                            EndTime = new DateTime(2025, 8, 3, 11, 10, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.6f,
+                            PortId = "1.4.1",
+                            StartTime = new DateTime(2025, 8, 3, 8, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 172000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 33,
+                            EndTime = new DateTime(2025, 8, 10, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.3f,
+                            PortId = "2.5.1",
+                            StartTime = new DateTime(2025, 8, 10, 14, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 159000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 34,
+                            EndTime = new DateTime(2025, 8, 17, 13, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.7f,
+                            PortId = "3.6.1",
+                            StartTime = new DateTime(2025, 8, 17, 11, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 149000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 35,
+                            EndTime = new DateTime(2025, 8, 24, 18, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 42.9f,
+                            PortId = "4.7.1",
+                            StartTime = new DateTime(2025, 8, 24, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 165000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 36,
+                            EndTime = new DateTime(2025, 8, 5, 15, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 49.2f,
+                            PortId = "1.5.2",
+                            StartTime = new DateTime(2025, 8, 5, 12, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 200000f,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            Id = 37,
+                            EndTime = new DateTime(2025, 9, 2, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 40.2f,
+                            PortId = "1.1.3",
+                            StartTime = new DateTime(2025, 9, 2, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 155000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 38,
+                            EndTime = new DateTime(2025, 9, 8, 16, 20, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 37.6f,
+                            PortId = "2.2.1",
+                            StartTime = new DateTime(2025, 9, 8, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 145000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 39,
+                            EndTime = new DateTime(2025, 9, 15, 10, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.9f,
+                            PortId = "3.3.3",
+                            StartTime = new DateTime(2025, 9, 15, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 150000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 40,
+                            EndTime = new DateTime(2025, 9, 22, 19, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 43.1f,
+                            PortId = "4.4.3",
+                            StartTime = new DateTime(2025, 9, 22, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 166000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 41,
+                            EndTime = new DateTime(2025, 9, 29, 14, 25, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.7f,
+                            PortId = "5.5.3",
+                            StartTime = new DateTime(2025, 9, 29, 12, 10, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 161000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 42,
+                            EndTime = new DateTime(2025, 9, 4, 14, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 48.9f,
+                            PortId = "1.2.1",
+                            StartTime = new DateTime(2025, 9, 4, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 188000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 43,
+                            EndTime = new DateTime(2025, 9, 11, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.2f,
+                            PortId = "2.3.1",
+                            StartTime = new DateTime(2025, 9, 11, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 170000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 44,
+                            EndTime = new DateTime(2025, 9, 18, 11, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 46.5f,
+                            PortId = "3.4.1",
+                            StartTime = new DateTime(2025, 9, 18, 9, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 179000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 45,
+                            EndTime = new DateTime(2025, 9, 25, 17, 40, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 42.8f,
+                            PortId = "4.5.1",
+                            StartTime = new DateTime(2025, 9, 25, 15, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 165000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 46,
+                            EndTime = new DateTime(2025, 9, 6, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 31.8f,
+                            PortId = "1.3.3",
+                            StartTime = new DateTime(2025, 9, 6, 13, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 122000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 47,
+                            EndTime = new DateTime(2025, 9, 13, 12, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 29.4f,
+                            PortId = "2.4.3",
+                            StartTime = new DateTime(2025, 9, 13, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 113000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 48,
+                            EndTime = new DateTime(2025, 9, 20, 19, 35, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 33.1f,
+                            PortId = "3.5.3",
+                            StartTime = new DateTime(2025, 9, 20, 17, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 127000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 49,
+                            EndTime = new DateTime(2025, 9, 3, 11, 10, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.6f,
+                            PortId = "1.4.3",
+                            StartTime = new DateTime(2025, 9, 3, 8, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 172000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 50,
+                            EndTime = new DateTime(2025, 9, 10, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.3f,
+                            PortId = "2.5.2",
+                            StartTime = new DateTime(2025, 9, 10, 14, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 159000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 51,
+                            EndTime = new DateTime(2025, 9, 17, 13, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.7f,
+                            PortId = "3.6.2",
+                            StartTime = new DateTime(2025, 9, 17, 11, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 149000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 52,
+                            EndTime = new DateTime(2025, 9, 24, 18, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 42.9f,
+                            PortId = "4.7.2",
+                            StartTime = new DateTime(2025, 9, 24, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 165000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 53,
+                            EndTime = new DateTime(2025, 10, 2, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 40.2f,
+                            PortId = "1.1.1",
+                            StartTime = new DateTime(2025, 10, 2, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 155000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 54,
+                            EndTime = new DateTime(2025, 10, 8, 16, 20, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 37.6f,
+                            PortId = "2.2.2",
+                            StartTime = new DateTime(2025, 10, 8, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 145000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 55,
+                            EndTime = new DateTime(2025, 10, 11, 10, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 38.9f,
+                            PortId = "3.3.1",
+                            StartTime = new DateTime(2025, 10, 11, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 150000f,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            Id = 56,
+                            EndTime = new DateTime(2025, 10, 3, 14, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 48.9f,
+                            PortId = "1.2.2",
+                            StartTime = new DateTime(2025, 10, 3, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 188000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 57,
+                            EndTime = new DateTime(2025, 10, 9, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.2f,
+                            PortId = "2.3.3",
+                            StartTime = new DateTime(2025, 10, 9, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 170000f,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            Id = 58,
+                            EndTime = new DateTime(2025, 10, 5, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 31.8f,
+                            PortId = "1.3.1",
+                            StartTime = new DateTime(2025, 10, 5, 13, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 122000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 59,
+                            EndTime = new DateTime(2025, 10, 10, 12, 15, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 29.4f,
+                            PortId = "2.4.1",
+                            StartTime = new DateTime(2025, 10, 10, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 113000f,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            Id = 60,
+                            EndTime = new DateTime(2025, 10, 4, 11, 10, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 44.6f,
+                            PortId = "1.4.1",
+                            StartTime = new DateTime(2025, 10, 4, 8, 45, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 172000f,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            Id = 61,
+                            EndTime = new DateTime(2025, 10, 7, 16, 45, 0, 0, DateTimeKind.Unspecified),
+                            EnergyConsumed = 41.3f,
+                            PortId = "2.5.1",
+                            StartTime = new DateTime(2025, 10, 7, 14, 20, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            TotalCost = 159000f,
+                            VehicleId = 4
+                        });
                 });
 
             modelBuilder.Entity("TestServer.Models.ChargingStation", b =>
@@ -2076,6 +2812,9 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("ChargingStations");
@@ -2084,58 +2823,97 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 1,
-                            Latitude = 10.7944,
-                            Location = "Vincom Landmark 81, Binh Thanh District, Ho Chi Minh City",
-                            Longitude = 106.72150000000001,
-                            Name = "Landmark 81 Charging Station"
+                            Latitude = 10.846289725256499,
+                            Location = "778 Nguyen Van Qua, Dong Hung Thuan Ward, District 12, Ho Chi Minh City",
+                            Longitude = 106.63358659588795,
+                            Name = "Parking lot S778 Nguyen Van Qua",
+                            Status = 0
                         },
                         new
                         {
                             Id = 2,
-                            Latitude = 10.801299999999999,
-                            Location = "Vincom Cong Hoa, Tan Binh District, Ho Chi Minh City",
-                            Longitude = 106.65000000000001,
-                            Name = "Cong Hoa Charging Station"
+                            Latitude = 10.778019786911162,
+                            Location = "Basement B3, Léman Luxury Apartments, 117 Nguyễn Đình Chiểu, Ward 6, District 3, Ho Chi Minh City",
+                            Longitude = 106.68989161819898,
+                            Name = "Léman Luxury Apartments",
+                            Status = 0
                         },
                         new
                         {
                             Id = 3,
-                            Latitude = 10.7721,
-                            Location = "Vincom Ba Thang Hai, District 10, Ho Chi Minh City",
-                            Longitude = 106.6678,
-                            Name = "Ba Thang Hai Charging Station"
+                            Latitude = 10.759974990301892,
+                            Location = "243 Tan Hoa Dong, Ward 14, District 6, Ho Chi Minh City",
+                            Longitude = 106.62537124357758,
+                            Name = "Summer Square Apartment Complex",
+                            Status = 0
                         },
                         new
                         {
                             Id = 4,
-                            Latitude = 10.779500000000001,
-                            Location = "Leman Luxury Building, District 3, Ho Chi Minh City",
-                            Longitude = 106.6888,
-                            Name = "Leman Luxury Apartments Station"
+                            Latitude = 10.726400325147486,
+                            Location = "Basement B2, 15 Nguyen Luong Bang, Tan Phu Ward, District 7, Ho Chi Minh City",
+                            Longitude = 106.72395755358133,
+                            Name = "Golden King Apartment Complex",
+                            Status = 0
                         },
                         new
                         {
                             Id = 5,
-                            Latitude = 10.748200000000001,
-                            Location = "Nguyen Van Luong Street, District 6, Ho Chi Minh City",
-                            Longitude = 106.6361,
-                            Name = "Huynh Hieu Thien Station"
+                            Latitude = 10.744180504637178,
+                            Location = "71 Tran Trong Cung, Tan Thuan Dong Ward, District 7, Ho Chi Minh City",
+                            Longitude = 106.73212781504205,
+                            Name = "TTTM VinCom+ Nam Long",
+                            Status = 0
                         },
                         new
                         {
                             Id = 6,
-                            Latitude = 10.735799999999999,
-                            Location = "Hoang Quoc Viet Street, District 7, Ho Chi Minh City",
-                            Longitude = 106.7251,
-                            Name = "Sky89 Station"
+                            Latitude = 10.738380975551181,
+                            Location = "54 Nguyen Thi Thap, Binh Thuan Ward, District 7, Ho Chi Minh City",
+                            Longitude = 106.72723544339814,
+                            Name = "VinFast - Chevrolet Phu My Hung Car Dealership",
+                            Status = 0
                         },
                         new
                         {
                             Id = 7,
-                            Latitude = 10.7765,
-                            Location = "Le Thanh Ton Street, District 1, Ho Chi Minh City",
-                            Longitude = 106.7032,
-                            Name = "Center Dong Khoi Station"
+                            Latitude = 10.721662104756106,
+                            Location = "Green View, Tân Phú Ward, District 7, Ho Chi Minh City",
+                            Longitude = 106.72691002973274,
+                            Name = "Green View Apartment Complex",
+                            Status = 0
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.Connector", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Connectors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AC"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "CCS"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "CHAdeMO"
                         });
                 });
 
@@ -2250,6 +3028,328 @@ namespace TestServer.Migrations
                             Email = "hoa.le@example.com",
                             Name = "Lê Thị Hòa",
                             PhoneNumber = "0905566778"
+                        },
+                        new
+                        {
+                            Id = "k825tKKC1aex70inOKxd2lQpJUD3",
+                            Address = "Quận 1, TP.HCM",
+                            Email = "nguyenxuanthinh@gmail.com",
+                            Name = "Nguyen Xuan Thinh",
+                            PhoneNumber = "0901234567"
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.MonthlyPeriod", b =>
+                {
+                    b.Property<int>("PeriodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("PeriodId");
+
+                    b.ToTable("MonthlyPeriods");
+
+                    b.HasData(
+                        new
+                        {
+                            PeriodId = 1,
+                            Month = 1,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 2,
+                            Month = 2,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 3,
+                            Month = 3,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 4,
+                            Month = 4,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 5,
+                            Month = 5,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 6,
+                            Month = 6,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 7,
+                            Month = 7,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 8,
+                            Month = 8,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 9,
+                            Month = 9,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 10,
+                            Month = 10,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 11,
+                            Month = 11,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 12,
+                            Month = 12,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PeriodId = 13,
+                            Month = 1,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 14,
+                            Month = 2,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 15,
+                            Month = 3,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 16,
+                            Month = 4,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 17,
+                            Month = 5,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 18,
+                            Month = 6,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 19,
+                            Month = 7,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 20,
+                            Month = 8,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 21,
+                            Month = 9,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 22,
+                            Month = 10,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 23,
+                            Month = 11,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            PeriodId = 24,
+                            Month = 12,
+                            Year = 2025
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.PaymentTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("OrderInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponseCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TransactionStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("VehicleMonthId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentTransactions");
+                });
+
+            modelBuilder.Entity("TestServer.Models.PowerRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Range")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PowerRanges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Range = "0-7"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Range = "7-50"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Range = "50-150"
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.PriceTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<float>("PenaltyFeePerMinute")
+                        .HasColumnType("float");
+
+                    b.Property<float>("PricePerKWh")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ValidTo")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PriceTables");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PenaltyFeePerMinute = 800f,
+                            PricePerKWh = 3500f,
+                            Status = 1,
+                            ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2024, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PenaltyFeePerMinute = 1000f,
+                            PricePerKWh = 3858f,
+                            Status = 0,
+                            ValidFrom = new DateTime(2024, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PenaltyFeePerMinute = 1200f,
+                            PricePerKWh = 4000f,
+                            Status = 1,
+                            ValidFrom = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2027, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.TimeRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Range")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TimeRanges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Range = "06:01–17:00"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Range = "17:01–21:00"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Range = "21:01–06:00"
                         });
                 });
 
@@ -2274,6 +3374,10 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
@@ -2288,45 +3392,50 @@ namespace TestServer.Migrations
                         {
                             VehicleId = 1,
                             BatteryCapacity = 75,
-                            CustomerId = "",
+                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "51B-67890",
                             Name = "Tesla Model 3",
+                            Status = "Active",
                             VehicleTypeId = 2
                         },
                         new
                         {
                             VehicleId = 2,
                             BatteryCapacity = 82,
-                            CustomerId = "",
+                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "30A-12345",
                             Name = "VinFast VF 8",
+                            Status = "Active",
                             VehicleTypeId = 2
                         },
                         new
                         {
                             VehicleId = 3,
                             BatteryCapacity = 40,
-                            CustomerId = "",
+                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "29C-56789",
                             Name = "Nissan Leaf",
+                            Status = "Blocked",
                             VehicleTypeId = 2
                         },
                         new
                         {
                             VehicleId = 4,
                             BatteryCapacity = 77,
-                            CustomerId = "",
+                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "88D-45678",
                             Name = "Hyundai Ioniq 5",
+                            Status = "Active",
                             VehicleTypeId = 2
                         },
                         new
                         {
                             VehicleId = 5,
                             BatteryCapacity = 74,
-                            CustomerId = "",
+                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "77E-99999",
                             Name = "Kia EV6",
+                            Status = "Blocked",
                             VehicleTypeId = 2
                         });
                 });
@@ -2375,6 +3484,211 @@ namespace TestServer.Migrations
                         {
                             VehicleId = 3,
                             ConnectorId = 2
+                        });
+                });
+
+            modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>
+                {
+                    b.Property<int>("VehicleMonthId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<float>("AmountPaid")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PeriodId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalCost")
+                        .HasColumnType("float");
+
+                    b.Property<float>("TotalEnergy")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TotalSessions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleMonthId");
+
+                    b.HasIndex("PeriodId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("VehiclePerMonths");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleMonthId = 1,
+                            AmountPaid = 780000f,
+                            PeriodId = 19,
+                            TotalCost = 780000f,
+                            TotalEnergy = 202.3f,
+                            TotalSessions = 5,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            VehicleMonthId = 2,
+                            AmountPaid = 671000f,
+                            PeriodId = 19,
+                            TotalCost = 671000f,
+                            TotalEnergy = 174.3f,
+                            TotalSessions = 4,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            VehicleMonthId = 3,
+                            AmountPaid = 358000f,
+                            PeriodId = 19,
+                            TotalCost = 358000f,
+                            TotalEnergy = 93.2f,
+                            TotalSessions = 3,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            VehicleMonthId = 4,
+                            AmountPaid = 637000f,
+                            PeriodId = 19,
+                            TotalCost = 637000f,
+                            TotalEnergy = 165.4f,
+                            TotalSessions = 4,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            VehicleMonthId = 5,
+                            AmountPaid = 519000f,
+                            PeriodId = 19,
+                            TotalCost = 519000f,
+                            TotalEnergy = 134.6f,
+                            TotalSessions = 3,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            VehicleMonthId = 6,
+                            AmountPaid = 777000f,
+                            PeriodId = 20,
+                            TotalCost = 777000f,
+                            TotalEnergy = 201.5f,
+                            TotalSessions = 5,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            VehicleMonthId = 7,
+                            AmountPaid = 702000f,
+                            PeriodId = 20,
+                            TotalCost = 702000f,
+                            TotalEnergy = 182.4f,
+                            TotalSessions = 4,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            VehicleMonthId = 8,
+                            AmountPaid = 362000f,
+                            PeriodId = 20,
+                            TotalCost = 362000f,
+                            TotalEnergy = 94.3f,
+                            TotalSessions = 3,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            VehicleMonthId = 9,
+                            AmountPaid = 645000f,
+                            PeriodId = 20,
+                            TotalCost = 645000f,
+                            TotalEnergy = 167.5f,
+                            TotalSessions = 4,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            VehicleMonthId = 10,
+                            AmountPaid = 200000f,
+                            PeriodId = 20,
+                            TotalCost = 534000f,
+                            TotalEnergy = 138.4f,
+                            TotalSessions = 3,
+                            VehicleId = 5
+                        },
+                        new
+                        {
+                            VehicleMonthId = 11,
+                            AmountPaid = 777000f,
+                            PeriodId = 21,
+                            TotalCost = 777000f,
+                            TotalEnergy = 201.5f,
+                            TotalSessions = 5,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            VehicleMonthId = 12,
+                            AmountPaid = 702000f,
+                            PeriodId = 21,
+                            TotalCost = 702000f,
+                            TotalEnergy = 182.4f,
+                            TotalSessions = 4,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            VehicleMonthId = 13,
+                            AmountPaid = 0f,
+                            PeriodId = 21,
+                            TotalCost = 362000f,
+                            TotalEnergy = 94.3f,
+                            TotalSessions = 3,
+                            VehicleId = 3
+                        },
+                        new
+                        {
+                            VehicleMonthId = 14,
+                            AmountPaid = 645000f,
+                            PeriodId = 21,
+                            TotalCost = 645000f,
+                            TotalEnergy = 167.5f,
+                            TotalSessions = 4,
+                            VehicleId = 4
+                        },
+                        new
+                        {
+                            VehicleMonthId = 16,
+                            AmountPaid = 0f,
+                            PeriodId = 22,
+                            TotalCost = 450000f,
+                            TotalEnergy = 116.7f,
+                            TotalSessions = 3,
+                            VehicleId = 1
+                        },
+                        new
+                        {
+                            VehicleMonthId = 17,
+                            AmountPaid = 0f,
+                            PeriodId = 22,
+                            TotalCost = 358000f,
+                            TotalEnergy = 93.1f,
+                            TotalSessions = 2,
+                            VehicleId = 2
+                        },
+                        new
+                        {
+                            VehicleMonthId = 18,
+                            AmountPaid = 0f,
+                            PeriodId = 22,
+                            TotalCost = 331000f,
+                            TotalEnergy = 85.9f,
+                            TotalSessions = 2,
+                            VehicleId = 4
                         });
                 });
 
@@ -2440,126 +3754,7 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Package.Connector", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Connectors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "AC"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "CCS"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "CHAdeMO"
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Package.PowerRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PowerRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "0-7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "7-50"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "50-150"
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Package.PriceTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<float>("PenaltyFeePerMinute")
-                        .HasColumnType("float");
-
-                    b.Property<float>("PricePerKWh")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("ValidTo")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PriceTable");
-                });
-
-            modelBuilder.Entity("TestServer.Package.TimeRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TimeRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "06:01–17:00"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "17:01–21:00"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "21:01–06:00"
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Package.VehicleType", b =>
+            modelBuilder.Entity("TestServer.Models.VehicleType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2582,16 +3777,12 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "car"
+                            Name = "Car"
                         });
                 });
 
             modelBuilder.Entity("TestServer.Models.ChargingPoint", b =>
                 {
-                    b.HasOne("TestServer.Models.ChargingSession", null)
-                        .WithMany("ChargingPoints")
-                        .HasForeignKey("ChargingSessionId");
-
                     b.HasOne("TestServer.Models.ChargingStation", "ChargingStation")
                         .WithMany("ChargingPoints")
                         .HasForeignKey("StationId")
@@ -2603,7 +3794,7 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.ChargingPort", b =>
                 {
-                    b.HasOne("TestServer.Package.Connector", "Connector")
+                    b.HasOne("TestServer.Models.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2628,12 +3819,6 @@ namespace TestServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestServer.Package.PriceTable", "Price")
-                        .WithMany()
-                        .HasForeignKey("PriceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TestServer.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
@@ -2642,14 +3827,12 @@ namespace TestServer.Migrations
 
                     b.Navigation("ChargingPort");
 
-                    b.Navigation("Price");
-
                     b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("TestServer.Models.Vehicle", b =>
                 {
-                    b.HasOne("TestServer.Package.VehicleType", "VehicleType")
+                    b.HasOne("TestServer.Models.VehicleType", "VehicleType")
                         .WithMany()
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2660,7 +3843,7 @@ namespace TestServer.Migrations
 
             modelBuilder.Entity("TestServer.Models.VehicleConnectorType", b =>
                 {
-                    b.HasOne("TestServer.Package.Connector", "Connector")
+                    b.HasOne("TestServer.Models.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2677,9 +3860,28 @@ namespace TestServer.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>
+                {
+                    b.HasOne("TestServer.Models.MonthlyPeriod", "MonthlyPeriod")
+                        .WithMany()
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TestServer.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonthlyPeriod");
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("TestServer.Models.VehiclePort", b =>
                 {
-                    b.HasOne("TestServer.Package.Connector", "Connector")
+                    b.HasOne("TestServer.Models.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2699,11 +3901,6 @@ namespace TestServer.Migrations
             modelBuilder.Entity("TestServer.Models.ChargingPoint", b =>
                 {
                     b.Navigation("ChargingPorts");
-                });
-
-            modelBuilder.Entity("TestServer.Models.ChargingSession", b =>
-                {
-                    b.Navigation("ChargingPoints");
                 });
 
             modelBuilder.Entity("TestServer.Models.ChargingStation", b =>
