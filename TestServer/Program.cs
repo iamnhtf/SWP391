@@ -54,13 +54,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSignalR();
 
-//Firebase Client (Realtime DB)
-builder.Services.AddSingleton(provider =>
-{
-    string firebaseUrl = "https://ev-charging-station-swp-default-rtdb.firebaseio.com/";
-    return new FirebaseClient(firebaseUrl);
-});
-
 // Khởi tạo Firebase Admin SDK
 if (FirebaseApp.DefaultInstance == null)
 {
@@ -69,9 +62,6 @@ if (FirebaseApp.DefaultInstance == null)
         Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json")
     });
 }
-
-// Đăng ký FirebaseListenerService như một Hosted Service
-builder.Services.AddHostedService<FirebaseListenerService>();
 
 var app = builder.Build();
 
