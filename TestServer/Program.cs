@@ -52,20 +52,23 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Đăng ký Firebase client để dùng DI
+builder.Services.AddSignalR();
+
+//Firebase Client (Realtime DB)
 builder.Services.AddSingleton(provider =>
 {
-    var firebaseUrl = "https://ev-charging-station-swp-default-rtdb.firebaseio.com/"; 
+    string firebaseUrl = "https://ev-charging-station-swp-default-rtdb.firebaseio.com/";
     return new FirebaseClient(firebaseUrl);
 });
 
-builder.Services.AddSignalR();
-
 // Khởi tạo Firebase Admin SDK
-FirebaseApp.Create(new AppOptions
+if (FirebaseApp.DefaultInstance == null)
 {
-    Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json"),
-});
+    FirebaseApp.Create(new AppOptions
+    {
+        Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json")
+    });
+}
 
 // Đăng ký FirebaseListenerService như một Hosted Service
 builder.Services.AddHostedService<FirebaseListenerService>();
