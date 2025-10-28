@@ -18,6 +18,9 @@ namespace TestServer.Controllers
         private readonly FirebaseClient _firebaseClient;
         private static IDisposable _listener;
 
+        private static readonly ConcurrentDictionary<string, IDisposable> activeListeners = new();
+        private static readonly ConcurrentDictionary<string, string> lastStatuses = new();
+
         public FirebaseController(IHubContext<UnityHub> hubContext)
         {
             _client = new HttpClient();
@@ -75,16 +78,18 @@ namespace TestServer.Controllers
             return Ok(json);
         }
 
-        [HttpGet("listen")]
-        public IActionResult Listen()
+        [HttpGet("listen/{portId}")]
+        public IActionResult Listen(string portId)
         {
-            if (_listener != null)
-                return Ok("Already listening.");
+            if (activeListeners.ContainsKey(portId))
+                return Ok($"Already listening to port {portId}");
 
-            ConcurrentDictionary<string, string> lastStatuses = new();
+            Console.WriteLine($"[Firebase] Start listening for port {portId}...");
 
             _listener = _firebaseClient
             .Child("sessions")
+            .Child($"Port {portId.Replace(".", "_")}")
+            .Child("chargingCommand")
             .AsObservable<object>()
             .Subscribe(async snapshot =>
             {
@@ -93,11 +98,9 @@ namespace TestServer.Controllers
 
                 try
                 {
-                    string portId = snapshot.Key;
-
                     var chargingCommand = await _firebaseClient
                         .Child("sessions")
-                        .Child(portId)
+                        .Child($"Port {portId.Replace(".", "_")}")
                         .Child("chargingCommand")
                         .OnceSingleAsync<ChargingCommand>();
 
@@ -119,6 +122,7 @@ namespace TestServer.Controllers
                                 float currentCapacity = (100 - chargingCommand.battery) / 100f * chargingCommand.maxBattery;
                                 await _hubContext.Clients.All.SendAsync("StartCharge", JsonSerializer.Serialize(new
                                 {
+                                    portId = portId,
                                     vehicleId = chargingCommand.vehicle,
                                     battery = chargingCommand.battery,
                                     maxBattery = chargingCommand.maxBattery,
@@ -130,6 +134,7 @@ namespace TestServer.Controllers
                             case "full":
                                 await _hubContext.Clients.All.SendAsync("FullCharge", JsonSerializer.Serialize(new
                                 {
+                                    portId = portId,
                                     vehicleId = chargingCommand.vehicle
                                 }));
                                 Console.WriteLine("Full charge event triggered.");
@@ -138,6 +143,7 @@ namespace TestServer.Controllers
                             case "stop":
                                 await _hubContext.Clients.All.SendAsync("StopCharge", JsonSerializer.Serialize(new
                                 {
+                                    portId = portId,
                                     vehicleId = chargingCommand.vehicle
                                 }));
                                 Console.WriteLine("Stop charge event triggered.");
@@ -147,11 +153,27 @@ namespace TestServer.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error parsing Firebase data: " + ex.Message);
+                    Console.WriteLine($"[Firebase Error] Port {portId}: {ex.Message}");
                 }
             });
 
-            return Ok("Listening for Firebase changes...");
+            activeListeners[portId] = _listener;
+
+            return Ok($"Listening to Firebase changes for port {portId}...");
+        }
+
+        [HttpGet("stop-listen/{portId}")]
+        public IActionResult StopListen(string portId)
+        {
+            if (activeListeners.TryRemove(portId, out var listener))
+            {
+                listener.Dispose();
+                lastStatuses.TryRemove(portId, out _);
+                Console.WriteLine($"Stopped listening for port {portId}");
+                return Ok($"Stopped listening for port {portId}");
+            }
+
+            return NotFound($"No active listener for port {portId}");
         }
     }
     
