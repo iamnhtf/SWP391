@@ -5,6 +5,7 @@ namespace TestServer.Dto
         public int SessionId { get; set; }
         public string SessionCode { get; set; } = string.Empty;
         public int VehicleId { get; set; }
+        public string VehicleName { get; set; } = string.Empty;
         public string CustomerId { get; set; } = string.Empty;
         public ChargingPortInfoDto PortInfo { get; set; } = new ChargingPortInfoDto();
         public string StartTime { get; set; }

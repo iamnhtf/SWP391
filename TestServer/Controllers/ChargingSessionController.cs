@@ -313,6 +313,7 @@ namespace TestServer.Controllers
             {
                 SessionId = session.Id,
                 VehicleId = session.VehicleId,
+                VehicleName = vehicle != null ? vehicle.Name : string.Empty,
                 SessionCode = $"ST{session.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{session.StartTime.ToString("yyyyMMdd")}-{session.Id:D4}",
                 CustomerId = session.Vehicle != null ? session.Vehicle.CustomerId : string.Empty,
                 PortInfo = new ChargingPortInfoDto
@@ -353,6 +354,7 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
                     SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
                     PortInfo = new ChargingPortInfoDto
@@ -401,6 +403,7 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
                     SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = customerId,
                     PortInfo = new ChargingPortInfoDto
