@@ -309,7 +309,28 @@ namespace TestServer.Controllers
 
             await db.SaveChangesAsync();
 
-            return Ok(new { sessionId = session.Id });
+            return Ok(new ChargingSessionDto
+            {
+                SessionId = session.Id,
+                VehicleId = session.VehicleId,
+                SessionCode = $"ST{session.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{session.StartTime.ToString("yyyyMMdd")}-{session.Id:D4}",
+                CustomerId = session.Vehicle != null ? session.Vehicle.CustomerId : string.Empty,
+                PortInfo = new ChargingPortInfoDto
+                {
+                    Id = session.ChargingPort != null ? session.ChargingPort.Id : string.Empty,
+                    ConnectorName = session.ChargingPort.Connector.Name,
+                    Power = session.ChargingPort.Power,
+                    Status = session.ChargingPort.Status.ToString(),
+                    ChargingPointId = session.ChargingPort.ChargingPoint.Id,
+                    ChargingStationName = session.ChargingPort.ChargingPoint.ChargingStation.Name,
+                },
+                StartTime = $"{session.StartTime:dd/MM/yyyy}, {session.StartTime:HH:mm:ss}",
+                EndTime = session.EndTime.HasValue ? $"{session.EndTime.Value:dd/MM/yyyy}, {session.EndTime.Value:HH:mm:ss}" : default,
+                Duration = $"{(int)(session.EndTime - session.StartTime)?.TotalHours}h {(session.EndTime - session.StartTime)?.Minutes}m {(session.EndTime - session.StartTime)?.Seconds}s",
+                EnergyConsumed = session.EnergyConsumed,
+                TotalCost = session.TotalCost,
+                Status = session.Status.ToString(),
+            });
         }
 
         [HttpGet]
