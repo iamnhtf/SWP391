@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
+using System;
+using System.Collections.Generic;
 
 namespace TestServer.Controllers
 {
@@ -330,15 +332,23 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
-                    PortId = s.PortId,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    PortInfo = new ChargingPortInfoDto
+                    {
+                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                        ConnectorName = s.ChargingPort.Connector.Name,
+                        Power = s.ChargingPort.Power,
+                        Status = s.ChargingPort.Status.ToString(),
+                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
+                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                    },
+                    StartTime = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                    EndTime = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
+                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
                     EnergyConsumed = s.EnergyConsumed,
                     TotalCost = s.TotalCost,
                     Status = s.Status.ToString(),
-                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
-                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
                 })
                 .ToList();
 
@@ -370,15 +380,23 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = customerId,
-                    PortId = s.PortId,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    PortInfo = new ChargingPortInfoDto
+                    {
+                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                        ConnectorName = s.ChargingPort.Connector.Name,
+                        Power = s.ChargingPort.Power,
+                        Status = s.ChargingPort.Status.ToString(),
+                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
+                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                    },
+                    StartTime = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                    EndTime = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
+                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
                     EnergyConsumed = s.EnergyConsumed,
                     TotalCost = s.TotalCost,
                     Status = s.Status.ToString(),
-                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
-                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
                 })
                 .ToList();
 
