@@ -1,12 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Services.VNPAY;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using TestServer.Hubs;
+using TestServer.Services;
+using Firebase.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 
-// 2. Thêm dịch vụ DbContext và đọc chuỗi kết nối
+//Thêm dịch vụ DbContext và đọc chuỗi kết nối
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
@@ -47,6 +52,17 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
+// Khởi tạo Firebase Admin SDK
+if (FirebaseApp.DefaultInstance == null)
+{
+    FirebaseApp.Create(new AppOptions
+    {
+        Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json")
+    });
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,6 +85,7 @@ app.UseStaticFiles();
 app.UseCors("AllowAll");
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<UnityHub>("/unityhub");
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())

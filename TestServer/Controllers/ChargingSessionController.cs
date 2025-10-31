@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
+using System;
+using System.Collections.Generic;
 
 namespace TestServer.Controllers
 {
@@ -70,6 +72,32 @@ namespace TestServer.Controllers
                     }
                 }
                 db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
+            //set charging status for vehicle
+            var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
+            if (vehicleStatusProp != null)
+            {
+                if (vehicleStatusProp.PropertyType == typeof(string))
+                {
+                    vehicleStatusProp.SetValue(vehicle, "Charging");
+                }
+                else if (vehicleStatusProp.PropertyType.IsEnum)
+                {
+                    try
+                    {
+                        var enumVal = Enum.Parse(
+                            vehicleStatusProp.PropertyType,
+                            "Charging",
+                            ignoreCase: true
+                        );
+                        vehicleStatusProp.SetValue(vehicle, enumVal);
+                    }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
+                }
+                db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
             // --- update MonthlyPeriod / VehiclePerMonth ---
@@ -174,6 +202,33 @@ namespace TestServer.Controllers
             session.Status = SessionStatus.Completed;
             db.Entry(session).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
+            //set vehicle status to Active
+            var vehicle = await db.Vehicles.FindAsync(session.VehicleId);
+            var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
+            if (vehicleStatusProp != null)
+            {
+                if (vehicleStatusProp.PropertyType == typeof(string))
+                {
+                    vehicleStatusProp.SetValue(vehicle, "Active");
+                }
+                else if (vehicleStatusProp.PropertyType.IsEnum)
+                {
+                    try
+                    {
+                        var enumVal = Enum.Parse(
+                            vehicleStatusProp.PropertyType,
+                            "Active",
+                            ignoreCase: true
+                        );
+                        vehicleStatusProp.SetValue(vehicle, enumVal);
+                    }
+                    catch
+                    { /* ignore if enum value not present */
+                    }
+                }
+                db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            
             // update VehiclePerMonth totals for the month of session.StartTime
             var start = session.StartTime;
             var month = start.Month;
@@ -254,7 +309,46 @@ namespace TestServer.Controllers
 
             await db.SaveChangesAsync();
 
-            return Ok(new { sessionId = session.Id });
+            var s = await db
+                .ChargingSessions.AsNoTracking()
+                .Where(s => s.Id == req.SessionId)
+                .Include(s => s.Vehicle)
+                .Include(s => s.ChargingPort)
+                .ThenInclude(p => p.ChargingPoint)
+                .ThenInclude(cp => cp.ChargingStation)
+                .Include(s => s.ChargingPort)
+                .ThenInclude(p => p.Connector)
+                .OrderByDescending(s => s.EndTime)
+                .ThenByDescending(s => s.StartTime)
+                .FirstOrDefaultAsync();
+
+            var chargingSessionDto = new ChargingSessionDto
+            {
+                SessionId = s.Id,
+                VehicleId = s.VehicleId,
+                VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
+                SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
+                CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
+                PortInfo = new ChargingPortInfoDto
+                {
+                    Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                    ConnectorName = s.ChargingPort.Connector.Name,
+                    Power = s.ChargingPort.Power,
+                    Status = s.ChargingPort.Status.ToString(),
+                    ChargingPointId = s.ChargingPort.ChargingPoint.Id,
+                    ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                },
+                StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                StartTime = s.StartTime.ToString(),
+                EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
+                EndTime = s.EndTime.Value.ToString(),
+                Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
+                EnergyConsumed = s.EnergyConsumed,
+                TotalCost = s.TotalCost,
+                Status = s.Status.ToString(),
+            };
+
+            return Ok(chargingSessionDto);
         }
 
         [HttpGet]
@@ -277,15 +371,26 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
+                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
-                    PortId = s.PortId,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    PortInfo = new ChargingPortInfoDto
+                    {
+                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                        ConnectorName = s.ChargingPort.Connector.Name,
+                        Power = s.ChargingPort.Power,
+                        Status = s.ChargingPort.Status.ToString(),
+                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
+                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                    },
+                    StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                    StartTime = s.StartTime.ToString(),
+                    EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
+                    EndTime = s.EndTime.Value.ToString(),
+                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
                     EnergyConsumed = s.EnergyConsumed,
                     TotalCost = s.TotalCost,
                     Status = s.Status.ToString(),
-                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
-                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
                 })
                 .ToList();
 
@@ -317,15 +422,26 @@ namespace TestServer.Controllers
                 {
                     SessionId = s.Id,
                     VehicleId = s.VehicleId,
+                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
+                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
                     CustomerId = customerId,
-                    PortId = s.PortId,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime.HasValue ? s.EndTime.Value : default,
+                    PortInfo = new ChargingPortInfoDto
+                    {
+                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                        ConnectorName = s.ChargingPort.Connector.Name,
+                        Power = s.ChargingPort.Power,
+                        Status = s.ChargingPort.Status.ToString(),
+                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
+                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                    },
+                    StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                    StartTime = s.StartTime.ToString(),
+                    EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
+                    EndTime = s.EndTime.Value.ToString(),
+                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
                     EnergyConsumed = s.EnergyConsumed,
                     TotalCost = s.TotalCost,
                     Status = s.Status.ToString(),
-                    StationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name,
-                    PortType = s.ChargingPort?.Connector?.Name.ToString(),
                 })
                 .ToList();
 

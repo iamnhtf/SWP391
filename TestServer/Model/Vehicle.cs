@@ -27,6 +27,7 @@ namespace TestServer.Models
     public enum VehicleStatus
     {
         Active,
+        Charging,
         Blocked,
         Deleted,
     }

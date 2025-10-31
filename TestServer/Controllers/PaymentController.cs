@@ -11,6 +11,7 @@ namespace TestServer.Controllers
     [Route("api/[controller]")]
     public class PaymentController : Controller
     {
+        private static readonly Dictionary<int, string> _paymentStatusCache = new();
         private readonly IVnPayService _vnPayService;
         private readonly AppDbContext _db;
 
@@ -58,31 +59,33 @@ namespace TestServer.Controllers
             // --- KẾT THÚC SỬA LỖI ---
 
             string message = ""; // Biến để lưu thông báo
+            string status = "Pending";
+            var vehicleMonthId = 0;
+            double paidAmount = 0;
+
+            var match = System.Text.RegularExpressions.Regex.Match(
+                        vnpOrderInfo,
+                        @"VehicleMonth\s*(\d+)",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+            int.TryParse(match.Groups[1].Value, out vehicleMonthId);
 
             if (vnpResponseCode == "00") // Thành công
             {
                 response.Success = true; // Đảm bảo Success là true
                 message = "Thanh toán thành công!";
+                status = "Success";
                 Console.WriteLine($"VNPAY payment success for order {vnpTxnRef}");
                 try
                 {
                     // --- LOGIC CẬP NHẬT DATABASE KHI THÀNH CÔNG ---
-                    var match = System.Text.RegularExpressions.Regex.Match(
-                        vnpOrderInfo,
-                        @"VehicleMonth\s*(\d+)",
-                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                    );
-
-                    if (
-                        match.Success && int.TryParse(match.Groups[1].Value, out var vehicleMonthId)
-                    )
+                    if (match.Success)
                     {
                         var vpm = await _db.VehiclePerMonths.FirstOrDefaultAsync(x =>
                             x.VehicleMonthId == vehicleMonthId
                         );
                         if (vpm != null)
                         {
-                            double paidAmount = 0;
                             // Parse số tiền đã lấy an toàn ở trên
                             if (int.TryParse(vnpAmountRaw, out var amountInt))
                             {
@@ -91,6 +94,9 @@ namespace TestServer.Controllers
                             vpm.AmountPaid += (float)paidAmount;
                             if (vpm.AmountPaid > vpm.TotalCost)
                                 vpm.AmountPaid = vpm.TotalCost;
+
+
+
                             await _db.SaveChangesAsync();
                             response.OrderId = vehicleMonthId.ToString(); // Gán OrderId nếu thành công và tìm thấy
                         }
@@ -120,6 +126,7 @@ namespace TestServer.Controllers
             {
                 response.Success = false;
                 message = "Giao dịch đã bị hủy."; // Thông báo hủy cụ thể
+                status = "Cancelled";
                 Console.WriteLine($"VNPAY payment cancelled {vnpTxnRef}. Code: {vnpResponseCode}");
             }
             else if (string.IsNullOrEmpty(vnpResponseCode) && Request?.Host.Value?.Contains("localhost", StringComparison.OrdinalIgnoreCase) == true)
@@ -133,14 +140,35 @@ namespace TestServer.Controllers
             {
                 response.Success = false;
                 message = $"Thanh toán thất bại. Mã lỗi VNPAY: {vnpResponseCode}"; // Thông báo lỗi chung
+                status = "Failed";
                 Console.WriteLine(
                     $"VNPAY payment failed for order {vnpTxnRef}. Code: {vnpResponseCode}"
                 );
             }
+            
+            // Lưu log vào bảng PaymentTransactions
+            _db.PaymentTransactions.Add(new PaymentTransaction
+            {
+                VehicleMonthId = vehicleMonthId,
+                ResponseCode = vnpResponseCode,
+                TransactionStatus = vnpTxnStatus,
+                OrderInfo = vnpOrderInfo ?? "",
+                Amount = paidAmount,
+                CreatedAt = DateTime.UtcNow
+            });
+            await _db.SaveChangesAsync();
 
+            Console.WriteLine(
+                $"Payment transaction logged for VehicleMonthId {vehicleMonthId} with response code {vnpResponseCode}."
+            );
+
+            
             // Gán thông báo vào ViewBag để View có thể hiển thị
             ViewBag.ResultMessage = message;
             response.OrderDescription = vnpOrderInfo; // Gán lại các thông tin cần thiết khác nếu View cần
+
+            // Lưu trạng thái vào cache
+            _paymentStatusCache[vehicleMonthId] = status;
 
             // Trả về View với model response (chứa Success=true/false) và ViewBag (chứa thông báo chi tiết)
             return View("PaymentResult", response);
@@ -159,7 +187,60 @@ namespace TestServer.Controllers
             if (vpm == null)
                 return NotFound(new { Success = false, Message = "VehiclePerMonth not found." });
 
+            var lastTx = await _db.PaymentTransactions
+                .Where(p => p.VehicleMonthId == vehicleMonthId)
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            string status = "Pending";
+
+            if (lastTx != null)
+            {
+                if (lastTx.ResponseCode == "00" || lastTx.TransactionStatus == "00")
+                {
+                    status = "Success";
+                }
+                else if (lastTx.ResponseCode == "24")
+                {
+                    status = "Cancelled";
+                }
+                else
+                {
+                    status = "Failed";
+                }
+            }
+
+            if (status == "Cancelled" || status == "Failed")
+            {
+                // --- XÓA transaction sau khi đã đọc ---
+                if (lastTx != null)
+                {
+                    _db.PaymentTransactions.Remove(lastTx);
+                    await _db.SaveChangesAsync();
+                    Console.WriteLine($"🗑️ Deleted failed/cancelled transaction for VehicleMonthId={vehicleMonthId}");
+                }
+
+                return Ok(
+                    new
+                    {
+                        Success = false,
+                        VehicleMonthId = vpm.VehicleMonthId,
+                        TotalCost = vpm.TotalCost,
+                        AmountPaid = vpm.AmountPaid,
+                        Paid = false,
+                    }
+                );
+            }
+
             bool paid = vpm.AmountPaid >= vpm.TotalCost;
+
+            if (lastTx != null && paid)
+            {
+                _db.PaymentTransactions.Remove(lastTx);
+                await _db.SaveChangesAsync();
+                Console.WriteLine($"🗑️ Deleted transaction log after status check for VehicleMonthId={vehicleMonthId}");
+            }
+
             return Ok(
                 new
                 {
