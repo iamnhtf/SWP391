@@ -84,7 +84,7 @@ namespace TestServer.Controllers
         }
 
         // Activate a price table by id and deactivate all others
-        [HttpPost("activate/{id:int}")]
+        [HttpPut("activate/{id:int}")]
         public async Task<IActionResult> Activate(int id)
         {
             var target = await db.PriceTables.FirstOrDefaultAsync(p => p.Id == id);
