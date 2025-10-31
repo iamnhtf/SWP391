@@ -70,12 +70,11 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
-else
-{
-    // Chỉ bật Swagger trong môi trường Development
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+//Bật Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 // Middleware này cần đứng TRƯỚC các mapping khác
 app.UseDefaultFiles();
