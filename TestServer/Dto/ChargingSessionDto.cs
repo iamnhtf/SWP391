@@ -8,8 +8,10 @@ namespace TestServer.Dto
         public string VehicleName { get; set; } = string.Empty;
         public string CustomerId { get; set; } = string.Empty;
         public ChargingPortInfoDto PortInfo { get; set; } = new ChargingPortInfoDto();
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
+        public string StartTimeStr { get; set; } = string.Empty;
+        public DateTime StartTime { get; set; }
+        public string EndTimeStr { get; set; } = string.Empty;
+        public DateTime EndTime { get; set; }
         public string Duration { get; set; } = string.Empty;
         public float EnergyConsumed { get; set; }
         public float TotalCost { get; set; }
