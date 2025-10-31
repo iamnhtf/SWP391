@@ -182,7 +182,7 @@ namespace TestServer.Controllers
             return Ok(new { sessionId = session.Id });
         }
 
-        [HttpPost("stop")]
+        [HttpPut("stop")]
         public async Task<IActionResult> StopChargingSession(
             [FromBody] StopChargingSessionRequest req
         )

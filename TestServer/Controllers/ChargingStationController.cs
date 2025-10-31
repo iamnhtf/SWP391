@@ -191,7 +191,7 @@ namespace TestServer.Controllers
 
         // Activate station: set ports to Available and any point-level status to active
         // POST api/ChargingStation/start/{id}
-        [HttpPut("start/{id:int}")]
+        [HttpPost("start/{id:int}")]
         public async Task<IActionResult> ActivateStation(int id)
         {
             var station = await db.ChargingStations
