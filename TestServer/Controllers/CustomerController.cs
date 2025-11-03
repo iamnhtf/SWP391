@@ -35,8 +35,10 @@ namespace TestServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Customer customer)
         {
-            if (string.IsNullOrWhiteSpace(customer.Id))
-                customer.Id = Guid.NewGuid().ToString();
+            if (await db.Customers.AnyAsync(c => c.Id == customer.Id))
+            {
+                return Conflict($"Customer with ID {customer.Id} already exists.");
+            }
 
             db.Customers.Add(customer);
             await db.SaveChangesAsync();

@@ -12,11 +12,9 @@ public class Customer
     [StringLength(100)]
     public string Id { get; set; } = string.Empty;
 
-    [Required]
     [StringLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    [Required]
     [StringLength(100)]
     public string Email { get; set; } = string.Empty;
 
