@@ -110,45 +110,23 @@ namespace TestServer.Controllers
                     var json = JsonSerializer.Serialize(chargingCommand);
                     //Console.WriteLine($"[Firebase Update] {portId}: {json}");
 
-                    if (!lastStatuses.TryGetValue(portId, out var lastStatus) || chargingCommand.status != lastStatus)
+                    if (!lastStatuses.TryGetValue(portId, out var lastStatus) || chargingCommand.message != lastStatus)
                     {
-                        lastStatuses[portId] = chargingCommand.status;
-                        if (lastStatus != null)
-                            Console.WriteLine($"[Status Changed] {portId} -> {chargingCommand.status}");
+                        lastStatuses[portId] = chargingCommand.message;
 
-                        switch (chargingCommand.status)
+                        await _hubContext.Clients.All.SendAsync("ChargingUpdate", JsonSerializer.Serialize(new
                         {
-                            case "start":
-                                float currentCapacity = (100 - chargingCommand.battery) / 100f * chargingCommand.maxBattery;
-                                await _hubContext.Clients.All.SendAsync("StartCharge", JsonSerializer.Serialize(new
-                                {
-                                    portId = portId,
-                                    vehicleId = chargingCommand.vehicle,
-                                    battery = chargingCommand.battery,
-                                    maxBattery = chargingCommand.maxBattery,
-                                    currentCapacity
-                                }));
-                                Console.WriteLine($"Start charging vehicle {chargingCommand.vehicle}");
-                                break;
-
-                            case "full":
-                                await _hubContext.Clients.All.SendAsync("FullCharge", JsonSerializer.Serialize(new
-                                {
-                                    portId = portId,
-                                    vehicleId = chargingCommand.vehicle
-                                }));
-                                Console.WriteLine("Full charge event triggered.");
-                                break;
-
-                            case "stop":
-                                await _hubContext.Clients.All.SendAsync("StopCharge", JsonSerializer.Serialize(new
-                                {
-                                    portId = portId,
-                                    vehicleId = chargingCommand.vehicle
-                                }));
-                                Console.WriteLine("Stop charge event triggered.");
-                                break;
-                        }
+                            portId = portId,
+                            vehicleId = chargingCommand.vehicle,
+                            battery = chargingCommand.battery,
+                            status = chargingCommand.status,
+                            time = chargingCommand.time,
+                            startTime = chargingCommand.startTime,
+                            endTime = chargingCommand.endTime,
+                            power = chargingCommand.power,
+                            price = chargingCommand.price
+                        }));
+                        Console.WriteLine($"Charging Update {chargingCommand.message}");  
                     }
                 }
                 catch (Exception ex)
@@ -179,9 +157,14 @@ namespace TestServer.Controllers
     
     public class ChargingCommand
     {
-        public int battery { get; set; }
-        public int maxBattery { get; set; }
         public string status { get; set; }
         public int vehicle { get; set; }
+        public int time { get; set; }
+        public string startTime { get; set; } = string.Empty;
+        public string endTime { get; set; } = string.Empty;
+        public float power { get; set; }
+        public int battery { get; set; }
+        public float price { get; set; }
+        public string message { get; set; }
     }
 }
