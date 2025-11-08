@@ -52,10 +52,14 @@ namespace TestServer.Controllers
             if (existingCustomer == null)
                 return NotFound($"Customer with ID {id} not found.");
 
-            existingCustomer.Name = updatedCustomer.Name;
-            existingCustomer.Email = updatedCustomer.Email;
-            existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
-            existingCustomer.Address = updatedCustomer.Address;
+            if (updatedCustomer.Name != null)
+                existingCustomer.Name = updatedCustomer.Name;
+            if (updatedCustomer.Email != null)
+                existingCustomer.Email = updatedCustomer.Email;
+            if (updatedCustomer.PhoneNumber != null)
+                existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
+            if (updatedCustomer.Address != null)
+                existingCustomer.Address = updatedCustomer.Address;
 
             await db.SaveChangesAsync();
             return Ok(existingCustomer);
