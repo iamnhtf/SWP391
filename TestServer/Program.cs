@@ -1,24 +1,21 @@
+// File: Program.cs
+
+// 1. Các câu lệnh using - Đặt ở đầu file
 using Microsoft.EntityFrameworkCore;
+using MySql.EntityFrameworkCore;
 using TestServer.Data;
-using TestServer.Services.VNPAY;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using TestServer.Hubs;
-using TestServer.Services;
-using Firebase.Database;
+using TestServer.Models;
+using TestServer.Package;
+using TestServer.Crud;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IVnPayService, VnPayService>();
-
-//Thêm dịch vụ DbContext và đọc chuỗi kết nối
+// 2. Thêm dịch vụ DbContext và đọc chuỗi kết nối
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
 {
-    throw new InvalidOperationException(
-        "Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or via environment variables."
-    );
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found. Please ensure it's configured in appsettings.json or via environment variables.");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -26,42 +23,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString);
 });
 
-// 2️⃣ Thêm dịch vụ Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Đăng ký DriverCrud service
+builder.Services.AddScoped<DriverCrud>();
 
 // Thêm dịch vụ để phục vụ các file tĩnh
-builder
-    .Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = null;
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
         options.JsonSerializerOptions.MaxDepth = 64; // tăng nếu cần
     });
 
+
 builder.Services.AddRazorPages();
-
-// Add permissive CORS policy (open access)
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-builder.Services.AddSignalR();
-
-// Khởi tạo Firebase Admin SDK
-if (FirebaseApp.DefaultInstance == null)
-{
-    FirebaseApp.Create(new AppOptions
-    {
-        Credential = GoogleCredential.FromFile("Data/ev-charging-station-swp-firebase-adminsdk-fbsvc-215a4dc678.json")
-    });
-}
 
 var app = builder.Build();
 
@@ -71,20 +47,346 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-//Bật Swagger
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
 // Middleware này cần đứng TRƯỚC các mapping khác
-app.UseDefaultFiles();
-app.UseStaticFiles();
+app.UseDefaultFiles(); // Tìm các file mặc định như index.html
+app.UseStaticFiles();  // Cho phép phục vụ các file tĩnh
 
-// Enable CORS globally using the AllowAll policy
-app.UseCors("AllowAll");
+// Mapping các endpoint API
+// **LƯU Ý**: Không cần app.MapGet("/") ở đây vì index.html đã được phục vụ bởi UseDefaultFiles/UseStaticFiles.
 
-app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapHub<UnityHub>("/unityhub");
+app.MapGet("/weatherforecast", () =>
+{
+    var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+    var forecast = Enumerable.Range(1, 5).Select(index =>
+        new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        ))
+        .ToArray();
+    return forecast;
+})
+.WithName("GetWeatherForecast");
+
+// DRIVER CRUD ENDPOINTS
+// Get All Drivers
+app.MapGet("/drivers", async (DriverCrud driverCrud) =>
+{
+    var drivers = await driverCrud.GetAllDrivers();
+    return Results.Ok(drivers);
+});
+
+// Get Driver by ID
+app.MapGet("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Driver ID must be a positive integer.");
+    }
+    
+    var driver = await driverCrud.GetDriver(id);
+    return driver != null ? Results.Ok(driver) : Results.NotFound($"Driver with ID {id} not found.");
+});
+
+// Create Driver
+app.MapPost("/drivers", async (Driver driver, DriverCrud driverCrud) =>
+{
+    try
+    {
+        var createdDriver = await driverCrud.CreateDriver(driver);
+        return Results.Created($"/drivers/{createdDriver.Id}", createdDriver);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Error creating driver: {ex.Message}");
+    }
+});
+
+// Update Driver
+app.MapPut("/drivers/{id}", async (int id, Driver driver, DriverCrud driverCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Driver ID must be a positive integer.");
+    }
+    
+    var updatedDriver = await driverCrud.UpdateDriver(id, driver);
+    return updatedDriver != null ? Results.Ok(updatedDriver) : Results.NotFound($"Driver with ID {id} not found.");
+});
+
+// Delete Driver
+app.MapDelete("/drivers/{id}", async (int id, DriverCrud driverCrud) =>
+{
+    if (id <= 0)
+    {
+        return Results.BadRequest("Driver ID must be a positive integer.");
+    }
+    
+    var deleted = await driverCrud.DeleteDriver(id);
+    return deleted ? Results.NoContent() : Results.NotFound($"Driver with ID {id} not found.");
+});
+
+// Endpoint cho CHARGING STATIONS
+app.MapGet("/chargingstations", async (AppDbContext db) =>
+{
+    return await db.ChargingStations.ToListAsync();
+});
+
+app.MapGet("/chargingstations/{id}", async (int id, AppDbContext db) =>
+{
+    var station = await db.ChargingStations.FindAsync(id);
+    return station != null ? Results.Ok(station) : Results.NotFound($"Charging station with ID {id} not found.");
+});
+
+// Endpoints cho PriceList
+app.MapGet("/pricelist", async (AppDbContext db) =>
+{
+    return await db.PriceLists
+    .Include(p => p.VehicleType)
+    .Include(p => p.Connector)
+    .Include(p => p.PowerRange)
+    .Include(p => p.TimeRange)
+    .ToListAsync();
+});
+
+// Endpoint cho VehicleType
+app.MapGet("/vehicletypes", async (AppDbContext db) =>
+{
+    return await db.VehicleTypes.ToListAsync();
+});
+
+// Endpoint cho Connector
+app.MapGet("/connectors", async (AppDbContext db) =>
+{
+    return await db.Connectors.ToListAsync();
+});
+
+// Endpoint cho PowerRange
+app.MapGet("/powerrange", async (AppDbContext db) =>
+{
+    return await db.PowerRanges.ToListAsync();
+});
+
+// Endpoint cho TimeRange
+app.MapGet("/timeranges", async (AppDbContext db) =>
+{
+    return await db.TimeRanges.ToListAsync();
+});
+
+app.MapGet("/allchargingstations", async (AppDbContext db) =>
+{
+    var stations = await db.ChargingStations
+        .Include(station => station.ChargingPoints)
+            .ThenInclude(point => point.ChargingPorts)
+                .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var stationDtos = stations.Select(station => new ChargingStationDto {
+        Id = station.Id,
+        Name = station.Name,
+        Location = station.Location,
+        Points = station.ChargingPoints.Select(point => new ChargingPointDto {
+            Id = point.Id,
+            Ports = point.ChargingPorts.Select(port => new ChargingPortDto {
+                Id = port.Id,
+                ConnectorName = port.Connector.Name,
+                Power = port.Power,
+                Status = port.Status.ToString()
+            }).ToList()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(stationDtos);
+});
+
+// Endpoint cho ChargingPoints (tất cả)
+app.MapGet("/chargingpoints", async (AppDbContext db) =>
+{
+    var points = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
+        .ToListAsync();
+
+    var pointDtos = points.Select(p => new ChargingPointDto
+    {
+        Id = p.Id,
+        Ports = p.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    }).ToList();
+
+    return Results.Ok(pointDtos);
+});
+
+// Endpoint cho ChargingPoint theo Id
+app.MapGet("/chargingpoints/{id}", async (string id, AppDbContext db) =>
+{
+    var point = await db.ChargingPoints
+        .Include(p => p.ChargingStation)
+        .Include(p => p.ChargingPorts)
+            .ThenInclude(port => port.Connector)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (point == null)
+        return Results.NotFound($"Charging point with ID {id} not found.");
+
+    var pointDto = new ChargingPointDto
+    {
+        Id = point.Id,
+        Ports = point.ChargingPorts.Select(port => new ChargingPortDto
+        {
+            Id = port.Id,
+            ConnectorName = port.Connector.Name,
+            Power = port.Power,
+            Status = port.Status.ToString()
+        }).ToList()
+    };
+
+    return Results.Ok(pointDto);
+});
+
+// Endpoint cho ChargingPorts (tất cả)
+app.MapGet("/chargingports", async (AppDbContext db) =>
+{
+    var ports = await db.ChargingPorts
+        .Include(p => p.Connector)
+        .ToListAsync();
+
+    var portDtos = ports.Select(p => new ChargingPortDto
+    {
+        Id = p.Id,
+        ConnectorName = p.Connector.Name,
+        Power = p.Power,
+        Status = p.Status.ToString()
+    }).ToList();
+
+    return Results.Ok(portDtos);
+});
+
+// Endpoint cho ChargingPort theo Id
+app.MapGet("/chargingports/{id}", async (string id, AppDbContext db) =>
+{
+    var port = await db.ChargingPorts
+        .Include(p => p.Connector)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (port == null)
+        return Results.NotFound($"Charging port with ID {id} not found.");
+
+    var portDto = new ChargingPortDto
+    {
+        Id = port.Id,
+        ConnectorName = port.Connector.Name,
+        Power = port.Power,
+        Status = port.Status.ToString()
+    };
+
+    return Results.Ok(portDto);
+});
+
+app.MapGet("/portinfo/{id}", async (string id, AppDbContext db) =>
+{
+    var port = await db.ChargingPorts
+        .Include(p => p.Connector)
+        .Include(p => p.ChargingPoint)
+            .ThenInclude(cp => cp.ChargingStation)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (port == null)
+        return Results.NotFound($"Charging port with ID {id} not found.");
+
+    var portInfoDto = new ChargingPortInfoDto
+    {
+        Id = port.Id,
+        ConnectorName = port.Connector.Name,
+        Power = port.Power,
+        Status = port.Status.ToString(),
+        ChargingPointId = port.ChargingPoint.Id,
+        ChargingStationName = port.ChargingPoint.ChargingStation.Name,
+    };
+
+    return Results.Ok(portInfoDto);
+});
+
+// Endpoint cho Vehicles
+app.MapGet("/vehicles", async (AppDbContext db) =>
+{
+    var vehicles = await db.Vehicles
+        .Include(v => v.VehiclePorts)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
+        .ToListAsync();
+
+    var vehicleDtos = vehicles.Select(v => new VehicleDto
+    {
+        VehicleId = v.VehicleId,
+        Name = v.Name,
+        LicensePlate = v.LicensePlate,
+        BatteryCapacity = v.BatteryCapacity,
+        VehicleType = v.VehicleType.Name, 
+        ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    }).ToList();
+
+    return Results.Ok(vehicleDtos);
+});
+
+app.MapGet("/vehicles/{id}", async (int id, AppDbContext db) =>
+{
+    var vehicle = await db.Vehicles
+        .Include(v => v.VehiclePorts)
+            .ThenInclude(vp => vp.Connector)
+        .Include(v => v.VehicleType)
+        .FirstOrDefaultAsync(v => v.VehicleId == id);
+
+    if (vehicle == null)
+        return Results.NotFound($"Vehicle with ID {id} not found.");
+
+    var vehicleDto = new VehicleDto
+    {
+        VehicleId = vehicle.VehicleId,
+        Name = vehicle.Name,
+        LicensePlate = vehicle.LicensePlate,
+        BatteryCapacity = vehicle.BatteryCapacity,
+        VehicleType = vehicle.VehicleType.Name, 
+        ConnectorNames = vehicle.VehiclePorts.Select(vp => vp.Connector.Name).ToList()
+    };
+
+    return Results.Ok(vehicleDto);
+});
+
+
+
+// Endpoint cho VehiclePorts (lấy tất cả)
+app.MapGet("/vehicleports", async (AppDbContext db) =>
+{
+    var vehiclePorts = await db.VehiclePorts
+        .Include(vp => vp.Vehicle)
+        .Include(vp => vp.Connector)
+        .ToListAsync();
+
+    return Results.Ok(vehiclePorts);
+});
+
+// Endpoint lấy theo vehicleId (vehicleId phải là int)
+app.MapGet("/vehicleports/{vehicleId:int}", async (int vehicleId, AppDbContext db) =>
+{
+    var vehiclePorts = await db.VehiclePorts
+        .Include(vp => vp.Vehicle)
+        .Include(vp => vp.Connector)
+        .Where(vp => vp.VehicleId == vehicleId)
+        .ToListAsync();
+
+    if (vehiclePorts.Count == 0)
+        return Results.NotFound($"No vehicle ports found for Vehicle ID {vehicleId}.");
+
+    return Results.Ok(vehiclePorts);
+});
 
 // Tự động apply migrations khi app start
 using (var scope = app.Services.CreateScope())
@@ -93,5 +395,12 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+
 // Khởi động ứng dụng web (PHẢI LÀ DÒNG CUỐI CÙNG)
 app.Run();
+
+// Định nghĩa record (PHẢI NẰM SAU app.Run() HOẶC TÁCH RA FILE RIÊNG)
+record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+{
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}

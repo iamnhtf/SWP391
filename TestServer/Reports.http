@@ -1,0 +1,13 @@
+### Reports API
+
+### 1. Summary
+GET https://localhost:7090/api/reports/summary
+Accept: application/json
+
+### 2. Top Stations (default top 7)
+GET https://localhost:7090/api/reports/topstations
+Accept: application/json
+
+### 3. Top Stations (top 5)
+GET https://localhost:7090/api/reports/topstations?take=5
+Accept: application/json
