@@ -64,10 +64,10 @@ namespace TestServer.Controllers
             double paidAmount = 0;
 
             var match = System.Text.RegularExpressions.Regex.Match(
-                        vnpOrderInfo,
-                        @"VehicleMonth\s*(\d+)",
-                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                    );
+                vnpOrderInfo,
+                @"VehicleMonth\s*(\d+)",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase
+            );
             int.TryParse(match.Groups[1].Value, out vehicleMonthId);
 
             if (vnpResponseCode == "00") // Thành công
@@ -94,8 +94,6 @@ namespace TestServer.Controllers
                             vpm.AmountPaid += (float)paidAmount;
                             if (vpm.AmountPaid > vpm.TotalCost)
                                 vpm.AmountPaid = vpm.TotalCost;
-
-
 
                             await _db.SaveChangesAsync();
                             response.OrderId = vehicleMonthId.ToString(); // Gán OrderId nếu thành công và tìm thấy
@@ -129,12 +127,18 @@ namespace TestServer.Controllers
                 status = "Cancelled";
                 Console.WriteLine($"VNPAY payment cancelled {vnpTxnRef}. Code: {vnpResponseCode}");
             }
-            else if (string.IsNullOrEmpty(vnpResponseCode) && Request?.Host.Value?.Contains("localhost", StringComparison.OrdinalIgnoreCase) == true)
+            else if (
+                string.IsNullOrEmpty(vnpResponseCode)
+                && Request?.Host.Value?.Contains("localhost", StringComparison.OrdinalIgnoreCase)
+                    == true
+            )
             {
                 // Nếu không có mã phản hồi và đang chạy trên localhost, coi là giao dịch bị hủy
                 response.Success = false;
                 message = "Giao dịch tạm dừng/đã bị hủy (local).";
-                Console.WriteLine($"VNPAY payment presumed cancelled for order {vnpTxnRef}. No response code. Host: {Request?.Host}");
+                Console.WriteLine(
+                    $"VNPAY payment presumed cancelled for order {vnpTxnRef}. No response code. Host: {Request?.Host}"
+                );
             }
             else // Các trường hợp thất bại khác
             {
@@ -145,24 +149,25 @@ namespace TestServer.Controllers
                     $"VNPAY payment failed for order {vnpTxnRef}. Code: {vnpResponseCode}"
                 );
             }
-            
+
             // Lưu log vào bảng PaymentTransactions
-            _db.PaymentTransactions.Add(new PaymentTransaction
-            {
-                VehicleMonthId = vehicleMonthId,
-                ResponseCode = vnpResponseCode,
-                TransactionStatus = vnpTxnStatus,
-                OrderInfo = vnpOrderInfo ?? "",
-                Amount = paidAmount,
-                CreatedAt = DateTime.UtcNow
-            });
+            _db.PaymentTransactions.Add(
+                new PaymentTransaction
+                {
+                    VehicleMonthId = vehicleMonthId,
+                    ResponseCode = vnpResponseCode,
+                    TransactionStatus = vnpTxnStatus,
+                    OrderInfo = vnpOrderInfo ?? "",
+                    Amount = paidAmount,
+                    CreatedAt = DateTime.UtcNow,
+                }
+            );
             await _db.SaveChangesAsync();
 
             Console.WriteLine(
                 $"Payment transaction logged for VehicleMonthId {vehicleMonthId} with response code {vnpResponseCode}."
             );
 
-            
             // Gán thông báo vào ViewBag để View có thể hiển thị
             ViewBag.ResultMessage = message;
             response.OrderDescription = vnpOrderInfo; // Gán lại các thông tin cần thiết khác nếu View cần
@@ -187,8 +192,8 @@ namespace TestServer.Controllers
             if (vpm == null)
                 return NotFound(new { Success = false, Message = "VehiclePerMonth not found." });
 
-            var lastTx = await _db.PaymentTransactions
-                .Where(p => p.VehicleMonthId == vehicleMonthId)
+            var lastTx = await _db
+                .PaymentTransactions.Where(p => p.VehicleMonthId == vehicleMonthId)
                 .OrderByDescending(p => p.CreatedAt)
                 .FirstOrDefaultAsync();
 
@@ -217,7 +222,9 @@ namespace TestServer.Controllers
                 {
                     _db.PaymentTransactions.Remove(lastTx);
                     await _db.SaveChangesAsync();
-                    Console.WriteLine($"🗑️ Deleted failed/cancelled transaction for VehicleMonthId={vehicleMonthId}");
+                    Console.WriteLine(
+                        $"🗑️ Deleted failed/cancelled transaction for VehicleMonthId={vehicleMonthId}"
+                    );
                 }
 
                 return Ok(
@@ -238,7 +245,9 @@ namespace TestServer.Controllers
             {
                 _db.PaymentTransactions.Remove(lastTx);
                 await _db.SaveChangesAsync();
-                Console.WriteLine($"🗑️ Deleted transaction log after status check for VehicleMonthId={vehicleMonthId}");
+                Console.WriteLine(
+                    $"🗑️ Deleted transaction log after status check for VehicleMonthId={vehicleMonthId}"
+                );
             }
 
             return Ok(
@@ -251,6 +260,29 @@ namespace TestServer.Controllers
                     Paid = paid,
                 }
             );
+        }
+
+        // GET api/payment/transactions
+        [HttpGet("transactions")]
+        public async Task<IActionResult> GetTransactions()
+        {
+            var list = await _db
+                .PaymentTransactions.OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return Ok(list);
+        }
+
+        // GET api/payment/transactions/{vehicleMonthId}
+        [HttpGet("transactions/{vehicleMonthId:int}")]
+        public async Task<IActionResult> GetTransactionsByVehicleMonth(int vehicleMonthId)
+        {
+            var list = await _db
+                .PaymentTransactions.Where(x => x.VehicleMonthId == vehicleMonthId)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return Ok(list);
         }
 
         // Unity-friendly endpoint
