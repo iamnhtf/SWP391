@@ -30,6 +30,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
@@ -57,6 +58,7 @@ namespace TestServer.Controllers
             var vehicleDto = new VehicleDto
             {
                 VehicleId = vehicle.VehicleId,
+                CustomerId = vehicle.CustomerId,
                 Name = vehicle.Name,
                 LicensePlate = vehicle.LicensePlate,
                 BatteryCapacity = vehicle.BatteryCapacity,
@@ -82,6 +84,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
@@ -107,6 +110,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
@@ -135,6 +139,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
