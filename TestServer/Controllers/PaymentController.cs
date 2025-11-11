@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
+using TestServer.Dto;
 using TestServer.Models;
 using TestServer.Models.VNPAY;
 using TestServer.Services.VNPAY;
@@ -268,6 +269,43 @@ namespace TestServer.Controllers
         {
             var list = await _db
                 .PaymentTransactions.OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return Ok(list);
+        }
+
+        [HttpGet("transactions/{customerId}")]
+        public async Task<IActionResult> GetTransactionsByCustomerId(string customerId)
+        {
+            if (string.IsNullOrEmpty(customerId))
+                return BadRequest("Invalid customerId.");
+
+            var userId = await _db.Customers
+                .Where(u => u.Id == customerId)
+                .FirstOrDefaultAsync(); 
+
+            if (userId == null)
+                return NotFound("User not found.");
+            // Join PaymentTransactions -> VehiclePerMonths -> Vehicles to construct DTOs
+            var list = await (
+                    from pt in _db.PaymentTransactions
+                    join vpm in _db.VehiclePerMonths on pt.VehicleMonthId equals vpm.VehicleMonthId
+                    join v in _db.Vehicles on vpm.VehicleId equals v.VehicleId
+                    where v.CustomerId == customerId
+                    orderby pt.CreatedAt descending
+                    select new PaymentTransactionDto
+                    {
+                        Id = pt.Id,
+                        VehicleMonthId = pt.VehicleMonthId,
+                        VehicleId = v.VehicleId,
+                        CustomerId = v.CustomerId,
+                        ResponseCode = pt.ResponseCode,
+                        TransactionStatus = pt.TransactionStatus,
+                        OrderInfo = pt.OrderInfo,
+                        Amount = pt.Amount,
+                        CreatedAt = pt.CreatedAt
+                    }
+                )
                 .ToListAsync();
 
             return Ok(list);
