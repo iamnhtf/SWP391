@@ -23,4 +23,14 @@ public class Customer
 
     [StringLength(255)]
     public string Address { get; set; } = string.Empty;
+
+    [StringLength(50)]
+    public CustomerStatus Status { get; set; } = CustomerStatus.Avalaible;
+
+    public enum CustomerStatus
+    {
+        Avalaible,
+        Unavailable,
+    }
 }
+    
