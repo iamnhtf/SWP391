@@ -30,6 +30,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
@@ -57,6 +58,7 @@ namespace TestServer.Controllers
             var vehicleDto = new VehicleDto
             {
                 VehicleId = vehicle.VehicleId,
+                CustomerId = vehicle.CustomerId,
                 Name = vehicle.Name,
                 LicensePlate = vehicle.LicensePlate,
                 BatteryCapacity = vehicle.BatteryCapacity,
@@ -66,6 +68,32 @@ namespace TestServer.Controllers
             };
 
             return Ok(vehicleDto);
+        }
+
+        [HttpGet("Customer/{customerId}")]
+        public async Task<IActionResult> GetByCustomerId(string customerId)
+        {
+            var vehicles = await db
+                .Vehicles.Where(v => v.CustomerId == customerId)
+                .Include(v => v.VehiclePorts)
+                .ThenInclude(vp => vp.Connector)
+                .Include(v => v.VehicleType)
+                .ToListAsync();
+
+            var vehicleDtos = vehicles
+                .Select(v => new VehicleDto
+                {
+                    VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
+                    Name = v.Name,
+                    LicensePlate = v.LicensePlate,
+                    BatteryCapacity = v.BatteryCapacity,
+                    VehicleType = v.VehicleType.Name,
+                    Status = v.Status.ToString(),
+                    ConnectorNames = v.VehiclePorts.Select(vp => vp.Connector.Name).ToList(),
+                })
+                .ToList();
+            return Ok(vehicleDtos);
         }
 
         [HttpGet("forcustomer/{uid}")]
@@ -82,6 +110,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
@@ -110,6 +139,7 @@ namespace TestServer.Controllers
                 .Select(v => new VehicleDto
                 {
                     VehicleId = v.VehicleId,
+                    CustomerId = v.CustomerId,
                     Name = v.Name,
                     LicensePlate = v.LicensePlate,
                     BatteryCapacity = v.BatteryCapacity,
