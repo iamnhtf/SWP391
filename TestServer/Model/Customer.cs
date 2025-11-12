@@ -24,7 +24,8 @@ public class Customer
     [StringLength(255)]
     public string Address { get; set; } = string.Empty;
 
-    [StringLength(50)]
+    // Status is an enum; don't apply string-specific data annotations (e.g. StringLength)
+    // which are intended for string properties and can confuse EF mapping.
     public CustomerStatus Status { get; set; } = CustomerStatus.Available;
 
     public enum CustomerStatus

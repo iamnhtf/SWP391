@@ -107,9 +107,34 @@ namespace TestServer.Controllers
             }
 
             customer.Status = parsed;
+            // Ensure EF marks the enum property as modified (helps when provider/type mismatches
+            // or when the column was previously stored as a different type)
+            db.Entry(customer).Property(c => c.Status).IsModified = true;
             await db.SaveChangesAsync();
 
-            return Ok(new { Success = true, Status = customer.Status.ToString() });
+            // Read raw DB value after save to help diagnose mapping/storage issues.
+            string rawValue = null!;
+            try
+            {
+                var conn = db.Database.GetDbConnection();
+                await conn.OpenAsync();
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT Status FROM Customers WHERE Id = @id";
+                var param = cmd.CreateParameter();
+                param.ParameterName = "@id";
+                param.Value = id;
+                cmd.Parameters.Add(param);
+                var raw = await cmd.ExecuteScalarAsync();
+                rawValue = raw?.ToString() ?? "<null>";
+            }
+            catch (Exception ex)
+            {
+                rawValue = $"<error reading DB: {ex.Message}>";
+            }
+
+            return Ok(new { Success = true, Status = customer.Status.ToString(), RawDatabaseValue = rawValue });
         }
+
+        
     }
 }
