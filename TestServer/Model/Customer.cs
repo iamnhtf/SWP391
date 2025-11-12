@@ -25,11 +25,11 @@ public class Customer
     public string Address { get; set; } = string.Empty;
 
     [StringLength(50)]
-    public CustomerStatus Status { get; set; } = CustomerStatus.Avalaible;
+    public CustomerStatus Status { get; set; } = CustomerStatus.Available;
 
     public enum CustomerStatus
     {
-        Avalaible,
+        Available,
         Unavailable,
     }
 }
