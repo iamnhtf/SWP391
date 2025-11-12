@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
+using TestServer.DTOs;
 
 namespace TestServer.Controllers
 {
@@ -75,6 +76,40 @@ namespace TestServer.Controllers
             db.Customers.Remove(customer);
             await db.SaveChangesAsync();
             return Ok($"Customer with ID {id} deleted.");
+        }
+
+        // GET api/customer/{id}/status
+        [HttpGet("{id}/status")]
+        public async Task<IActionResult> GetStatus(string id)
+        {
+            var customer = await db.Customers.FindAsync(id);
+            if (customer == null)
+                return NotFound($"Customer with ID {id} not found.");
+
+            return Ok(new { Status = customer.Status.ToString() });
+        }
+
+        // PUT api/customer/{id}/status
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(string id, [FromBody] CustomerStatusUpdateDto dto)
+        {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Status))
+                return BadRequest(new { Success = false, Message = "Status is required." });
+
+            var customer = await db.Customers.FindAsync(id);
+            if (customer == null)
+                return NotFound($"Customer with ID {id} not found.");
+
+            // Try parse enum (case-insensitive)
+            if (!System.Enum.TryParse<TestServer.Models.Customer.CustomerStatus>(dto.Status, true, out var parsed))
+            {
+                return BadRequest(new { Success = false, Message = "Invalid status value." });
+            }
+
+            customer.Status = parsed;
+            await db.SaveChangesAsync();
+
+            return Ok(new { Success = true, Status = customer.Status.ToString() });
         }
     }
 }
