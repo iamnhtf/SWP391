@@ -867,6 +867,350 @@ public class AppDbContext : DbContext
             new MonthlyPeriod { PeriodId = 24, Month = 12, Year = 2025 }
         );
 
+        // XÓA BỎ KHỐI PaymentTransaction CŨ VÀ THAY BẰNG KHỐI NÀY:
+
+modelBuilder.Entity<PaymentTransaction>().HasData(
+    // --- Period 19 (July 2025) Payments -> Paid in Early August ---
+    new PaymentTransaction
+    {
+        Id = 1, VehicleMonthId = 1, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 619623, CreatedAt = new DateTime(2025, 8, 2, 9, 10, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 1 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 2, VehicleMonthId = 2, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 498068, CreatedAt = new DateTime(2025, 8, 2, 9, 11, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 2 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 3, VehicleMonthId = 3, VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 231866, CreatedAt = new DateTime(2025, 8, 2, 9, 12, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 3 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 4, VehicleMonthId = 4, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 637921, CreatedAt = new DateTime(2025, 8, 2, 9, 13, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 4 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 5, VehicleMonthId = 5, VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 519563, CreatedAt = new DateTime(2025, 8, 2, 9, 14, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 5 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 6, VehicleMonthId = 6, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 454045, CreatedAt = new DateTime(2025, 8, 3, 10, 5, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 6 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 7, VehicleMonthId = 7, VehicleId = 7, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 248033, CreatedAt = new DateTime(2025, 8, 3, 10, 6, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 7 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 8, VehicleMonthId = 8, VehicleId = 8, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 285918, CreatedAt = new DateTime(2025, 8, 3, 10, 7, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 8 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 9, VehicleMonthId = 9, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 506409, CreatedAt = new DateTime(2025, 8, 3, 10, 8, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 9 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 10, VehicleMonthId = 10, VehicleId = 10, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 441017, CreatedAt = new DateTime(2025, 8, 1, 11, 20, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 10 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 11, VehicleMonthId = 11, VehicleId = 11, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 267710, CreatedAt = new DateTime(2025, 8, 1, 11, 21, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 11 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 12, VehicleMonthId = 12, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 678314, CreatedAt = new DateTime(2025, 8, 1, 11, 22, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 12 (Jul-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 13, VehicleMonthId = 13, VehicleId = 13, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 321150, CreatedAt = new DateTime(2025, 8, 1, 11, 23, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 13 (Jul-2025)"
+    },
+
+    // --- Period 20 (August 2025) Payments -> Paid in Early September ---
+    new PaymentTransaction
+    {
+        Id = 14, VehicleMonthId = 14, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 441017, CreatedAt = new DateTime(2025, 9, 2, 8, 30, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 14 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 15, VehicleMonthId = 15, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 498839, CreatedAt = new DateTime(2025, 9, 2, 8, 31, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 15 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 16, VehicleMonthId = 16, VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 500383, CreatedAt = new DateTime(2025, 9, 2, 8, 32, 0, DateTimeKind.Utc),
+        ResponseCode = "05", TransactionStatus = "05", OrderInfo = "Payment for VMonth 16 (Aug-2025) - FAILED (Insufficient)" // BLOCKS T9
+    },
+    new PaymentTransaction
+    {
+        Id = 17, VehicleMonthId = 17, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 321536, CreatedAt = new DateTime(2025, 9, 2, 8, 33, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 17 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 18, VehicleMonthId = 18, VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 701468, CreatedAt = new DateTime(2025, 9, 2, 8, 34, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 18 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 19, VehicleMonthId = 19, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 538787, CreatedAt = new DateTime(2025, 9, 3, 11, 15, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 19 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 20, VehicleMonthId = 20, VehicleId = 7, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 504626, CreatedAt = new DateTime(2025, 9, 3, 11, 16, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 20 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 21, VehicleMonthId = 21, VehicleId = 8, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 527581, CreatedAt = new DateTime(2025, 9, 3, 11, 17, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 21 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 22, VehicleMonthId = 22, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 310931, CreatedAt = new DateTime(2025, 9, 3, 11, 18, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 22 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 23, VehicleMonthId = 23, VehicleId = 10, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 293644, CreatedAt = new DateTime(2025, 9, 1, 14, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 23 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 24, VehicleMonthId = 24, VehicleId = 11, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 421449, CreatedAt = new DateTime(2025, 9, 1, 14, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 24 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 25, VehicleMonthId = 25, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 333657, CreatedAt = new DateTime(2025, 9, 1, 14, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 25 (Aug-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 26, VehicleMonthId = 26, VehicleId = 13, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 662990, CreatedAt = new DateTime(2025, 9, 1, 14, 3, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 26 (Aug-2025)"
+    },
+
+    // --- Period 21 (September 2025) Payments -> Paid in Early October ---
+    // Vehicle 3 (VMonth 29) has 0 cost, no transaction
+    new PaymentTransaction
+    {
+        Id = 27, VehicleMonthId = 27, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 299085, CreatedAt = new DateTime(2025, 10, 2, 9, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 27 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 28, VehicleMonthId = 28, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 669483, CreatedAt = new DateTime(2025, 10, 2, 9, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 28 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 29, VehicleMonthId = 30, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 319128, CreatedAt = new DateTime(2025, 10, 2, 9, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 30 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 30, VehicleMonthId = 31, VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 517272, CreatedAt = new DateTime(2025, 10, 2, 9, 3, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 31 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 31, VehicleMonthId = 32, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 451730, CreatedAt = new DateTime(2025, 10, 3, 10, 10, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 32 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 32, VehicleMonthId = 33, VehicleId = 7, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 530860, CreatedAt = new DateTime(2025, 10, 3, 10, 11, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 33 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 33, VehicleMonthId = 34, VehicleId = 8, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 527581, CreatedAt = new DateTime(2025, 10, 3, 10, 12, 0, DateTimeKind.Utc),
+        ResponseCode = "11", TransactionStatus = "11", OrderInfo = "Payment for VMonth 34 (Sep-2025) - FAILED (Timeout)" // BLOCKS T10
+    },
+    new PaymentTransaction
+    {
+        Id = 34, VehicleMonthId = 35, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 361097, CreatedAt = new DateTime(2025, 10, 3, 10, 13, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 35 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 35, VehicleMonthId = 36, VehicleId = 10, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 289876, CreatedAt = new DateTime(2025, 10, 1, 12, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 36 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 36, VehicleMonthId = 37, VehicleId = 11, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 269228, CreatedAt = new DateTime(2025, 10, 1, 12, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "24", TransactionStatus = "24", OrderInfo = "Payment for VMonth 37 (Sep-2025) - FAILED (Cancelled)" // BLOCKS T10
+    },
+    new PaymentTransaction
+    {
+        Id = 37, VehicleMonthId = 38, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 675276, CreatedAt = new DateTime(2025, 10, 1, 12, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 38 (Sep-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 38, VehicleMonthId = 39, VehicleId = 13, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 319514, CreatedAt = new DateTime(2025, 10, 1, 12, 3, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 39 (Sep-2025)"
+    },
+
+    // --- Period 22 (October 2025) Payments -> Paid in Early November ---
+    // Vehicles 3, 8, 11 (VMonth 42, 47, 50) have 0 cost, no transaction
+    new PaymentTransaction
+    {
+        Id = 39, VehicleMonthId = 40, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 449275, CreatedAt = new DateTime(2025, 11, 2, 10, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 40 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 40, VehicleMonthId = 41, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 347220, CreatedAt = new DateTime(2025, 11, 2, 10, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 41 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 41, VehicleMonthId = 43, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 632832, CreatedAt = new DateTime(2025, 11, 2, 10, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 43 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 42, VehicleMonthId = 44, VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 519563, CreatedAt = new DateTime(2025, 11, 2, 10, 3, 0, DateTimeKind.Utc),
+        ResponseCode = "09", TransactionStatus = "09", OrderInfo = "Payment for VMonth 44 (Oct-2025) - FAILED (Card inactive)" // BLOCKS T11
+    },
+    new PaymentTransaction
+    {
+        Id = 43, VehicleMonthId = 45, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 288975, CreatedAt = new DateTime(2025, 11, 3, 11, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 45 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 44, VehicleMonthId = 46, VehicleId = 7, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 381398, CreatedAt = new DateTime(2025, 11, 3, 11, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 46 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 45, VehicleMonthId = 48, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 361097, CreatedAt = new DateTime(2025, 11, 3, 11, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 48 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 46, VehicleMonthId = 49, VehicleId = 10, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 288397, CreatedAt = new DateTime(2025, 11, 1, 15, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 49 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 47, VehicleMonthId = 51, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 328336, CreatedAt = new DateTime(2025, 11, 1, 15, 1, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 51 (Oct-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 48, VehicleMonthId = 52, VehicleId = 13, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 482708, CreatedAt = new DateTime(2025, 11, 1, 15, 2, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 52 (Oct-2025)"
+    },
+
+    // --- Period 23 (November 2025) Payments -> Paid mid-month (Current) ---
+    // Vehicles 3, 5, 8, 11 (VMonth 55, 57, 60, 63) have 0 cost, no transaction
+    new PaymentTransaction
+    {
+        Id = 49, VehicleMonthId = 53, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 157070, CreatedAt = new DateTime(2025, 11, 10, 9, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 53 (Nov-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 50, VehicleMonthId = 54, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 180237, CreatedAt = new DateTime(2025, 11, 10, 9, 5, 0, DateTimeKind.Utc),
+        ResponseCode = "24", TransactionStatus = "24", OrderInfo = "Payment for VMonth 54 (Nov-2025) - FAILED (Cancelled)"
+    },
+    new PaymentTransaction
+    {
+        Id = 51, VehicleMonthId = 56, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
+        Amount = 317971, CreatedAt = new DateTime(2025, 11, 11, 14, 20, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 56 (Nov-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 52, VehicleMonthId = 58, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 138888, CreatedAt = new DateTime(2025, 11, 11, 16, 0, 0, DateTimeKind.Utc),
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 58 (Nov-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 53, VehicleMonthId = 61, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
+        Amount = 109247, CreatedAt = new DateTime(2025, 11, 12, 8, 0, 0, DateTimeKind.Utc), // Today
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 61 (Nov-2025)"
+    },
+    new PaymentTransaction
+    {
+        Id = 54, VehicleMonthId = 64, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
+        Amount = 158178, CreatedAt = new DateTime(2025, 11, 12, 9, 30, 0, DateTimeKind.Utc), // Today
+        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VMonth 64 (Nov-2025)"
+    }
+    
+);
+
+        
+
     }
 
     public DbSet<Customer> Customers { get; set; } = null!;
