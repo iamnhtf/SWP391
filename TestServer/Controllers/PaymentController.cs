@@ -263,58 +263,68 @@ namespace TestServer.Controllers
             );
         }
 
-        // GET api/payment/transactions/customer/{customerId}
-        [HttpGet("transactions/customer/{customerId}")]
-        public async Task<
-            ActionResult<IEnumerable<PaymentTransactionDto>>
-        > GetTransactionsByCustomer(string customerId)
+        [HttpGet("transactions")]
+        public async Task<IActionResult> GetAllTransactions()
         {
-            if (string.IsNullOrWhiteSpace(customerId))
-                return BadRequest("CustomerId is required.");
-
-            // 1. Kiểm tra customer có tồn tại không
-            var customerExists = await _db.Customers.AnyAsync(c => c.Id == customerId);
-            if (!customerExists)
-                return NotFound($"Customer {customerId} not found.");
-
-            // 2. Join PaymentTransaction -> VehiclePerMonth -> Vehicle -> filter theo CustomerId
-            var transactions = await _db
-                .PaymentTransactions.Join(
-                    _db.VehiclePerMonths,
-                    t => t.VehicleMonthId,
-                    vpm => vpm.VehicleMonthId,
-                    (t, vpm) => new { t, vpm }
+            // Join PaymentTransactions -> VehiclePerMonths -> Vehicles to construct DTOs
+            var list = await (
+                    from pt in _db.PaymentTransactions
+                    join vpm in _db.VehiclePerMonths on pt.VehicleMonthId equals vpm.VehicleMonthId
+                    join v in _db.Vehicles on vpm.VehicleId equals v.VehicleId
+                    orderby pt.CreatedAt descending
+                    select new PaymentTransactionDto
+                    {
+                        Id = pt.Id,
+                        VehicleMonthId = pt.VehicleMonthId,
+                        VehicleId = v.VehicleId,
+                        CustomerId = v.CustomerId,
+                        ResponseCode = pt.ResponseCode,
+                        TransactionStatus = pt.TransactionStatus,
+                        OrderInfo = pt.OrderInfo,
+                        Amount = pt.Amount,
+                        CreatedAt = pt.CreatedAt
+                    }
                 )
-                .Join(
-                    _db.Vehicles,
-                    tv => tv.vpm.VehicleId,
-                    v => v.VehicleId,
-                    (tv, v) =>
-                        new
-                        {
-                            tv.t,
-                            tv.vpm,
-                            v,
-                        }
-                )
-                .Where(x => x.v.CustomerId == customerId)
-                .OrderByDescending(x => x.t.CreatedAt)
-                .Select(x => new PaymentTransactionDto
-                {
-                    Id = x.t.Id,
-                    VehicleMonthId = x.t.VehicleMonthId,
-                    VehicleId = x.v.VehicleId,
-                    CustomerId = x.v.CustomerId,
-                    ResponseCode = x.t.ResponseCode,
-                    TransactionStatus = x.t.TransactionStatus,
-                    OrderInfo = x.t.OrderInfo,
-                    Amount = x.t.Amount,
-                    CreatedAt = x.t.CreatedAt,
-                })
                 .ToListAsync();
 
-            // Trả về **list DTO**,
-            return Ok(transactions);
+            return Ok(list);
+        }
+        
+        [HttpGet("transactions/{customerId}")]
+        public async Task<IActionResult> GetTransactionsByCustomerId(string customerId)
+        {
+            if (string.IsNullOrEmpty(customerId))
+                return BadRequest("Invalid customerId.");
+
+            var userId = await _db.Customers
+                .Where(u => u.Id == customerId)
+                .FirstOrDefaultAsync(); 
+
+            if (userId == null)
+                return NotFound("User not found.");
+            // Join PaymentTransactions -> VehiclePerMonths -> Vehicles to construct DTOs
+            var list = await (
+                    from pt in _db.PaymentTransactions
+                    join vpm in _db.VehiclePerMonths on pt.VehicleMonthId equals vpm.VehicleMonthId
+                    join v in _db.Vehicles on vpm.VehicleId equals v.VehicleId
+                    where v.CustomerId == customerId
+                    orderby pt.CreatedAt descending
+                    select new PaymentTransactionDto
+                    {
+                        Id = pt.Id,
+                        VehicleMonthId = pt.VehicleMonthId,
+                        VehicleId = v.VehicleId,
+                        CustomerId = v.CustomerId,
+                        ResponseCode = pt.ResponseCode,
+                        TransactionStatus = pt.TransactionStatus,
+                        OrderInfo = pt.OrderInfo,
+                        Amount = pt.Amount,
+                        CreatedAt = pt.CreatedAt
+                    }
+                )
+                .ToListAsync();
+
+            return Ok(list);
         }
 
         // Unity-friendly endpoint
