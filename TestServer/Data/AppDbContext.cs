@@ -596,9 +596,10 @@ public class AppDbContext : DbContext
         );
 
         modelBuilder.Entity<PriceTable>().HasData(
-            new PriceTable { Id = 1, PricePerKWh = 3500, PenaltyFeePerMinute = 800, ValidFrom = new DateTime(2023, 1, 1), ValidTo = new DateTime(2024, 3, 18), Status = PriceTableStatus.Inactive },
-            new PriceTable { Id = 2, PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2024, 3, 19), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active },
-            new PriceTable { Id = 3, PricePerKWh = 4000, PenaltyFeePerMinute = 1200, ValidFrom = new DateTime(2026, 1, 1), ValidTo = new DateTime(2027, 12, 31), Status = PriceTableStatus.Inactive }
+            new PriceTable { Id = 1, Name = "PriceTable for 2024", PricePerKWh = 3500, PenaltyFeePerMinute = 800, ValidFrom = new DateTime(2024, 1, 1), ValidTo = new DateTime(2024, 12, 31), Status = PriceTableStatus.Inactive },
+            new PriceTable { Id = 2, Name = "PriceTable for 2025", PricePerKWh = 3858, PenaltyFeePerMinute = 1000, ValidFrom = new DateTime(2025, 1, 1), ValidTo = new DateTime(2025, 12, 31), Status = PriceTableStatus.Active },
+            new PriceTable { Id = 3, Name = "PriceTable for Nov-2025", PricePerKWh = 3900, PenaltyFeePerMinute = 1100, ValidFrom = new DateTime(2025, 11, 1), ValidTo = new DateTime(2025, 11, 30), Status = PriceTableStatus.Inactive },
+            new PriceTable { Id = 4, Name = "PriceTable for 2026", PricePerKWh = 4000, PenaltyFeePerMinute = 1200, ValidFrom = new DateTime(2026, 1, 1), ValidTo = new DateTime(2026, 12, 31), Status = PriceTableStatus.Inactive }
         );
 
         // Helper function for cost calculation

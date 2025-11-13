@@ -31,6 +31,7 @@ namespace TestServer.Controllers
                 .Select(p => new
                 {
                     p.Id,
+                    p.Name,
                     p.PricePerKWh,
                     p.PenaltyFeePerMinute,
                     ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -53,6 +54,7 @@ namespace TestServer.Controllers
                 .Select(p => new
                 {
                     p.Id,
+                    p.Name,
                     p.PricePerKWh,
                     p.PenaltyFeePerMinute,
                     ValidFrom = p.ValidFrom.ToString("yyyy-MM-dd"),
@@ -71,6 +73,7 @@ namespace TestServer.Controllers
             var priceTable = new PriceTable
             {
                 PricePerKWh = priceTableDto.PricePerKWh,
+                Name = priceTableDto.Name,
                 PenaltyFeePerMinute = priceTableDto.PenaltyFeePerMinute,
                 ValidFrom = priceTableDto.ValidFrom,
                 ValidTo = priceTableDto.ValidTo,

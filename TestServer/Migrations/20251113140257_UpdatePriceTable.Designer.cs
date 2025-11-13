@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestServer.Data;
 
@@ -10,9 +11,11 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251113140257_UpdatePriceTable")]
+    partial class UpdatePriceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4882,16 +4885,6 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "PriceTable for Nov-2025",
-                            PenaltyFeePerMinute = 1100f,
-                            PricePerKWh = 3900f,
-                            Status = 1,
-                            ValidFrom = new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValidTo = new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 4,
                             Name = "PriceTable for 2026",
                             PenaltyFeePerMinute = 1200f,
                             PricePerKWh = 4000f,

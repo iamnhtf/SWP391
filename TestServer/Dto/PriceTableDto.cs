@@ -6,6 +6,9 @@ namespace TestServer.Dto
     {
         [Required]
         public float PricePerKWh { get; set; }
+        
+        [Required]
+        public string Name { get; set; }
 
         [Required]
         public float PenaltyFeePerMinute { get; set; }
