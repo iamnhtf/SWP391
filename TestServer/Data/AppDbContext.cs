@@ -16,9 +16,9 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Customer>().HasData(
-            new Customer { Id = "l1sufzGdTdYyIZJ8c0VypXyhmR02", Name = "Nguyen Hung Thai", Email = "nguyenthai0418@gmail.com", PhoneNumber = "0905123456", Address = "Quận 3, TP.HCM" },
-            new Customer { Id = "JEBFEGirUGhlgQadF4xRrofZo9X2", Name = "Nguyen Bui Dang Khoi", Email = "nguyenbuidangkhoixt@gmail.com", PhoneNumber = "0909876543", Address = "Quận 9, TP.HCM" },
-            new Customer { Id = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nguyen Xuan Thinh", Email = "nguyenxuanthinh@gmail.com", PhoneNumber = "0901234567", Address = "Quận 1, TP.HCM" }
+            new Customer { Id = "l1sufzGdTdYyIZJ8c0VypXyhmR02", Name = "Nguyen Hung Thai", Email = "nguyenthai0418@gmail.com", PhoneNumber = "0905123456", Address = "Quận 3, TP.HCM", Status = Customer.CustomerStatus.Available },
+            new Customer { Id = "JEBFEGirUGhlgQadF4xRrofZo9X2", Name = "Nguyen Bui Dang Khoi", Email = "nguyenbuidangkhoixt@gmail.com", PhoneNumber = "0909876543", Address = "Quận 9, TP.HCM", Status = Customer.CustomerStatus.Available },
+            new Customer { Id = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nguyen Xuan Thinh", Email = "nguyenxuanthinh@gmail.com", PhoneNumber = "0901234567", Address = "Quận 1, TP.HCM" , Status = Customer.CustomerStatus.Available }
         );
 
         modelBuilder.Entity<ChargingStation>().HasData(
@@ -522,7 +522,22 @@ public class AppDbContext : DbContext
             new VehiclePort { VehicleId = 4, ConnectorId = 1 },
 
             new VehiclePort { VehicleId = 5, ConnectorId = 2 },
-            new VehiclePort { VehicleId = 5, ConnectorId = 1 }
+            new VehiclePort { VehicleId = 5, ConnectorId = 1 },
+
+            new VehiclePort { VehicleId = 6, ConnectorId = 1 },
+            new VehiclePort { VehicleId = 6, ConnectorId = 2 },
+
+            new VehiclePort { VehicleId = 7, ConnectorId = 2 },
+            new VehiclePort { VehicleId = 7, ConnectorId = 3 },
+
+            new VehiclePort { VehicleId = 8, ConnectorId = 3 },
+            new VehiclePort { VehicleId = 8, ConnectorId = 2 },
+
+            new VehiclePort { VehicleId = 9, ConnectorId = 1 },
+            new VehiclePort { VehicleId = 9, ConnectorId = 2 },
+
+            new VehiclePort { VehicleId = 10, ConnectorId = 2 },
+            new VehiclePort { VehicleId = 10, ConnectorId = 3 }
         );
 
         modelBuilder.Entity<VehicleConnectorType>().HasKey(vtc => new { vtc.VehicleId, vtc.ConnectorId });
@@ -535,7 +550,28 @@ public class AppDbContext : DbContext
             new VehicleConnectorType { VehicleId = 2, ConnectorId = 1 },
 
             new VehicleConnectorType { VehicleId = 3, ConnectorId = 1 },
-            new VehicleConnectorType { VehicleId = 3, ConnectorId = 2 }
+            new VehicleConnectorType { VehicleId = 3, ConnectorId = 2 },
+
+            new VehicleConnectorType { VehicleId = 4, ConnectorId = 2 },
+            new VehicleConnectorType { VehicleId = 4, ConnectorId = 3 },
+
+            new VehicleConnectorType { VehicleId = 5, ConnectorId = 3 },
+            new VehicleConnectorType { VehicleId = 5, ConnectorId = 2 },
+
+            new VehicleConnectorType { VehicleId = 6, ConnectorId = 1 },
+            new VehicleConnectorType { VehicleId = 6, ConnectorId = 2 },
+
+            new VehicleConnectorType { VehicleId = 7, ConnectorId = 2 },
+            new VehicleConnectorType { VehicleId = 7, ConnectorId = 3 },
+
+            new VehicleConnectorType { VehicleId = 8, ConnectorId = 3 },
+            new VehicleConnectorType { VehicleId = 8, ConnectorId = 2 },
+
+            new VehicleConnectorType { VehicleId = 9, ConnectorId = 1 },
+            new VehicleConnectorType { VehicleId = 9, ConnectorId = 2 },
+
+            new VehicleConnectorType { VehicleId = 10, ConnectorId = 2 },
+            new VehicleConnectorType { VehicleId = 10, ConnectorId = 3 }
         );
 
         modelBuilder.Entity<PriceTable>().HasData(
