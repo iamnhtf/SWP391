@@ -8,6 +8,7 @@ namespace TestServer.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
         public float PricePerKWh { get; set; } = 0;
         public float PenaltyFeePerMinute { get; set; } = 0;
 

@@ -3885,7 +3885,6 @@ namespace TestServer.Migrations
             modelBuilder.Entity("TestServer.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
@@ -3910,7 +3909,6 @@ namespace TestServer.Migrations
                         .HasColumnType("varchar(15)");
 
                     b.Property<int>("Status")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -4155,7 +4153,7 @@ namespace TestServer.Migrations
                             Amount = 619623.0,
                             CreatedAt = new DateTime(2025, 8, 2, 9, 10, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 1 (Jul-2025)",
+                            OrderInfo = "Payment for Tesla Model 3 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 1,
@@ -4167,7 +4165,7 @@ namespace TestServer.Migrations
                             Amount = 498068.0,
                             CreatedAt = new DateTime(2025, 8, 2, 9, 11, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 2 (Jul-2025)",
+                            OrderInfo = "Payment for VinFast VF 8 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 2,
@@ -4179,7 +4177,7 @@ namespace TestServer.Migrations
                             Amount = 231866.0,
                             CreatedAt = new DateTime(2025, 8, 2, 9, 12, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 3 (Jul-2025)",
+                            OrderInfo = "Payment for Nissan Leaf (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 3,
@@ -4191,7 +4189,7 @@ namespace TestServer.Migrations
                             Amount = 637921.0,
                             CreatedAt = new DateTime(2025, 8, 2, 9, 13, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 4 (Jul-2025)",
+                            OrderInfo = "Payment for Hyundai Ioniq 5 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 4,
@@ -4203,7 +4201,7 @@ namespace TestServer.Migrations
                             Amount = 519563.0,
                             CreatedAt = new DateTime(2025, 8, 2, 9, 14, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 5 (Jul-2025)",
+                            OrderInfo = "Payment for Kia EV6 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 5,
@@ -4215,7 +4213,7 @@ namespace TestServer.Migrations
                             Amount = 454045.0,
                             CreatedAt = new DateTime(2025, 8, 3, 10, 5, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 6 (Jul-2025)",
+                            OrderInfo = "Payment for Tesla Model Y (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 6,
@@ -4227,7 +4225,7 @@ namespace TestServer.Migrations
                             Amount = 248033.0,
                             CreatedAt = new DateTime(2025, 8, 3, 10, 6, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 7 (Jul-2025)",
+                            OrderInfo = "Payment for Tesla Model 4 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 7,
@@ -4239,7 +4237,7 @@ namespace TestServer.Migrations
                             Amount = 285918.0,
                             CreatedAt = new DateTime(2025, 8, 3, 10, 7, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 8 (Jul-2025)",
+                            OrderInfo = "Payment for BYD Seal (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 8,
@@ -4251,7 +4249,7 @@ namespace TestServer.Migrations
                             Amount = 506409.0,
                             CreatedAt = new DateTime(2025, 8, 3, 10, 8, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 9 (Jul-2025)",
+                            OrderInfo = "Payment for Ford F-150 Lightning (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 9,
@@ -4263,7 +4261,7 @@ namespace TestServer.Migrations
                             Amount = 441017.0,
                             CreatedAt = new DateTime(2025, 8, 1, 11, 20, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 10 (Jul-2025)",
+                            OrderInfo = "Payment for Chevrolet Bolt EV (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 10,
@@ -4275,7 +4273,7 @@ namespace TestServer.Migrations
                             Amount = 267710.0,
                             CreatedAt = new DateTime(2025, 8, 1, 11, 21, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 11 (Jul-2025)",
+                            OrderInfo = "Payment for Volvo EX30 (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 11,
@@ -4287,7 +4285,7 @@ namespace TestServer.Migrations
                             Amount = 678314.0,
                             CreatedAt = new DateTime(2025, 8, 1, 11, 22, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 12 (Jul-2025)",
+                            OrderInfo = "Payment for Audi e-tron GT (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 12,
@@ -4299,7 +4297,7 @@ namespace TestServer.Migrations
                             Amount = 321150.0,
                             CreatedAt = new DateTime(2025, 8, 1, 11, 23, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 13 (Jul-2025)",
+                            OrderInfo = "Payment for Porsche Taycan (Jul-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 13,
@@ -4311,7 +4309,7 @@ namespace TestServer.Migrations
                             Amount = 441017.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 30, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 14 (Aug-2025)",
+                            OrderInfo = "Payment for Tesla Model 3 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 1,
@@ -4323,7 +4321,7 @@ namespace TestServer.Migrations
                             Amount = 498839.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 31, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 15 (Aug-2025)",
+                            OrderInfo = "Payment for VinFast VF 8 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 2,
@@ -4335,9 +4333,9 @@ namespace TestServer.Migrations
                             Amount = 500383.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 32, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 16 (Aug-2025) - FAILED (Insufficient)",
-                            ResponseCode = "05",
-                            TransactionStatus = "05",
+                            OrderInfo = "Payment for Nissan Leaf (Aug-2025)",
+                            ResponseCode = "00",
+                            TransactionStatus = "00",
                             VehicleId = 3,
                             VehicleMonthId = 16
                         },
@@ -4347,7 +4345,7 @@ namespace TestServer.Migrations
                             Amount = 321536.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 33, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 17 (Aug-2025)",
+                            OrderInfo = "Payment for Hyundai Ioniq 5 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 4,
@@ -4359,7 +4357,7 @@ namespace TestServer.Migrations
                             Amount = 701468.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 34, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 18 (Aug-2025)",
+                            OrderInfo = "Payment for Kia EV6 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 5,
@@ -4371,7 +4369,7 @@ namespace TestServer.Migrations
                             Amount = 538787.0,
                             CreatedAt = new DateTime(2025, 9, 3, 11, 15, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 19 (Aug-2025)",
+                            OrderInfo = "Payment for Tesla Model Y (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 6,
@@ -4383,7 +4381,7 @@ namespace TestServer.Migrations
                             Amount = 504626.0,
                             CreatedAt = new DateTime(2025, 9, 3, 11, 16, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 20 (Aug-2025)",
+                            OrderInfo = "Payment for Tesla Model 4 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 7,
@@ -4395,7 +4393,7 @@ namespace TestServer.Migrations
                             Amount = 527581.0,
                             CreatedAt = new DateTime(2025, 9, 3, 11, 17, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 21 (Aug-2025)",
+                            OrderInfo = "Payment for BYD Seal (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 8,
@@ -4407,7 +4405,7 @@ namespace TestServer.Migrations
                             Amount = 310931.0,
                             CreatedAt = new DateTime(2025, 9, 3, 11, 18, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 22 (Aug-2025)",
+                            OrderInfo = "Payment for Ford F-150 Lightning (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 9,
@@ -4419,7 +4417,7 @@ namespace TestServer.Migrations
                             Amount = 293644.0,
                             CreatedAt = new DateTime(2025, 9, 1, 14, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 23 (Aug-2025)",
+                            OrderInfo = "Payment for Chevrolet Bolt EV (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 10,
@@ -4431,7 +4429,7 @@ namespace TestServer.Migrations
                             Amount = 421449.0,
                             CreatedAt = new DateTime(2025, 9, 1, 14, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 24 (Aug-2025)",
+                            OrderInfo = "Payment for Volvo EX30 (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 11,
@@ -4443,7 +4441,7 @@ namespace TestServer.Migrations
                             Amount = 333657.0,
                             CreatedAt = new DateTime(2025, 9, 1, 14, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 25 (Aug-2025)",
+                            OrderInfo = "Payment for Audi e-tron GT (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 12,
@@ -4455,7 +4453,7 @@ namespace TestServer.Migrations
                             Amount = 662990.0,
                             CreatedAt = new DateTime(2025, 9, 1, 14, 3, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 26 (Aug-2025)",
+                            OrderInfo = "Payment for Porsche Taycan (Aug-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 13,
@@ -4467,7 +4465,7 @@ namespace TestServer.Migrations
                             Amount = 299085.0,
                             CreatedAt = new DateTime(2025, 10, 2, 9, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 27 (Sep-2025)",
+                            OrderInfo = "Payment for Tesla Model 3 (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 1,
@@ -4479,7 +4477,7 @@ namespace TestServer.Migrations
                             Amount = 669483.0,
                             CreatedAt = new DateTime(2025, 10, 2, 9, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 28 (Sep-2025)",
+                            OrderInfo = "Payment for VinFast VF 8 (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 2,
@@ -4491,7 +4489,7 @@ namespace TestServer.Migrations
                             Amount = 319128.0,
                             CreatedAt = new DateTime(2025, 10, 2, 9, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 30 (Sep-2025)",
+                            OrderInfo = "Payment for Hyundai Ioniq 5 (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 4,
@@ -4503,7 +4501,7 @@ namespace TestServer.Migrations
                             Amount = 517272.0,
                             CreatedAt = new DateTime(2025, 10, 2, 9, 3, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 31 (Sep-2025)",
+                            OrderInfo = "Payment for Kia EV6 (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 5,
@@ -4515,7 +4513,7 @@ namespace TestServer.Migrations
                             Amount = 451730.0,
                             CreatedAt = new DateTime(2025, 10, 3, 10, 10, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 32 (Sep-2025)",
+                            OrderInfo = "Payment for Tesla Model Y (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 6,
@@ -4527,7 +4525,7 @@ namespace TestServer.Migrations
                             Amount = 530860.0,
                             CreatedAt = new DateTime(2025, 10, 3, 10, 11, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 33 (Sep-2025)",
+                            OrderInfo = "Payment for Tesla Model 4 (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 7,
@@ -4539,9 +4537,9 @@ namespace TestServer.Migrations
                             Amount = 527581.0,
                             CreatedAt = new DateTime(2025, 10, 3, 10, 12, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 34 (Sep-2025) - FAILED (Timeout)",
-                            ResponseCode = "11",
-                            TransactionStatus = "11",
+                            OrderInfo = "Payment for BYD Seal (Sep-2025)",
+                            ResponseCode = "00",
+                            TransactionStatus = "00",
                             VehicleId = 8,
                             VehicleMonthId = 34
                         },
@@ -4551,7 +4549,7 @@ namespace TestServer.Migrations
                             Amount = 361097.0,
                             CreatedAt = new DateTime(2025, 10, 3, 10, 13, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 35 (Sep-2025)",
+                            OrderInfo = "Payment for Ford F-150 Lightning (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 9,
@@ -4563,7 +4561,7 @@ namespace TestServer.Migrations
                             Amount = 289876.0,
                             CreatedAt = new DateTime(2025, 10, 1, 12, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 36 (Sep-2025)",
+                            OrderInfo = "Payment for Chevrolet Bolt EV (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 10,
@@ -4575,9 +4573,9 @@ namespace TestServer.Migrations
                             Amount = 269228.0,
                             CreatedAt = new DateTime(2025, 10, 1, 12, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 37 (Sep-2025) - FAILED (Cancelled)",
-                            ResponseCode = "24",
-                            TransactionStatus = "24",
+                            OrderInfo = "Payment for Volvo EX30 (Sep-2025)",
+                            ResponseCode = "00",
+                            TransactionStatus = "00",
                             VehicleId = 11,
                             VehicleMonthId = 37
                         },
@@ -4587,7 +4585,7 @@ namespace TestServer.Migrations
                             Amount = 675276.0,
                             CreatedAt = new DateTime(2025, 10, 1, 12, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 38 (Sep-2025)",
+                            OrderInfo = "Payment for Audi e-tron GT (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 12,
@@ -4599,7 +4597,7 @@ namespace TestServer.Migrations
                             Amount = 319514.0,
                             CreatedAt = new DateTime(2025, 10, 1, 12, 3, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 39 (Sep-2025)",
+                            OrderInfo = "Payment for Porsche Taycan (Sep-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 13,
@@ -4611,7 +4609,7 @@ namespace TestServer.Migrations
                             Amount = 449275.0,
                             CreatedAt = new DateTime(2025, 11, 2, 10, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 40 (Oct-2025)",
+                            OrderInfo = "Payment for Tesla Model 3 (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 1,
@@ -4623,7 +4621,7 @@ namespace TestServer.Migrations
                             Amount = 347220.0,
                             CreatedAt = new DateTime(2025, 11, 2, 10, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 41 (Oct-2025)",
+                            OrderInfo = "Payment for VinFast VF 8 (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 2,
@@ -4635,7 +4633,7 @@ namespace TestServer.Migrations
                             Amount = 632832.0,
                             CreatedAt = new DateTime(2025, 11, 2, 10, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 43 (Oct-2025)",
+                            OrderInfo = "Payment for Hyundai Ioniq 5 (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 4,
@@ -4647,9 +4645,9 @@ namespace TestServer.Migrations
                             Amount = 519563.0,
                             CreatedAt = new DateTime(2025, 11, 2, 10, 3, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 44 (Oct-2025) - FAILED (Card inactive)",
-                            ResponseCode = "09",
-                            TransactionStatus = "09",
+                            OrderInfo = "Payment for Kia EV6 (Oct-2025)",
+                            ResponseCode = "00",
+                            TransactionStatus = "00",
                             VehicleId = 5,
                             VehicleMonthId = 44
                         },
@@ -4659,7 +4657,7 @@ namespace TestServer.Migrations
                             Amount = 288975.0,
                             CreatedAt = new DateTime(2025, 11, 3, 11, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 45 (Oct-2025)",
+                            OrderInfo = "Payment for Tesla Model Y (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 6,
@@ -4671,7 +4669,7 @@ namespace TestServer.Migrations
                             Amount = 381398.0,
                             CreatedAt = new DateTime(2025, 11, 3, 11, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 46 (Oct-2025)",
+                            OrderInfo = "Payment for Tesla Model 4 (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 7,
@@ -4683,7 +4681,7 @@ namespace TestServer.Migrations
                             Amount = 361097.0,
                             CreatedAt = new DateTime(2025, 11, 3, 11, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 48 (Oct-2025)",
+                            OrderInfo = "Payment for Ford F-150 Lightning (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 9,
@@ -4695,7 +4693,7 @@ namespace TestServer.Migrations
                             Amount = 288397.0,
                             CreatedAt = new DateTime(2025, 11, 1, 15, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 49 (Oct-2025)",
+                            OrderInfo = "Payment for Chevrolet Bolt EV (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 10,
@@ -4707,7 +4705,7 @@ namespace TestServer.Migrations
                             Amount = 328336.0,
                             CreatedAt = new DateTime(2025, 11, 1, 15, 1, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 51 (Oct-2025)",
+                            OrderInfo = "Payment for Audi e-tron GT (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 12,
@@ -4719,7 +4717,7 @@ namespace TestServer.Migrations
                             Amount = 482708.0,
                             CreatedAt = new DateTime(2025, 11, 1, 15, 2, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 52 (Oct-2025)",
+                            OrderInfo = "Payment for Porsche Taycan (Oct-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 13,
@@ -4731,7 +4729,7 @@ namespace TestServer.Migrations
                             Amount = 157070.0,
                             CreatedAt = new DateTime(2025, 11, 10, 9, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 53 (Nov-2025)",
+                            OrderInfo = "Payment for Tesla Model 3 (Nov-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 1,
@@ -4743,9 +4741,9 @@ namespace TestServer.Migrations
                             Amount = 180237.0,
                             CreatedAt = new DateTime(2025, 11, 10, 9, 5, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 54 (Nov-2025) - FAILED (Cancelled)",
-                            ResponseCode = "24",
-                            TransactionStatus = "24",
+                            OrderInfo = "Payment for VinFast VF 8 (Nov-2025)",
+                            ResponseCode = "00",
+                            TransactionStatus = "00",
                             VehicleId = 2,
                             VehicleMonthId = 54
                         },
@@ -4755,7 +4753,7 @@ namespace TestServer.Migrations
                             Amount = 317971.0,
                             CreatedAt = new DateTime(2025, 11, 11, 14, 20, 0, 0, DateTimeKind.Utc),
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VMonth 56 (Nov-2025)",
+                            OrderInfo = "Payment for Hyundai Ioniq 5 (Nov-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 4,
@@ -4767,7 +4765,7 @@ namespace TestServer.Migrations
                             Amount = 138888.0,
                             CreatedAt = new DateTime(2025, 11, 11, 16, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 58 (Nov-2025)",
+                            OrderInfo = "Payment for Tesla Model Y (Nov-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 6,
@@ -4779,7 +4777,7 @@ namespace TestServer.Migrations
                             Amount = 109247.0,
                             CreatedAt = new DateTime(2025, 11, 12, 8, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for VMonth 61 (Nov-2025)",
+                            OrderInfo = "Payment for Ford F-150 Lightning (Nov-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 9,
@@ -4791,7 +4789,7 @@ namespace TestServer.Migrations
                             Amount = 158178.0,
                             CreatedAt = new DateTime(2025, 11, 12, 9, 30, 0, 0, DateTimeKind.Utc),
                             CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for VMonth 64 (Nov-2025)",
+                            OrderInfo = "Payment for Audi e-tron GT (Nov-2025)",
                             ResponseCode = "00",
                             TransactionStatus = "00",
                             VehicleId = 12,
@@ -4837,6 +4835,10 @@ namespace TestServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<float>("PenaltyFeePerMinute")
                         .HasColumnType("float");
 
@@ -4860,29 +4862,42 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 1,
+                            Name = "PriceTable for 2024",
                             PenaltyFeePerMinute = 800f,
                             PricePerKWh = 3500f,
                             Status = 1,
-                            ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValidTo = new DateTime(2024, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
+                            Name = "PriceTable for 2025",
                             PenaltyFeePerMinute = 1000f,
                             PricePerKWh = 3858f,
                             Status = 0,
-                            ValidFrom = new DateTime(2024, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidFrom = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ValidTo = new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
+                            Name = "PriceTable for Nov-2025",
+                            PenaltyFeePerMinute = 1100f,
+                            PricePerKWh = 3900f,
+                            Status = 1,
+                            ValidFrom = new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "PriceTable for 2026",
                             PenaltyFeePerMinute = 1200f,
                             PricePerKWh = 4000f,
                             Status = 1,
                             ValidFrom = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValidTo = new DateTime(2027, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidTo = new DateTime(2026, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -5128,6 +5143,106 @@ namespace TestServer.Migrations
                         new
                         {
                             VehicleId = 3,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 4,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 4,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 5,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 5,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 6,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 6,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 7,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 7,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 8,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 8,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 9,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 9,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 10,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 10,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 11,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 11,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 12,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 12,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 13,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 13,
                             ConnectorId = 2
                         });
                 });
@@ -5876,6 +5991,86 @@ namespace TestServer.Migrations
                         {
                             VehicleId = 5,
                             ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 6,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 6,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 7,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 7,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 8,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 8,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 9,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 9,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 10,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 10,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 11,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 11,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 12,
+                            ConnectorId = 2
+                        },
+                        new
+                        {
+                            VehicleId = 12,
+                            ConnectorId = 3
+                        },
+                        new
+                        {
+                            VehicleId = 13,
+                            ConnectorId = 1
+                        },
+                        new
+                        {
+                            VehicleId = 13,
+                            ConnectorId = 2
                         });
                 });
 
