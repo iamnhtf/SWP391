@@ -11,8 +11,8 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251113140257_UpdatePriceTable")]
-    partial class UpdatePriceTable
+    [Migration("20251113150704_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -4885,6 +4885,16 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 3,
+                            Name = "PriceTable for Nov-2025",
+                            PenaltyFeePerMinute = 1100f,
+                            PricePerKWh = 3900f,
+                            Status = 1,
+                            ValidFrom = new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ValidTo = new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
                             Name = "PriceTable for 2026",
                             PenaltyFeePerMinute = 1200f,
                             PricePerKWh = 4000f,

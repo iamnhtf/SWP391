@@ -122,6 +122,7 @@ namespace TestServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     PricePerKWh = table.Column<float>(type: "float", nullable: false),
                     PenaltyFeePerMinute = table.Column<float>(type: "float", nullable: false),
                     ValidFrom = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -486,12 +487,13 @@ namespace TestServer.Migrations
 
             migrationBuilder.InsertData(
                 table: "PriceTables",
-                columns: new[] { "Id", "PenaltyFeePerMinute", "PricePerKWh", "Status", "ValidFrom", "ValidTo" },
+                columns: new[] { "Id", "Name", "PenaltyFeePerMinute", "PricePerKWh", "Status", "ValidFrom", "ValidTo" },
                 values: new object[,]
                 {
-                    { 1, 800f, 3500f, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1000f, 3858f, 0, new DateTime(2024, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1200f, 4000f, 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2027, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "PriceTable for 2024", 800f, 3500f, 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "PriceTable for 2025", 1000f, 3858f, 0, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "PriceTable for Nov-2025", 1100f, 3900f, 1, new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "PriceTable for 2026", 1200f, 4000f, 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
