@@ -7,8 +7,6 @@ namespace TestServer.Models;
 public class Customer
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Tự động tăng giá trị
-
     [StringLength(100)]
     public string Id { get; set; } = string.Empty;
 

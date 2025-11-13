@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.Models;
 using TestServer.DTOs;
+using System.Linq;
 
 namespace TestServer.Controllers
 {
@@ -21,7 +22,8 @@ namespace TestServer.Controllers
         public async Task<IActionResult> GetAll()
         {
             var customers = await db.Customers.ToListAsync();
-            return Ok(customers);
+            var dtos = customers.Select(c => ToDto(c));
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
@@ -30,7 +32,7 @@ namespace TestServer.Controllers
             var customer = await db.Customers.FindAsync(id);
             if (customer == null)
                 return NotFound($"Customer with ID {id} not found.");
-            return Ok(customer);
+            return Ok(ToDto(customer));
         }
 
         [HttpPost]
@@ -43,7 +45,7 @@ namespace TestServer.Controllers
 
             db.Customers.Add(customer);
             await db.SaveChangesAsync();
-            return Ok(customer);
+            return Ok(ToDto(customer));
         }
 
         [HttpPut("{id}")]
@@ -61,9 +63,11 @@ namespace TestServer.Controllers
                 existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
             if (updatedCustomer.Address != null)
                 existingCustomer.Address = updatedCustomer.Address;
+            if (updatedCustomer.Status != existingCustomer.Status)
+                existingCustomer.Status = updatedCustomer.Status;
 
             await db.SaveChangesAsync();
-            return Ok(existingCustomer);
+            return Ok(ToDto(existingCustomer));
         }
 
         [HttpDelete("{id}")]
@@ -135,6 +139,18 @@ namespace TestServer.Controllers
             return Ok(new { Success = true, Status = customer.Status.ToString(), RawDatabaseValue = rawValue });
         }
 
+        private static CustomerResponseDto ToDto(Customer c)
+        {
+            return new CustomerResponseDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Email = c.Email,
+                PhoneNumber = c.PhoneNumber,
+                Address = c.Address,
+                Status = c.Status.ToString()
+            };
+        }
         
     }
 }
