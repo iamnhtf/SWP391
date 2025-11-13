@@ -478,32 +478,26 @@ namespace TestServer.Controllers
             return Ok(new { Status = vehicle.Status.ToString() });
         }
         [HttpPut("{id:int}/status")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string newStatus)
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] VehicleDto statusDto)
         {
+            if (statusDto == null || string.IsNullOrWhiteSpace(statusDto.Status))
+                return BadRequest("Status is required in the request body. Example: { \"status\": \"Blocked\" }");
+
             var vehicle = await db.Vehicles.FindAsync(id);
             if (vehicle == null)
                 return NotFound($"Vehicle with ID {id} not found.");
 
-            if (string.IsNullOrWhiteSpace(newStatus))
-                return BadRequest("Status is required in the request body.");
-
-            if (!Enum.TryParse<VehicleStatus>(newStatus, true, out var parsedStatus))
-                return BadRequest("Invalid status value.");
+            if (!Enum.TryParse<VehicleStatus>(statusDto.Status, true, out var parsedStatus))
+                return BadRequest($"Invalid status value. Allowed: {string.Join(',', Enum.GetNames(typeof(VehicleStatus)))}");
 
             vehicle.Status = parsedStatus;
 
-            // Ensure EF Core treats the enum property as modified so it will be saved even if conversion mapping is unusual
+            // Mark enum property modified to ensure EF Core picks it up
             db.Entry(vehicle).Property(v => v.Status).IsModified = true;
 
             await db.SaveChangesAsync();
 
-            // Read raw DB value for diagnostics (useful if HasConversion<string>() or legacy data exist)
-            var rawValue = await db.Vehicles
-                .Where(v => v.VehicleId == id)
-                .Select(v => EF.Property<string>(v, "Status"))
-                .FirstOrDefaultAsync();
-
-            return Ok(new { Status = vehicle.Status.ToString(), RawDatabaseValue = rawValue });
+            return Ok(new { VehicleId = vehicle.VehicleId, Status = vehicle.Status.ToString() });
         }
     }
 }
