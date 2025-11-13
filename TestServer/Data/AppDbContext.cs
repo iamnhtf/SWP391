@@ -928,7 +928,7 @@ public class AppDbContext : DbContext
         // XÓA BỎ KHỐI PaymentTransaction CŨ VÀ THAY BẰNG KHỐI NÀY:
 
 modelBuilder.Entity<PaymentTransaction>().HasData(
-    // --- Period 19 (July 2025) - Tất cả thành công ---
+    // --- Period 19 (July 2025)
     new PaymentTransaction
     {
         Id = 1, VehicleMonthId = 1, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
@@ -1008,7 +1008,7 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Porsche Taycan (Jul-2025)"
     },
 
-    // --- Period 20 (August 2025) - Tất cả thành công ---
+    // --- Period 20 (August 2025)
     new PaymentTransaction
     {
         Id = 14, VehicleMonthId = 14, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
@@ -1020,12 +1020,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         Id = 15, VehicleMonthId = 15, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
         Amount = 498839, CreatedAt = new DateTime(2025, 9, 2, 8, 31, 0, DateTimeKind.Utc),
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VinFast VF 8 (Aug-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 16, VehicleMonthId = 16, VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-        Amount = 500383, CreatedAt = new DateTime(2025, 9, 2, 8, 32, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Nissan Leaf (Aug-2025)" // Đã sửa thành Success
     },
     new PaymentTransaction
     {
@@ -1088,7 +1082,7 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Porsche Taycan (Aug-2025)"
     },
 
-    // --- Period 21 (September 2025) - Tất cả thành công ---
+    // --- Period 21 (September 2025)
     new PaymentTransaction
     {
         Id = 27, VehicleMonthId = 27, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
@@ -1127,12 +1121,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
     },
     new PaymentTransaction
     {
-        Id = 33, VehicleMonthId = 34, VehicleId = 8, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-        Amount = 527581, CreatedAt = new DateTime(2025, 10, 3, 10, 12, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for BYD Seal (Sep-2025)" // Đã sửa thành Success
-    },
-    new PaymentTransaction
-    {
         Id = 34, VehicleMonthId = 35, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
         Amount = 361097, CreatedAt = new DateTime(2025, 10, 3, 10, 13, 0, DateTimeKind.Utc),
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Ford F-150 Lightning (Sep-2025)"
@@ -1142,12 +1130,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         Id = 35, VehicleMonthId = 36, VehicleId = 10, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
         Amount = 289876, CreatedAt = new DateTime(2025, 10, 1, 12, 0, 0, DateTimeKind.Utc),
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Chevrolet Bolt EV (Sep-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 36, VehicleMonthId = 37, VehicleId = 11, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-        Amount = 269228, CreatedAt = new DateTime(2025, 10, 1, 12, 1, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Volvo EX30 (Sep-2025)" // Đã sửa thành Success
     },
     new PaymentTransaction
     {
@@ -1162,7 +1144,7 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Porsche Taycan (Sep-2025)"
     },
 
-    // --- Period 22 (October 2025) - Tất cả thành công ---
+    // --- Period 22 (October 2025)
     new PaymentTransaction
     {
         Id = 39, VehicleMonthId = 40, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
@@ -1180,12 +1162,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         Id = 41, VehicleMonthId = 43, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
         Amount = 632832, CreatedAt = new DateTime(2025, 11, 2, 10, 2, 0, DateTimeKind.Utc),
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Hyundai Ioniq 5 (Oct-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 42, VehicleMonthId = 44, VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-        Amount = 519563, CreatedAt = new DateTime(2025, 11, 2, 10, 3, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Kia EV6 (Oct-2025)" // Đã sửa thành Success
     },
     new PaymentTransaction
     {
@@ -1222,44 +1198,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
         Id = 48, VehicleMonthId = 52, VehicleId = 13, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
         Amount = 482708, CreatedAt = new DateTime(2025, 11, 1, 15, 2, 0, DateTimeKind.Utc),
         ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Porsche Taycan (Oct-2025)"
-    },
-
-    // --- Period 23 (November 2025) - Tất cả thành công ---
-    new PaymentTransaction
-    {
-        Id = 49, VehicleMonthId = 53, VehicleId = 1, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-        Amount = 157070, CreatedAt = new DateTime(2025, 11, 10, 9, 0, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Tesla Model 3 (Nov-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 50, VehicleMonthId = 54, VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-        Amount = 180237, CreatedAt = new DateTime(2025, 11, 10, 9, 5, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for VinFast VF 8 (Nov-2025)" // Đã sửa thành Success
-    },
-    new PaymentTransaction
-    {
-        Id = 51, VehicleMonthId = 56, VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-        Amount = 317971, CreatedAt = new DateTime(2025, 11, 11, 14, 20, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Hyundai Ioniq 5 (Nov-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 52, VehicleMonthId = 58, VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-        Amount = 138888, CreatedAt = new DateTime(2025, 11, 11, 16, 0, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Tesla Model Y (Nov-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 53, VehicleMonthId = 61, VehicleId = 9, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-        Amount = 109247, CreatedAt = new DateTime(2025, 11, 12, 8, 0, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Ford F-150 Lightning (Nov-2025)"
-    },
-    new PaymentTransaction
-    {
-        Id = 54, VehicleMonthId = 64, VehicleId = 12, CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-        Amount = 158178, CreatedAt = new DateTime(2025, 11, 12, 9, 30, 0, DateTimeKind.Utc),
-        ResponseCode = "00", TransactionStatus = "00", OrderInfo = "Payment for Audi e-tron GT (Nov-2025)"
     }
 );
 
