@@ -99,9 +99,9 @@ public class AppDbContext : DbContext
 
         // Connector
         modelBuilder.Entity<Connector>().HasData(
-            new Connector { Id = 1, Name = "AC" },
-            new Connector { Id = 2, Name = "CCS" },
-            new Connector { Id = 3, Name = "CHAdeMO" }
+            new Connector { Id = 1, Name = "AC", Status = ConnectorTypeStatus.Available },
+            new Connector { Id = 2, Name = "CCS", Status = ConnectorTypeStatus.Available },
+            new Connector { Id = 3, Name = "CHAdeMO", Status = ConnectorTypeStatus.Available }
         );
 
         // PowerRange

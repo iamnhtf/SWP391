@@ -158,6 +158,28 @@ namespace TestServer.Controllers
 
             return Ok(station);
         }
+        
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ChargingStationDto stationDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var station = await db.ChargingStations.FindAsync(stationDto.Id);
+            if (station == null)
+                return NotFound($"Charging station with ID {stationDto.Id} not found.");
+
+            station.Name = stationDto.Name;
+            station.Location = stationDto.Location;
+            station.Latitude = stationDto.Latitude;
+            station.Longitude = stationDto.Longitude;
+
+            db.ChargingStations.Update(station);
+            await db.SaveChangesAsync();
+
+            return Ok(station);
+        }
+        
         // Deactivate station and cascade: all points -> deactivated, all ports -> Faulty/Unavailable (or custom 'Deactive')
         // POST api/ChargingStation/stop/{id}
         [HttpPut("stop/{id:int}")]

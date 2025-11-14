@@ -10,5 +10,13 @@ namespace TestServer.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+
+        public ConnectorTypeStatus  Status { get; set; } = ConnectorTypeStatus.Available;
+
     }
+     public enum ConnectorTypeStatus
+        {
+            Available,
+            Unavailable,
+        }
 }
