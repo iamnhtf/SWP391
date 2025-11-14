@@ -160,7 +160,7 @@ namespace TestServer.Controllers
         }
         
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ChargingStationDto stationDto)
+        public async Task<IActionResult> Update([FromBody] ChargingStation stationDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
