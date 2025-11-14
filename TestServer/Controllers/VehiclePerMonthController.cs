@@ -19,19 +19,49 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var vehiclePerMonth = await db.VehiclePerMonths.ToListAsync();
-            return Ok(vehiclePerMonth);
+            var vehiclePerMonths = await db.VehiclePerMonths
+                .Include(v => v.Vehicle)
+                .Include(v => v.MonthlyPeriod)
+                .ToListAsync();
+            var dtos = vehiclePerMonths.Select(v => new VehiclePerMonthDto
+            {
+                Id = v.VehicleMonthId,
+                VehicleId = v.VehicleId,
+                LicensePlate = v.Vehicle.LicensePlate,
+                Month = v.MonthlyPeriod.Month,
+                Year = v.MonthlyPeriod.Year,
+                TotalSessions = v.TotalSessions,
+                TotalEnergy = v.TotalEnergy,
+                TotalCost = v.TotalCost,
+                AmountPaid = v.AmountPaid,               
+            });
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var vehiclePerMonth = await db.VehiclePerMonths.FindAsync(id);
+            var vehiclePerMonth = await db.VehiclePerMonths.
+                Include(v => v.Vehicle)
+                .Include(v => v.MonthlyPeriod)
+                .FirstOrDefaultAsync(v => v.VehicleMonthId == id);
             if (vehiclePerMonth == null)
             {
                 return NotFound();
             }
-            return Ok(vehiclePerMonth);
+            var dto = new VehiclePerMonthDto
+            {
+                Id = vehiclePerMonth.VehicleMonthId,
+                VehicleId = vehiclePerMonth.VehicleId,
+                Month = vehiclePerMonth.MonthlyPeriod.Month,
+                Year = vehiclePerMonth.MonthlyPeriod.Year,
+                TotalSessions = vehiclePerMonth.TotalSessions,
+                TotalEnergy = vehiclePerMonth.TotalEnergy,
+                TotalCost = vehiclePerMonth.TotalCost,
+                AmountPaid = vehiclePerMonth.AmountPaid,
+                LicensePlate = vehiclePerMonth.Vehicle.LicensePlate,
+            };
+            return Ok(dto);
         }
 
         [HttpGet("forcustomer/{customerId}")]
@@ -54,6 +84,7 @@ namespace TestServer.Controllers
             {
                 Id = v.VehicleMonthId,
                 VehicleId = v.VehicleId,
+                LicensePlate = v.Vehicle.LicensePlate,
                 Month = v.MonthlyPeriod.Month,
                 Year = v.MonthlyPeriod.Year,
                 TotalSessions = v.TotalSessions,

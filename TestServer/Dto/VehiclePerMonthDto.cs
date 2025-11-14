@@ -4,6 +4,7 @@ namespace TestServer.Dto
     {
         public int Id { get; set; }
         public int VehicleId { get; set; }
+        public string LicensePlate { get; set; } = string.Empty;
         public int Month { get; set; }
         public int Year { get; set; }
         public int TotalSessions { get; set; }
