@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace TestServer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +41,8 @@ namespace TestServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +74,8 @@ namespace TestServer.Migrations
                     PeriodId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Month = table.Column<int>(type: "int", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false)
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -365,12 +367,12 @@ namespace TestServer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Connectors",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Name", "Status" },
                 values: new object[,]
                 {
-                    { 1, "AC" },
-                    { 2, "CCS" },
-                    { 3, "CHAdeMO" }
+                    { 1, "AC", 0 },
+                    { 2, "CCS", 0 },
+                    { 3, "CHAdeMO", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -385,33 +387,33 @@ namespace TestServer.Migrations
 
             migrationBuilder.InsertData(
                 table: "MonthlyPeriods",
-                columns: new[] { "PeriodId", "Month", "Year" },
+                columns: new[] { "PeriodId", "Month", "Status", "Year" },
                 values: new object[,]
                 {
-                    { 1, 1, 2024 },
-                    { 2, 2, 2024 },
-                    { 3, 3, 2024 },
-                    { 4, 4, 2024 },
-                    { 5, 5, 2024 },
-                    { 6, 6, 2024 },
-                    { 7, 7, 2024 },
-                    { 8, 8, 2024 },
-                    { 9, 9, 2024 },
-                    { 10, 10, 2024 },
-                    { 11, 11, 2024 },
-                    { 12, 12, 2024 },
-                    { 13, 1, 2025 },
-                    { 14, 2, 2025 },
-                    { 15, 3, 2025 },
-                    { 16, 4, 2025 },
-                    { 17, 5, 2025 },
-                    { 18, 6, 2025 },
-                    { 19, 7, 2025 },
-                    { 20, 8, 2025 },
-                    { 21, 9, 2025 },
-                    { 22, 10, 2025 },
-                    { 23, 11, 2025 },
-                    { 24, 12, 2025 }
+                    { 1, 1, 0, 2024 },
+                    { 2, 2, 0, 2024 },
+                    { 3, 3, 0, 2024 },
+                    { 4, 4, 0, 2024 },
+                    { 5, 5, 0, 2024 },
+                    { 6, 6, 0, 2024 },
+                    { 7, 7, 0, 2024 },
+                    { 8, 8, 0, 2024 },
+                    { 9, 9, 0, 2024 },
+                    { 10, 10, 0, 2024 },
+                    { 11, 11, 0, 2024 },
+                    { 12, 12, 0, 2024 },
+                    { 13, 1, 0, 2025 },
+                    { 14, 2, 0, 2025 },
+                    { 15, 3, 0, 2025 },
+                    { 16, 4, 0, 2025 },
+                    { 17, 5, 0, 2025 },
+                    { 18, 6, 0, 2025 },
+                    { 19, 7, 1, 2025 },
+                    { 20, 8, 1, 2025 },
+                    { 21, 9, 1, 2025 },
+                    { 22, 10, 1, 2025 },
+                    { 23, 11, 0, 2025 },
+                    { 24, 12, 0, 2025 }
                 });
 
             migrationBuilder.InsertData(
@@ -434,7 +436,6 @@ namespace TestServer.Migrations
                     { 13, 321150.0, new DateTime(2025, 8, 1, 11, 23, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Porsche Taycan (Jul-2025)", "00", "00", 13, 13 },
                     { 14, 441017.0, new DateTime(2025, 9, 2, 8, 30, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Tesla Model 3 (Aug-2025)", "00", "00", 1, 14 },
                     { 15, 498839.0, new DateTime(2025, 9, 2, 8, 31, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for VinFast VF 8 (Aug-2025)", "00", "00", 2, 15 },
-                    { 16, 500383.0, new DateTime(2025, 9, 2, 8, 32, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Nissan Leaf (Aug-2025)", "00", "00", 3, 16 },
                     { 17, 321536.0, new DateTime(2025, 9, 2, 8, 33, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Hyundai Ioniq 5 (Aug-2025)", "00", "00", 4, 17 },
                     { 18, 701468.0, new DateTime(2025, 9, 2, 8, 34, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Kia EV6 (Aug-2025)", "00", "00", 5, 18 },
                     { 19, 538787.0, new DateTime(2025, 9, 3, 11, 15, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model Y (Aug-2025)", "00", "00", 6, 19 },
@@ -451,28 +452,19 @@ namespace TestServer.Migrations
                     { 30, 517272.0, new DateTime(2025, 10, 2, 9, 3, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Kia EV6 (Sep-2025)", "00", "00", 5, 31 },
                     { 31, 451730.0, new DateTime(2025, 10, 3, 10, 10, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model Y (Sep-2025)", "00", "00", 6, 32 },
                     { 32, 530860.0, new DateTime(2025, 10, 3, 10, 11, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model 4 (Sep-2025)", "00", "00", 7, 33 },
-                    { 33, 527581.0, new DateTime(2025, 10, 3, 10, 12, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for BYD Seal (Sep-2025)", "00", "00", 8, 34 },
                     { 34, 361097.0, new DateTime(2025, 10, 3, 10, 13, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Ford F-150 Lightning (Sep-2025)", "00", "00", 9, 35 },
                     { 35, 289876.0, new DateTime(2025, 10, 1, 12, 0, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Chevrolet Bolt EV (Sep-2025)", "00", "00", 10, 36 },
-                    { 36, 269228.0, new DateTime(2025, 10, 1, 12, 1, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Volvo EX30 (Sep-2025)", "00", "00", 11, 37 },
                     { 37, 675276.0, new DateTime(2025, 10, 1, 12, 2, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Audi e-tron GT (Sep-2025)", "00", "00", 12, 38 },
                     { 38, 319514.0, new DateTime(2025, 10, 1, 12, 3, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Porsche Taycan (Sep-2025)", "00", "00", 13, 39 },
                     { 39, 449275.0, new DateTime(2025, 11, 2, 10, 0, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Tesla Model 3 (Oct-2025)", "00", "00", 1, 40 },
                     { 40, 347220.0, new DateTime(2025, 11, 2, 10, 1, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for VinFast VF 8 (Oct-2025)", "00", "00", 2, 41 },
                     { 41, 632832.0, new DateTime(2025, 11, 2, 10, 2, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Hyundai Ioniq 5 (Oct-2025)", "00", "00", 4, 43 },
-                    { 42, 519563.0, new DateTime(2025, 11, 2, 10, 3, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Kia EV6 (Oct-2025)", "00", "00", 5, 44 },
                     { 43, 288975.0, new DateTime(2025, 11, 3, 11, 0, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model Y (Oct-2025)", "00", "00", 6, 45 },
                     { 44, 381398.0, new DateTime(2025, 11, 3, 11, 1, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model 4 (Oct-2025)", "00", "00", 7, 46 },
                     { 45, 361097.0, new DateTime(2025, 11, 3, 11, 2, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Ford F-150 Lightning (Oct-2025)", "00", "00", 9, 48 },
                     { 46, 288397.0, new DateTime(2025, 11, 1, 15, 0, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Chevrolet Bolt EV (Oct-2025)", "00", "00", 10, 49 },
                     { 47, 328336.0, new DateTime(2025, 11, 1, 15, 1, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Audi e-tron GT (Oct-2025)", "00", "00", 12, 51 },
-                    { 48, 482708.0, new DateTime(2025, 11, 1, 15, 2, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Porsche Taycan (Oct-2025)", "00", "00", 13, 52 },
-                    { 49, 157070.0, new DateTime(2025, 11, 10, 9, 0, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Tesla Model 3 (Nov-2025)", "00", "00", 1, 53 },
-                    { 50, 180237.0, new DateTime(2025, 11, 10, 9, 5, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for VinFast VF 8 (Nov-2025)", "00", "00", 2, 54 },
-                    { 51, 317971.0, new DateTime(2025, 11, 11, 14, 20, 0, 0, DateTimeKind.Utc), "k825tKKC1aex70inOKxd2lQpJUD3", "Payment for Hyundai Ioniq 5 (Nov-2025)", "00", "00", 4, 56 },
-                    { 52, 138888.0, new DateTime(2025, 11, 11, 16, 0, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Tesla Model Y (Nov-2025)", "00", "00", 6, 58 },
-                    { 53, 109247.0, new DateTime(2025, 11, 12, 8, 0, 0, 0, DateTimeKind.Utc), "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Payment for Ford F-150 Lightning (Nov-2025)", "00", "00", 9, 61 },
-                    { 54, 158178.0, new DateTime(2025, 11, 12, 9, 30, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Audi e-tron GT (Nov-2025)", "00", "00", 12, 64 }
+                    { 48, 482708.0, new DateTime(2025, 11, 1, 15, 2, 0, 0, DateTimeKind.Utc), "JEBFEGirUGhlgQadF4xRrofZo9X2", "Payment for Porsche Taycan (Oct-2025)", "00", "00", 13, 52 }
                 });
 
             migrationBuilder.InsertData(
@@ -598,7 +590,7 @@ namespace TestServer.Migrations
                     { 2, 55, "k825tKKC1aex70inOKxd2lQpJUD3", "30A-12345", "VinFast VF 8", "Active", 2 },
                     { 3, 66, "k825tKKC1aex70inOKxd2lQpJUD3", "29C-56789", "Nissan Leaf", "Blocked", 2 },
                     { 4, 52, "k825tKKC1aex70inOKxd2lQpJUD3", "88D-45678", "Hyundai Ioniq 5", "Active", 2 },
-                    { 5, 51, "k825tKKC1aex70inOKxd2lQpJUD3", "77E-99999", "Kia EV6", "Blocked", 2 },
+                    { 5, 51, "k825tKKC1aex70inOKxd2lQpJUD3", "77E-99999", "Kia EV6", "Active", 2 },
                     { 6, 69, "l1sufzGdTdYyIZJ8c0VypXyhmR02", "68A-12345", "Tesla Model Y", "Active", 2 },
                     { 7, 54, "l1sufzGdTdYyIZJ8c0VypXyhmR02", "99B-67890", "Tesla Model 4", "Active", 2 },
                     { 8, 57, "l1sufzGdTdYyIZJ8c0VypXyhmR02", "12C-34567", "BYD Seal", "Blocked", 2 },
@@ -906,20 +898,7 @@ namespace TestServer.Migrations
                     { 49, 288397f, 22, 288397f, 74.7f, 2, 10 },
                     { 50, 0f, 22, 0f, 0f, 0, 11 },
                     { 51, 328336f, 22, 328336f, 85.1f, 2, 12 },
-                    { 52, 482708f, 22, 482708f, 125.1f, 3, 13 },
-                    { 53, 0f, 23, 157070f, 40.7f, 1, 1 },
-                    { 54, 0f, 23, 180237f, 46.7f, 1, 2 },
-                    { 55, 0f, 23, 0f, 0f, 0, 3 },
-                    { 56, 0f, 23, 317971f, 82.4f, 2, 4 },
-                    { 57, 0f, 23, 0f, 0f, 0, 5 },
-                    { 58, 0f, 23, 138888f, 36f, 1, 6 },
-                    { 59, 0f, 23, 243880f, 63.2f, 2, 7 },
-                    { 60, 0f, 23, 0f, 0f, 0, 8 },
-                    { 61, 0f, 23, 109247f, 28.3f, 1, 9 },
-                    { 62, 0f, 23, 152431f, 39.5f, 1, 10 },
-                    { 63, 0f, 23, 0f, 0f, 0, 11 },
-                    { 64, 0f, 23, 158178f, 41f, 1, 12 },
-                    { 65, 0f, 23, 165445f, 42.9f, 1, 13 }
+                    { 52, 482708f, 22, 482708f, 125.1f, 3, 13 }
                 });
 
             migrationBuilder.InsertData(

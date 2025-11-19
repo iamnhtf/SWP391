@@ -11,6 +11,12 @@ namespace TestServer.Models
 
         public int Month { get; set; } = 0;
         public int Year { get; set; } = 0;
-        
+        public PeriodStatus Status { get; set; } = PeriodStatus.Open;
     }
+
+    public enum PeriodStatus
+    {
+        Open = 0,
+        Closed = 1
+    };
 };

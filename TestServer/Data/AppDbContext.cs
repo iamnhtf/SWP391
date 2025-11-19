@@ -493,7 +493,7 @@ public class AppDbContext : DbContext
             new Vehicle { VehicleId = 2, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "VinFast VF 8", VehicleTypeId = 2, LicensePlate = "30A-12345", BatteryCapacity = 55, Status = VehicleStatus.Active },
             new Vehicle { VehicleId = 3, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Nissan Leaf", VehicleTypeId = 2, LicensePlate = "29C-56789", BatteryCapacity = 66, Status = VehicleStatus.Blocked },
             new Vehicle { VehicleId = 4, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Hyundai Ioniq 5", VehicleTypeId = 2, LicensePlate = "88D-45678", BatteryCapacity = 52, Status = VehicleStatus.Active },
-            new Vehicle { VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 51, Status = VehicleStatus.Blocked },
+            new Vehicle { VehicleId = 5, CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3", Name = "Kia EV6", VehicleTypeId = 2, LicensePlate = "77E-99999", BatteryCapacity = 51, Status = VehicleStatus.Active },
 
             new Vehicle { VehicleId = 6, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02", Name = "Tesla Model Y", VehicleTypeId = 2, LicensePlate = "68A-12345", BatteryCapacity = 69, Status = VehicleStatus.Active },
             new Vehicle { VehicleId = 7, CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02", Name = "Tesla Model 4", VehicleTypeId = 2, LicensePlate = "99B-67890", BatteryCapacity = 54, Status = VehicleStatus.Active },
@@ -864,7 +864,7 @@ public class AppDbContext : DbContext
         new VehiclePerMonth { VehicleMonthId = 36, VehicleId = 10, PeriodId = 21, TotalSessions = 2, TotalEnergy = 75.1f, TotalCost = 289876, AmountPaid = 289876 }, 
         new VehiclePerMonth { VehicleMonthId = 37, VehicleId = 11, PeriodId = 21, TotalSessions = 2, TotalEnergy = 69.8f, TotalCost = 269228, AmountPaid = 0 }, // **BLOCKS T10**
         new VehiclePerMonth { VehicleMonthId = 38, VehicleId = 12, PeriodId = 21, TotalSessions = 4, TotalEnergy = 175.0f, TotalCost = 675276, AmountPaid = 675276 }, 
-        new VehiclePerMonth { VehicleMonthId = 39, VehicleId = 13, PeriodId = 21, TotalSessions = 2, TotalEnergy = 82.8f, TotalCost = 319514, AmountPaid = 319514 }, 
+        new VehiclePerMonth { VehicleMonthId = 39, VehicleId = 13, PeriodId = 21, TotalSessions = 2, TotalEnergy = 82.8f, TotalCost = 319514, AmountPaid = 319514 },
 
         // Tháng 10 (PeriodId = 22): 
         new VehiclePerMonth { VehicleMonthId = 40, VehicleId = 1, PeriodId = 22, TotalSessions = 3, TotalEnergy = 116.4f, TotalCost = 449275, AmountPaid = 449275 }, 
@@ -879,50 +879,50 @@ public class AppDbContext : DbContext
         new VehiclePerMonth { VehicleMonthId = 49, VehicleId = 10, PeriodId = 22, TotalSessions = 2, TotalEnergy = 74.7f, TotalCost = 288397, AmountPaid = 288397 }, 
         new VehiclePerMonth { VehicleMonthId = 50, VehicleId = 11, PeriodId = 22, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
         new VehiclePerMonth { VehicleMonthId = 51, VehicleId = 12, PeriodId = 22, TotalSessions = 2, TotalEnergy = 85.1f, TotalCost = 328336, AmountPaid = 328336 }, 
-        new VehiclePerMonth { VehicleMonthId = 52, VehicleId = 13, PeriodId = 22, TotalSessions = 3, TotalEnergy = 125.1f, TotalCost = 482708, AmountPaid = 482708 }, 
+        new VehiclePerMonth { VehicleMonthId = 52, VehicleId = 13, PeriodId = 22, TotalSessions = 3, TotalEnergy = 125.1f, TotalCost = 482708, AmountPaid = 482708 }
 
         // Tháng 11 (PeriodId = 23): Partial month. Xe 3, 5, 8, 11 BLOCKED.
-        new VehiclePerMonth { VehicleMonthId = 53, VehicleId = 1, PeriodId = 23, TotalSessions = 1, TotalEnergy = 40.7f, TotalCost = 157070, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 54, VehicleId = 2, PeriodId = 23, TotalSessions = 1, TotalEnergy = 46.7f, TotalCost = 180237, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 55, VehicleId = 3, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
-        new VehiclePerMonth { VehicleMonthId = 56, VehicleId = 4, PeriodId = 23, TotalSessions = 2, TotalEnergy = 82.4f, TotalCost = 317971, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 57, VehicleId = 5, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
-        new VehiclePerMonth { VehicleMonthId = 58, VehicleId = 6, PeriodId = 23, TotalSessions = 1, TotalEnergy = 36.0f, TotalCost = 138888, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 59, VehicleId = 7, PeriodId = 23, TotalSessions = 2, TotalEnergy = 63.2f, TotalCost = 243880, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 60, VehicleId = 8, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
-        new VehiclePerMonth { VehicleMonthId = 61, VehicleId = 9, PeriodId = 23, TotalSessions = 1, TotalEnergy = 28.3f, TotalCost = 109247, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 62, VehicleId = 10, PeriodId = 23, TotalSessions = 1, TotalEnergy = 39.5f, TotalCost = 152431, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 63, VehicleId = 11, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
-        new VehiclePerMonth { VehicleMonthId = 64, VehicleId = 12, PeriodId = 23, TotalSessions = 1, TotalEnergy = 41.0f, TotalCost = 158178, AmountPaid = 0 }, 
-        new VehiclePerMonth { VehicleMonthId = 65, VehicleId = 13, PeriodId = 23, TotalSessions = 1, TotalEnergy = 42.9f, TotalCost = 165445, AmountPaid = 0 } 
+        // new VehiclePerMonth { VehicleMonthId = 53, VehicleId = 1, PeriodId = 23, TotalSessions = 1, TotalEnergy = 40.7f, TotalCost = 157070, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 54, VehicleId = 2, PeriodId = 23, TotalSessions = 1, TotalEnergy = 46.7f, TotalCost = 180237, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 55, VehicleId = 3, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
+        // new VehiclePerMonth { VehicleMonthId = 56, VehicleId = 4, PeriodId = 23, TotalSessions = 2, TotalEnergy = 82.4f, TotalCost = 317971, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 57, VehicleId = 5, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
+        // new VehiclePerMonth { VehicleMonthId = 58, VehicleId = 6, PeriodId = 23, TotalSessions = 1, TotalEnergy = 36.0f, TotalCost = 138888, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 59, VehicleId = 7, PeriodId = 23, TotalSessions = 2, TotalEnergy = 63.2f, TotalCost = 243880, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 60, VehicleId = 8, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
+        // new VehiclePerMonth { VehicleMonthId = 61, VehicleId = 9, PeriodId = 23, TotalSessions = 1, TotalEnergy = 28.3f, TotalCost = 109247, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 62, VehicleId = 10, PeriodId = 23, TotalSessions = 1, TotalEnergy = 39.5f, TotalCost = 152431, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 63, VehicleId = 11, PeriodId = 23, TotalSessions = 0, TotalEnergy = 0f, TotalCost = 0, AmountPaid = 0 }, // BLOCKED
+        // new VehiclePerMonth { VehicleMonthId = 64, VehicleId = 12, PeriodId = 23, TotalSessions = 1, TotalEnergy = 41.0f, TotalCost = 158178, AmountPaid = 0 }, 
+        // new VehiclePerMonth { VehicleMonthId = 65, VehicleId = 13, PeriodId = 23, TotalSessions = 1, TotalEnergy = 42.9f, TotalCost = 165445, AmountPaid = 0 } 
     );
 
         // MonthlyPeriod seed data
         modelBuilder.Entity<MonthlyPeriod>().HasData(
-            new MonthlyPeriod { PeriodId = 1, Month = 1, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 2, Month = 2, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 3, Month = 3, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 4, Month = 4, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 5, Month = 5, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 6, Month = 6, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 7, Month = 7, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 8, Month = 8, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 9, Month = 9, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 10, Month = 10, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 11, Month = 11, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 12, Month = 12, Year = 2024 },
-            new MonthlyPeriod { PeriodId = 13, Month = 1, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 14, Month = 2, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 15, Month = 3, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 16, Month = 4, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 17, Month = 5, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 18, Month = 6, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 19, Month = 7, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 20, Month = 8, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 21, Month = 9, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 22, Month = 10, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 23, Month = 11, Year = 2025 },
-            new MonthlyPeriod { PeriodId = 24, Month = 12, Year = 2025 }
+            new MonthlyPeriod { PeriodId = 1, Month = 1, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 2, Month = 2, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 3, Month = 3, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 4, Month = 4, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 5, Month = 5, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 6, Month = 6, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 7, Month = 7, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 8, Month = 8, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 9, Month = 9, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 10, Month = 10, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 11, Month = 11, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 12, Month = 12, Year = 2024, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 13, Month = 1, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 14, Month = 2, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 15, Month = 3, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 16, Month = 4, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 17, Month = 5, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 18, Month = 6, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 19, Month = 7, Year = 2025, Status = PeriodStatus.Closed },
+            new MonthlyPeriod { PeriodId = 20, Month = 8, Year = 2025, Status = PeriodStatus.Closed },
+            new MonthlyPeriod { PeriodId = 21, Month = 9, Year = 2025, Status = PeriodStatus.Closed },
+            new MonthlyPeriod { PeriodId = 22, Month = 10, Year = 2025, Status = PeriodStatus.Closed },
+            new MonthlyPeriod { PeriodId = 23, Month = 11, Year = 2025, Status = PeriodStatus.Open },
+            new MonthlyPeriod { PeriodId = 24, Month = 12, Year = 2025, Status = PeriodStatus.Open }
         );
 
         // XÓA BỎ KHỐI PaymentTransaction CŨ VÀ THAY BẰNG KHỐI NÀY:

@@ -3960,6 +3960,9 @@ namespace TestServer.Migrations
                     b.Property<int>("Month")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
@@ -3972,144 +3975,168 @@ namespace TestServer.Migrations
                         {
                             PeriodId = 1,
                             Month = 1,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 2,
                             Month = 2,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 3,
                             Month = 3,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 4,
                             Month = 4,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 5,
                             Month = 5,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 6,
                             Month = 6,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 7,
                             Month = 7,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 8,
                             Month = 8,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 9,
                             Month = 9,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 10,
                             Month = 10,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 11,
                             Month = 11,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 12,
                             Month = 12,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 13,
                             Month = 1,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 14,
                             Month = 2,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 15,
                             Month = 3,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 16,
                             Month = 4,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 17,
                             Month = 5,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 18,
                             Month = 6,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 19,
                             Month = 7,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 20,
                             Month = 8,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 21,
                             Month = 9,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 22,
                             Month = 10,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 23,
                             Month = 11,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 24,
                             Month = 12,
+                            Status = 0,
                             Year = 2025
                         });
                 });
@@ -4901,7 +4928,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "77E-99999",
                             Name = "Kia EV6",
-                            Status = "Blocked",
+                            Status = "Active",
                             VehicleTypeId = 2
                         },
                         new
@@ -5684,136 +5711,6 @@ namespace TestServer.Migrations
                             TotalCost = 482708f,
                             TotalEnergy = 125.1f,
                             TotalSessions = 3,
-                            VehicleId = 13
-                        },
-                        new
-                        {
-                            VehicleMonthId = 53,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 157070f,
-                            TotalEnergy = 40.7f,
-                            TotalSessions = 1,
-                            VehicleId = 1
-                        },
-                        new
-                        {
-                            VehicleMonthId = 54,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 180237f,
-                            TotalEnergy = 46.7f,
-                            TotalSessions = 1,
-                            VehicleId = 2
-                        },
-                        new
-                        {
-                            VehicleMonthId = 55,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 3
-                        },
-                        new
-                        {
-                            VehicleMonthId = 56,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 317971f,
-                            TotalEnergy = 82.4f,
-                            TotalSessions = 2,
-                            VehicleId = 4
-                        },
-                        new
-                        {
-                            VehicleMonthId = 57,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 5
-                        },
-                        new
-                        {
-                            VehicleMonthId = 58,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 138888f,
-                            TotalEnergy = 36f,
-                            TotalSessions = 1,
-                            VehicleId = 6
-                        },
-                        new
-                        {
-                            VehicleMonthId = 59,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 243880f,
-                            TotalEnergy = 63.2f,
-                            TotalSessions = 2,
-                            VehicleId = 7
-                        },
-                        new
-                        {
-                            VehicleMonthId = 60,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 8
-                        },
-                        new
-                        {
-                            VehicleMonthId = 61,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 109247f,
-                            TotalEnergy = 28.3f,
-                            TotalSessions = 1,
-                            VehicleId = 9
-                        },
-                        new
-                        {
-                            VehicleMonthId = 62,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 152431f,
-                            TotalEnergy = 39.5f,
-                            TotalSessions = 1,
-                            VehicleId = 10
-                        },
-                        new
-                        {
-                            VehicleMonthId = 63,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 11
-                        },
-                        new
-                        {
-                            VehicleMonthId = 64,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 158178f,
-                            TotalEnergy = 41f,
-                            TotalSessions = 1,
-                            VehicleId = 12
-                        },
-                        new
-                        {
-                            VehicleMonthId = 65,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 165445f,
-                            TotalEnergy = 42.9f,
-                            TotalSessions = 1,
                             VehicleId = 13
                         });
                 });

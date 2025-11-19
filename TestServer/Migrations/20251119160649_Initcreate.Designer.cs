@@ -11,8 +11,8 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251113150704_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251119160649_Initcreate")]
+    partial class Initcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3863,6 +3863,9 @@ namespace TestServer.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Connectors");
@@ -3871,17 +3874,20 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "AC"
+                            Name = "AC",
+                            Status = 0
                         },
                         new
                         {
                             Id = 2,
-                            Name = "CCS"
+                            Name = "CCS",
+                            Status = 0
                         },
                         new
                         {
                             Id = 3,
-                            Name = "CHAdeMO"
+                            Name = "CHAdeMO",
+                            Status = 0
                         });
                 });
 
@@ -3957,6 +3963,9 @@ namespace TestServer.Migrations
                     b.Property<int>("Month")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
@@ -3969,144 +3978,168 @@ namespace TestServer.Migrations
                         {
                             PeriodId = 1,
                             Month = 1,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 2,
                             Month = 2,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 3,
                             Month = 3,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 4,
                             Month = 4,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 5,
                             Month = 5,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 6,
                             Month = 6,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 7,
                             Month = 7,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 8,
                             Month = 8,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 9,
                             Month = 9,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 10,
                             Month = 10,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 11,
                             Month = 11,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 12,
                             Month = 12,
+                            Status = 0,
                             Year = 2024
                         },
                         new
                         {
                             PeriodId = 13,
                             Month = 1,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 14,
                             Month = 2,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 15,
                             Month = 3,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 16,
                             Month = 4,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 17,
                             Month = 5,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 18,
                             Month = 6,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 19,
                             Month = 7,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 20,
                             Month = 8,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 21,
                             Month = 9,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 22,
                             Month = 10,
+                            Status = 1,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 23,
                             Month = 11,
+                            Status = 0,
                             Year = 2025
                         },
                         new
                         {
                             PeriodId = 24,
                             Month = 12,
+                            Status = 0,
                             Year = 2025
                         });
                 });
@@ -4332,18 +4365,6 @@ namespace TestServer.Migrations
                         },
                         new
                         {
-                            Id = 16,
-                            Amount = 500383.0,
-                            CreatedAt = new DateTime(2025, 9, 2, 8, 32, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for Nissan Leaf (Aug-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 3,
-                            VehicleMonthId = 16
-                        },
-                        new
-                        {
                             Id = 17,
                             Amount = 321536.0,
                             CreatedAt = new DateTime(2025, 9, 2, 8, 33, 0, 0, DateTimeKind.Utc),
@@ -4536,18 +4557,6 @@ namespace TestServer.Migrations
                         },
                         new
                         {
-                            Id = 33,
-                            Amount = 527581.0,
-                            CreatedAt = new DateTime(2025, 10, 3, 10, 12, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for BYD Seal (Sep-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 8,
-                            VehicleMonthId = 34
-                        },
-                        new
-                        {
                             Id = 34,
                             Amount = 361097.0,
                             CreatedAt = new DateTime(2025, 10, 3, 10, 13, 0, 0, DateTimeKind.Utc),
@@ -4569,18 +4578,6 @@ namespace TestServer.Migrations
                             TransactionStatus = "00",
                             VehicleId = 10,
                             VehicleMonthId = 36
-                        },
-                        new
-                        {
-                            Id = 36,
-                            Amount = 269228.0,
-                            CreatedAt = new DateTime(2025, 10, 1, 12, 1, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for Volvo EX30 (Sep-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 11,
-                            VehicleMonthId = 37
                         },
                         new
                         {
@@ -4641,18 +4638,6 @@ namespace TestServer.Migrations
                             TransactionStatus = "00",
                             VehicleId = 4,
                             VehicleMonthId = 43
-                        },
-                        new
-                        {
-                            Id = 42,
-                            Amount = 519563.0,
-                            CreatedAt = new DateTime(2025, 11, 2, 10, 3, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for Kia EV6 (Oct-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 5,
-                            VehicleMonthId = 44
                         },
                         new
                         {
@@ -4725,78 +4710,6 @@ namespace TestServer.Migrations
                             TransactionStatus = "00",
                             VehicleId = 13,
                             VehicleMonthId = 52
-                        },
-                        new
-                        {
-                            Id = 49,
-                            Amount = 157070.0,
-                            CreatedAt = new DateTime(2025, 11, 10, 9, 0, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for Tesla Model 3 (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 1,
-                            VehicleMonthId = 53
-                        },
-                        new
-                        {
-                            Id = 50,
-                            Amount = 180237.0,
-                            CreatedAt = new DateTime(2025, 11, 10, 9, 5, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for VinFast VF 8 (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 2,
-                            VehicleMonthId = 54
-                        },
-                        new
-                        {
-                            Id = 51,
-                            Amount = 317971.0,
-                            CreatedAt = new DateTime(2025, 11, 11, 14, 20, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            OrderInfo = "Payment for Hyundai Ioniq 5 (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 4,
-                            VehicleMonthId = 56
-                        },
-                        new
-                        {
-                            Id = 52,
-                            Amount = 138888.0,
-                            CreatedAt = new DateTime(2025, 11, 11, 16, 0, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for Tesla Model Y (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 6,
-                            VehicleMonthId = 58
-                        },
-                        new
-                        {
-                            Id = 53,
-                            Amount = 109247.0,
-                            CreatedAt = new DateTime(2025, 11, 12, 8, 0, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            OrderInfo = "Payment for Ford F-150 Lightning (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 9,
-                            VehicleMonthId = 61
-                        },
-                        new
-                        {
-                            Id = 54,
-                            Amount = 158178.0,
-                            CreatedAt = new DateTime(2025, 11, 12, 9, 30, 0, 0, DateTimeKind.Utc),
-                            CustomerId = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            OrderInfo = "Payment for Audi e-tron GT (Nov-2025)",
-                            ResponseCode = "00",
-                            TransactionStatus = "00",
-                            VehicleId = 12,
-                            VehicleMonthId = 64
                         });
                 });
 
@@ -5018,7 +4931,7 @@ namespace TestServer.Migrations
                             CustomerId = "k825tKKC1aex70inOKxd2lQpJUD3",
                             LicensePlate = "77E-99999",
                             Name = "Kia EV6",
-                            Status = "Blocked",
+                            Status = "Active",
                             VehicleTypeId = 2
                         },
                         new
@@ -5801,136 +5714,6 @@ namespace TestServer.Migrations
                             TotalCost = 482708f,
                             TotalEnergy = 125.1f,
                             TotalSessions = 3,
-                            VehicleId = 13
-                        },
-                        new
-                        {
-                            VehicleMonthId = 53,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 157070f,
-                            TotalEnergy = 40.7f,
-                            TotalSessions = 1,
-                            VehicleId = 1
-                        },
-                        new
-                        {
-                            VehicleMonthId = 54,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 180237f,
-                            TotalEnergy = 46.7f,
-                            TotalSessions = 1,
-                            VehicleId = 2
-                        },
-                        new
-                        {
-                            VehicleMonthId = 55,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 3
-                        },
-                        new
-                        {
-                            VehicleMonthId = 56,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 317971f,
-                            TotalEnergy = 82.4f,
-                            TotalSessions = 2,
-                            VehicleId = 4
-                        },
-                        new
-                        {
-                            VehicleMonthId = 57,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 5
-                        },
-                        new
-                        {
-                            VehicleMonthId = 58,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 138888f,
-                            TotalEnergy = 36f,
-                            TotalSessions = 1,
-                            VehicleId = 6
-                        },
-                        new
-                        {
-                            VehicleMonthId = 59,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 243880f,
-                            TotalEnergy = 63.2f,
-                            TotalSessions = 2,
-                            VehicleId = 7
-                        },
-                        new
-                        {
-                            VehicleMonthId = 60,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 8
-                        },
-                        new
-                        {
-                            VehicleMonthId = 61,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 109247f,
-                            TotalEnergy = 28.3f,
-                            TotalSessions = 1,
-                            VehicleId = 9
-                        },
-                        new
-                        {
-                            VehicleMonthId = 62,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 152431f,
-                            TotalEnergy = 39.5f,
-                            TotalSessions = 1,
-                            VehicleId = 10
-                        },
-                        new
-                        {
-                            VehicleMonthId = 63,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 0f,
-                            TotalEnergy = 0f,
-                            TotalSessions = 0,
-                            VehicleId = 11
-                        },
-                        new
-                        {
-                            VehicleMonthId = 64,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 158178f,
-                            TotalEnergy = 41f,
-                            TotalSessions = 1,
-                            VehicleId = 12
-                        },
-                        new
-                        {
-                            VehicleMonthId = 65,
-                            AmountPaid = 0f,
-                            PeriodId = 23,
-                            TotalCost = 165445f,
-                            TotalEnergy = 42.9f,
-                            TotalSessions = 1,
                             VehicleId = 13
                         });
                 });
