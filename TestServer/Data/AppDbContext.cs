@@ -899,30 +899,30 @@ public class AppDbContext : DbContext
 
         // MonthlyPeriod seed data
         modelBuilder.Entity<MonthlyPeriod>().HasData(
-            new MonthlyPeriod { PeriodId = 1, Month = 1, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 2, Month = 2, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 3, Month = 3, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 4, Month = 4, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 5, Month = 5, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 6, Month = 6, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 7, Month = 7, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 8, Month = 8, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 9, Month = 9, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 10, Month = 10, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 11, Month = 11, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 12, Month = 12, Year = 2024, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 13, Month = 1, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 14, Month = 2, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 15, Month = 3, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 16, Month = 4, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 17, Month = 5, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 18, Month = 6, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 1, Month = 1, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 2, Month = 2, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 3, Month = 3, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 4, Month = 4, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 5, Month = 5, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 6, Month = 6, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 7, Month = 7, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 8, Month = 8, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 9, Month = 9, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 10, Month = 10, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 11, Month = 11, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 12, Month = 12, Year = 2024, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 13, Month = 1, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 14, Month = 2, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 15, Month = 3, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 16, Month = 4, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 17, Month = 5, Year = 2025, Status = PeriodStatus.Open },
+            // new MonthlyPeriod { PeriodId = 18, Month = 6, Year = 2025, Status = PeriodStatus.Open },
             new MonthlyPeriod { PeriodId = 19, Month = 7, Year = 2025, Status = PeriodStatus.Closed },
             new MonthlyPeriod { PeriodId = 20, Month = 8, Year = 2025, Status = PeriodStatus.Closed },
             new MonthlyPeriod { PeriodId = 21, Month = 9, Year = 2025, Status = PeriodStatus.Closed },
             new MonthlyPeriod { PeriodId = 22, Month = 10, Year = 2025, Status = PeriodStatus.Closed },
-            new MonthlyPeriod { PeriodId = 23, Month = 11, Year = 2025, Status = PeriodStatus.Open },
-            new MonthlyPeriod { PeriodId = 24, Month = 12, Year = 2025, Status = PeriodStatus.Open }
+            new MonthlyPeriod { PeriodId = 23, Month = 11, Year = 2025, Status = PeriodStatus.Open }
+            // new MonthlyPeriod { PeriodId = 24, Month = 12, Year = 2025, Status = PeriodStatus.Open }
         );
 
         // XÓA BỎ KHỐI PaymentTransaction CŨ VÀ THAY BẰNG KHỐI NÀY:

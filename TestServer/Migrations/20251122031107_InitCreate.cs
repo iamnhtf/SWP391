@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace TestServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Initcreate : Migration
+    public partial class InitCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -390,30 +390,11 @@ namespace TestServer.Migrations
                 columns: new[] { "PeriodId", "Month", "Status", "Year" },
                 values: new object[,]
                 {
-                    { 1, 1, 0, 2024 },
-                    { 2, 2, 0, 2024 },
-                    { 3, 3, 0, 2024 },
-                    { 4, 4, 0, 2024 },
-                    { 5, 5, 0, 2024 },
-                    { 6, 6, 0, 2024 },
-                    { 7, 7, 0, 2024 },
-                    { 8, 8, 0, 2024 },
-                    { 9, 9, 0, 2024 },
-                    { 10, 10, 0, 2024 },
-                    { 11, 11, 0, 2024 },
-                    { 12, 12, 0, 2024 },
-                    { 13, 1, 0, 2025 },
-                    { 14, 2, 0, 2025 },
-                    { 15, 3, 0, 2025 },
-                    { 16, 4, 0, 2025 },
-                    { 17, 5, 0, 2025 },
-                    { 18, 6, 0, 2025 },
                     { 19, 7, 1, 2025 },
                     { 20, 8, 1, 2025 },
                     { 21, 9, 1, 2025 },
                     { 22, 10, 1, 2025 },
-                    { 23, 11, 0, 2025 },
-                    { 24, 12, 0, 2025 }
+                    { 23, 11, 0, 2025 }
                 });
 
             migrationBuilder.InsertData(

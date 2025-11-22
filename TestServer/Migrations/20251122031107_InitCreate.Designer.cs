@@ -11,8 +11,8 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251119160649_Initcreate")]
-    partial class Initcreate
+    [Migration("20251122031107_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3976,132 +3976,6 @@ namespace TestServer.Migrations
                     b.HasData(
                         new
                         {
-                            PeriodId = 1,
-                            Month = 1,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 2,
-                            Month = 2,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 3,
-                            Month = 3,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 4,
-                            Month = 4,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 5,
-                            Month = 5,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 6,
-                            Month = 6,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 7,
-                            Month = 7,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 8,
-                            Month = 8,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 9,
-                            Month = 9,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 10,
-                            Month = 10,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 11,
-                            Month = 11,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 12,
-                            Month = 12,
-                            Status = 0,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PeriodId = 13,
-                            Month = 1,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 14,
-                            Month = 2,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 15,
-                            Month = 3,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 16,
-                            Month = 4,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 17,
-                            Month = 5,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 18,
-                            Month = 6,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
                             PeriodId = 19,
                             Month = 7,
                             Status = 1,
@@ -4132,13 +4006,6 @@ namespace TestServer.Migrations
                         {
                             PeriodId = 23,
                             Month = 11,
-                            Status = 0,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            PeriodId = 24,
-                            Month = 12,
                             Status = 0,
                             Year = 2025
                         });
