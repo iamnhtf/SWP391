@@ -109,6 +109,16 @@ namespace TestServer.Controllers
                         await _db.SaveChangesAsync();
                         response.OrderId = vehicleMonthId.ToString();
                     }
+
+                    var vehicle = await _db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == vehicleId);
+                    if (vehicle != null)
+                    {
+                        if (vehicle.Status == VehicleStatus.Blocked)
+                        {
+                            vehicle.Status = VehicleStatus.Active;
+                            await _db.SaveChangesAsync();
+                        }
+                    }
                 }
                 catch
                 {
@@ -358,6 +368,29 @@ namespace TestServer.Controllers
             if (request.Simulate)
             {
                 vpm.AmountPaid += (float)due;
+
+                var vehicle = await _db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == vpm.VehicleId);
+                if (vehicle != null)
+                {
+                    if (vehicle.Status == VehicleStatus.Blocked)
+                    {
+                        vehicle.Status = VehicleStatus.Active;
+                    }
+                }
+
+                PaymentTransaction simTx = new PaymentTransaction
+                {
+                    VehicleMonthId = vpm.VehicleMonthId,
+                    VehicleId = vpm.VehicleId,
+                    CustomerId = vpm.Vehicle.CustomerId,
+                    ResponseCode = "00",
+                    TransactionStatus = "00",
+                    OrderInfo = $"Simulated payment for VehicleMonth {vpm.VehicleMonthId}",
+                    Amount = due,
+                    CreatedAt = DateTime.UtcNow,
+                };
+
+                await _db.PaymentTransactions.AddAsync(simTx);
                 await _db.SaveChangesAsync();
 
                 return Ok(

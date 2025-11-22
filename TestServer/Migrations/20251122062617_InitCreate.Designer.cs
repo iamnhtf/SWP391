@@ -11,7 +11,7 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251122031107_InitCreate")]
+    [Migration("20251122062617_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
