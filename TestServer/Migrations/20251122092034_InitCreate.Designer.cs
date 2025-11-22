@@ -11,8 +11,13 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
+<<<<<<<< HEAD:TestServer/Migrations/20251122092034_InitCreate.Designer.cs
     [Migration("20251122092034_InitCreate")]
     partial class InitCreate
+========
+    [Migration("20251122132608_Initcreate")]
+    partial class Initcreate
+>>>>>>>> thai3:TestServer/Migrations/20251122132608_Initcreate.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
