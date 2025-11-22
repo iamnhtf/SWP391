@@ -6,10 +6,17 @@ using Google.Apis.Auth.OAuth2;
 using TestServer.Hubs;
 using TestServer.Services;
 using Firebase.Database;
+using TestServer.Models.Momo;
+using TestServer.Services.Momo;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IVnPayService, VnPayService>();
+
+// Connect MOMO API
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<IMomoService, MomoService>();
+
 
 //Thêm dịch vụ DbContext và đọc chuỗi kết nối
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

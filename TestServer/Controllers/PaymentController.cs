@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
 using TestServer.DTOs;
 using TestServer.Models;
+using TestServer.Models.Order;
+using TestServer.Services.Momo;
 using TestServer.Models.VNPAY;
 using TestServer.Services.VNPAY;
 
@@ -14,12 +16,27 @@ namespace TestServer.Controllers
     {
         private static readonly Dictionary<int, string> _paymentStatusCache = new();
         private readonly IVnPayService _vnPayService;
+        private IMomoService _momoService;
         private readonly AppDbContext _db;
 
-        public PaymentController(IVnPayService vnPayService, AppDbContext db)
+        public PaymentController(IVnPayService vnPayService, IMomoService momoService, AppDbContext db)
         {
             _vnPayService = vnPayService;
+            _momoService = momoService;
             _db = db;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePaymentMomo(OrderInfo model)
+        {
+            var response = await _momoService.CreatePaymentMomo(model);
+            return Redirect(response.PayUrl);
+        }
+        [HttpGet]
+        public IActionResult PaymentCallBack()
+        {
+            var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
+            return View(response);
         }
 
         // Existing web flow endpoint (kept for web redirects)
