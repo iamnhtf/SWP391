@@ -3925,28 +3925,28 @@ namespace TestServer.Migrations
                         new
                         {
                             Id = "l1sufzGdTdYyIZJ8c0VypXyhmR02",
-                            Address = "Quận 3, TP.HCM",
+                            Address = "",
                             Email = "nguyenthai0418@gmail.com",
                             Name = "Nguyen Hung Thai",
-                            PhoneNumber = "0905123456",
+                            PhoneNumber = "",
                             Status = 0
                         },
                         new
                         {
                             Id = "JEBFEGirUGhlgQadF4xRrofZo9X2",
-                            Address = "Quận 9, TP.HCM",
+                            Address = "",
                             Email = "nguyenbuidangkhoixt@gmail.com",
                             Name = "Nguyen Bui Dang Khoi",
-                            PhoneNumber = "0909876543",
+                            PhoneNumber = "",
                             Status = 0
                         },
                         new
                         {
                             Id = "k825tKKC1aex70inOKxd2lQpJUD3",
-                            Address = "Quận 1, TP.HCM",
-                            Email = "nguyenxuanthinh@gmail.com",
+                            Address = "",
+                            Email = "xuanthinhkl2@gmail.com",
                             Name = "Nguyen Xuan Thinh",
-                            PhoneNumber = "0901234567",
+                            PhoneNumber = "",
                             Status = 0
                         });
                 });
@@ -4816,153 +4816,6 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Models.VehicleConnectorType", b =>
-                {
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ConnectorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("VehicleId", "ConnectorId");
-
-                    b.HasIndex("ConnectorId");
-
-                    b.ToTable("VehicleConnectorTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            VehicleId = 1,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 1,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 2,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 2,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 3,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 3,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 4,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 4,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 5,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 5,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 6,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 6,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 7,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 7,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 8,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 8,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 9,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 9,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 10,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 10,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 11,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 11,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 12,
-                            ConnectorId = 2
-                        },
-                        new
-                        {
-                            VehicleId = 12,
-                            ConnectorId = 3
-                        },
-                        new
-                        {
-                            VehicleId = 13,
-                            ConnectorId = 1
-                        },
-                        new
-                        {
-                            VehicleId = 13,
-                            ConnectorId = 2
-                        });
-                });
-
             modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>
                 {
                     b.Property<int>("VehicleMonthId")
@@ -5745,25 +5598,6 @@ namespace TestServer.Migrations
                         .IsRequired();
 
                     b.Navigation("VehicleType");
-                });
-
-            modelBuilder.Entity("TestServer.Models.VehicleConnectorType", b =>
-                {
-                    b.HasOne("TestServer.Models.Connector", "Connector")
-                        .WithMany()
-                        .HasForeignKey("ConnectorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TestServer.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Connector");
-
-                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("TestServer.Models.VehiclePerMonth", b =>

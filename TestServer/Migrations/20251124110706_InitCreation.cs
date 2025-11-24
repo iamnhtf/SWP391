@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace TestServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Initcreate : Migration
+    public partial class InitCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -211,31 +211,6 @@ namespace TestServer.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "VehicleConnectorTypes",
-                columns: table => new
-                {
-                    VehicleId = table.Column<int>(type: "int", nullable: false),
-                    ConnectorId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VehicleConnectorTypes", x => new { x.VehicleId, x.ConnectorId });
-                    table.ForeignKey(
-                        name: "FK_VehicleConnectorTypes_Connectors_ConnectorId",
-                        column: x => x.ConnectorId,
-                        principalTable: "Connectors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_VehicleConnectorTypes_Vehicles_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "VehiclePerMonths",
                 columns: table => new
                 {
@@ -352,9 +327,9 @@ namespace TestServer.Migrations
                 columns: new[] { "Id", "Address", "Email", "Name", "PhoneNumber", "Status" },
                 values: new object[,]
                 {
-                    { "JEBFEGirUGhlgQadF4xRrofZo9X2", "Quận 9, TP.HCM", "nguyenbuidangkhoixt@gmail.com", "Nguyen Bui Dang Khoi", "0909876543", 0 },
-                    { "k825tKKC1aex70inOKxd2lQpJUD3", "Quận 1, TP.HCM", "nguyenxuanthinh@gmail.com", "Nguyen Xuan Thinh", "0901234567", 0 },
-                    { "l1sufzGdTdYyIZJ8c0VypXyhmR02", "Quận 3, TP.HCM", "nguyenthai0418@gmail.com", "Nguyen Hung Thai", "0905123456", 0 }
+                    { "JEBFEGirUGhlgQadF4xRrofZo9X2", "", "nguyenbuidangkhoixt@gmail.com", "Nguyen Bui Dang Khoi", "", 0 },
+                    { "k825tKKC1aex70inOKxd2lQpJUD3", "", "xuanthinhkl2@gmail.com", "Nguyen Xuan Thinh", "", 0 },
+                    { "l1sufzGdTdYyIZJ8c0VypXyhmR02", "", "nguyenthai0418@gmail.com", "Nguyen Hung Thai", "", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -743,39 +718,6 @@ namespace TestServer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "VehicleConnectorTypes",
-                columns: new[] { "ConnectorId", "VehicleId" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 2, 1 },
-                    { 1, 2 },
-                    { 2, 2 },
-                    { 1, 3 },
-                    { 2, 3 },
-                    { 2, 4 },
-                    { 3, 4 },
-                    { 2, 5 },
-                    { 3, 5 },
-                    { 1, 6 },
-                    { 2, 6 },
-                    { 2, 7 },
-                    { 3, 7 },
-                    { 2, 8 },
-                    { 3, 8 },
-                    { 1, 9 },
-                    { 2, 9 },
-                    { 2, 10 },
-                    { 3, 10 },
-                    { 1, 11 },
-                    { 3, 11 },
-                    { 2, 12 },
-                    { 3, 12 },
-                    { 1, 13 },
-                    { 2, 13 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "VehiclePerMonths",
                 columns: new[] { "VehicleMonthId", "AmountPaid", "PeriodId", "TotalCost", "TotalEnergy", "TotalSessions", "VehicleId" },
                 values: new object[,]
@@ -1048,11 +990,6 @@ namespace TestServer.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VehicleConnectorTypes_ConnectorId",
-                table: "VehicleConnectorTypes",
-                column: "ConnectorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_VehiclePerMonths_PeriodId",
                 table: "VehiclePerMonths",
                 column: "PeriodId");
@@ -1087,9 +1024,6 @@ namespace TestServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "PriceTables");
-
-            migrationBuilder.DropTable(
-                name: "VehicleConnectorTypes");
 
             migrationBuilder.DropTable(
                 name: "VehiclePerMonths");

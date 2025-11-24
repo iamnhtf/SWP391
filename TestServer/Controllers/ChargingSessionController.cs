@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TestServer.Data;
 using TestServer.Dto;
 using TestServer.Models;
-using System;
-using System.Collections.Generic;
 
 namespace TestServer.Controllers
 {
@@ -20,9 +21,7 @@ namespace TestServer.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateChargingSession(
-            [FromBody] CreateChargingSessionRequest req
-        )
+        public async Task<IActionResult> CreateChargingSession([FromBody] CreateChargingSessionRequest req)
         {
             if (req == null)
                 return BadRequest("Request body required.");
@@ -74,7 +73,7 @@ namespace TestServer.Controllers
                 db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
-            //set charging status for vehicle
+            // set charging status for vehicle
             var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
             if (vehicleStatusProp != null)
             {
@@ -100,82 +99,6 @@ namespace TestServer.Controllers
                 db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
-            // --- update MonthlyPeriod / VehiclePerMonth ---
-            var month = req.StartTime.Month;
-            var year = req.StartTime.Year;
-
-            // find period (use EF.Property for Month/Year to avoid compile-time dependency on exact MonthlyPeriod shape)
-            var period = await db.MonthlyPeriods.FirstOrDefaultAsync(p =>
-                EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year
-            );
-
-            if (period == null)
-            {
-                // create new MonthlyPeriod with Month/Year — adjust property names if different
-                period = Activator.CreateInstance(typeof(MonthlyPeriod)) as MonthlyPeriod;
-                if (period != null)
-                {
-                    var mpMonth = period.GetType().GetProperty("Month");
-                    var mpYear = period.GetType().GetProperty("Year");
-                    if (mpMonth != null)
-                        mpMonth.SetValue(period, month);
-                    if (mpYear != null)
-                        mpYear.SetValue(period, year);
-                    db.MonthlyPeriods.Add(period);
-                    await db.SaveChangesAsync(); // ensure PK is generated
-                }
-            }
-
-            // determine periodId (try common PK names)
-            int periodId = 0;
-            if (period != null)
-            {
-                var idProp =
-                    period.GetType().GetProperty("MonthlyPeriodId") ?? period
-                        .GetType()
-                        .GetProperty("Id")
-                    ?? period.GetType().GetProperty("PeriodId");
-                if (idProp != null)
-                {
-                    periodId = (int)(idProp.GetValue(period) ?? 0);
-                }
-                else
-                {
-                    try
-                    {
-                        periodId = (int)db.Entry(period).Property("Id").CurrentValue;
-                    }
-                    catch
-                    { /* ignore */
-                    }
-                }
-            }
-
-            // update VehiclePerMonth using strongly-typed model
-            if (periodId != 0)
-            {
-                var vehicleMonth = await db.VehiclePerMonths.FirstOrDefaultAsync(vm =>
-                    vm.VehicleId == vehicle.VehicleId && vm.PeriodId == periodId
-                );
-
-                if (vehicleMonth == null)
-                {
-                    vehicleMonth = new VehiclePerMonth
-                    {
-                        VehicleId = vehicle.VehicleId,
-                        PeriodId = periodId,
-                        TotalSessions = 0,
-                        TotalEnergy = 0,
-                        TotalCost = 0,
-                        AmountPaid = 0,
-                    };
-                    db.VehiclePerMonths.Add(vehicleMonth);
-                }
-
-                vehicleMonth.TotalSessions += 1;
-                //db.Entry(vehicleMonth).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
-
             await db.SaveChangesAsync();
 
             // return sessionId only
@@ -183,9 +106,7 @@ namespace TestServer.Controllers
         }
 
         [HttpPut("stop")]
-        public async Task<IActionResult> StopChargingSession(
-            [FromBody] StopChargingSessionRequest req
-        )
+        public async Task<IActionResult> StopChargingSession([FromBody] StopChargingSessionRequest req)
         {
             if (req == null)
                 return BadRequest("Request body required.");
@@ -196,153 +117,128 @@ namespace TestServer.Controllers
             if (session.Status == SessionStatus.Completed)
                 return BadRequest("Session already completed.");
 
+            // update session
             session.EndTime = req.EndTime;
             session.EnergyConsumed = req.EnergyConsumed;
             session.TotalCost = req.TotalCost;
             session.Status = SessionStatus.Completed;
             db.Entry(session).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-            //set vehicle status to Active
+            // set vehicle status to Active
             var vehicle = await db.Vehicles.FindAsync(session.VehicleId);
-            var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
-            if (vehicleStatusProp != null)
+            if (vehicle != null)
             {
-                if (vehicleStatusProp.PropertyType == typeof(string))
+                var vehicleStatusProp = vehicle.GetType().GetProperty("Status");
+                if (vehicleStatusProp != null)
                 {
-                    vehicleStatusProp.SetValue(vehicle, "Active");
-                }
-                else if (vehicleStatusProp.PropertyType.IsEnum)
-                {
-                    try
+                    if (vehicleStatusProp.PropertyType == typeof(string))
                     {
-                        var enumVal = Enum.Parse(
-                            vehicleStatusProp.PropertyType,
-                            "Active",
-                            ignoreCase: true
-                        );
-                        vehicleStatusProp.SetValue(vehicle, enumVal);
+                        vehicleStatusProp.SetValue(vehicle, "Active");
                     }
-                    catch
-                    { /* ignore if enum value not present */
-                    }
-                }
-                db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
-            
-            // update VehiclePerMonth totals for the month of session.StartTime
-            var start = session.StartTime;
-            var month = start.Month;
-            var year = start.Year;
-
-            var period = await db.MonthlyPeriods.FirstOrDefaultAsync(p =>
-                EF.Property<int>(p, "Month") == month && EF.Property<int>(p, "Year") == year
-            );
-
-            int periodId = 0;
-            if (period != null)
-            {
-                var idProp =
-                    period.GetType().GetProperty("MonthlyPeriodId") ?? period
-                        .GetType()
-                        .GetProperty("Id")
-                    ?? period.GetType().GetProperty("PeriodId");
-                if (idProp != null)
-                {
-                    periodId = (int)(idProp.GetValue(period) ?? 0);
-                }
-                else
-                {
-                    try
+                    else if (vehicleStatusProp.PropertyType.IsEnum)
                     {
-                        periodId = (int)db.Entry(period).Property("Id").CurrentValue;
+                        try
+                        {
+                            var enumVal = Enum.Parse(
+                                vehicleStatusProp.PropertyType,
+                                "Active",
+                                ignoreCase: true
+                            );
+                            vehicleStatusProp.SetValue(vehicle, enumVal);
+                        }
+                        catch
+                        { /* ignore if enum value not present */
+                        }
                     }
-                    catch
-                    { /* ignore */
-                    }
-                }
-            }
-
-            // update VehiclePerMonth using strongly-typed model (VehicleId)
-            if (periodId != 0)
-            {
-                var vehicleMonth = await db.VehiclePerMonths.FirstOrDefaultAsync(vm =>
-                    vm.VehicleId == session.VehicleId && vm.PeriodId == periodId
-                );
-
-                if (vehicleMonth != null)
-                {
-                    vehicleMonth.TotalEnergy += req.EnergyConsumed;
-                    vehicleMonth.TotalCost += req.TotalCost;
-                    db.Entry(vehicleMonth).State = Microsoft
-                        .EntityFrameworkCore
-                        .EntityState
-                        .Modified;
+                    db.Entry(vehicle).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 }
             }
 
             // free port if exists
             var port = await db.ChargingPorts.FindAsync(session.PortId);
-            var statusProp = port.GetType().GetProperty("Status");
-            if (statusProp != null)
+            if (port != null)
             {
-                if (statusProp.PropertyType == typeof(string))
+                var statusProp = port.GetType().GetProperty("Status");
+                if (statusProp != null)
                 {
-                    statusProp.SetValue(port, "Available");
-                }
-                else if (statusProp.PropertyType.IsEnum)
-                {
-                    try
+                    if (statusProp.PropertyType == typeof(string))
                     {
-                        var enumVal = Enum.Parse(
-                            statusProp.PropertyType,
-                            "Available",
-                            ignoreCase: true
-                        );
-                        statusProp.SetValue(port, enumVal);
+                        statusProp.SetValue(port, "Available");
                     }
-                    catch
-                    { /* ignore if enum value not present */
+                    else if (statusProp.PropertyType.IsEnum)
+                    {
+                        try
+                        {
+                            var enumVal = Enum.Parse(
+                                statusProp.PropertyType,
+                                "Available",
+                                ignoreCase: true
+                            );
+                            statusProp.SetValue(port, enumVal);
+                        }
+                        catch
+                        { /* ignore if enum value not present */
+                        }
                     }
+                    db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 }
-                db.Entry(port).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
             await db.SaveChangesAsync();
 
             var s = await db
                 .ChargingSessions.AsNoTracking()
-                .Where(s => s.Id == req.SessionId)
-                .Include(s => s.Vehicle)
-                .Include(s => s.ChargingPort)
+                .Where(x => x.Id == req.SessionId)
+                .Include(x => x.Vehicle)
+                .Include(x => x.ChargingPort)
                 .ThenInclude(p => p.ChargingPoint)
                 .ThenInclude(cp => cp.ChargingStation)
-                .Include(s => s.ChargingPort)
+                .Include(x => x.ChargingPort)
                 .ThenInclude(p => p.Connector)
-                .OrderByDescending(s => s.EndTime)
-                .ThenByDescending(s => s.StartTime)
+                .OrderByDescending(x => x.EndTime)
+                .ThenByDescending(x => x.StartTime)
                 .FirstOrDefaultAsync();
+
+            if (s == null)
+                return NotFound();
+
+            DateTime? end = s.EndTime;
+            var hasEnd = end.HasValue;
+            var endTimeStr = string.Empty;
+            var endTime = string.Empty;
+            var duration = string.Empty;
+                if (hasEnd)
+            {
+                var e = end!.Value;
+                endTimeStr = $"{e:dd/MM/yyyy}, {e:HH:mm:ss}";
+                endTime = e.ToString();
+                var span = e - s.StartTime;
+                duration = $"{(int)span.TotalHours}h {span.Minutes}m {span.Seconds}s";
+            }
 
             var chargingSessionDto = new ChargingSessionDto
             {
                 SessionId = s.Id,
                 VehicleId = s.VehicleId,
                 VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
-                SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
+                SessionCode = (s.ChargingPort != null && s.ChargingPort.ChargingPoint != null && s.ChargingPort.ChargingPoint.ChargingStation != null)
+                    ? $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime:yyyyMMdd}-{s.Id:D4}"
+                    : $"ST-UNKNOWN-{s.StartTime:yyyyMMdd}-{s.Id:D4}",
                 CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
                 PortInfo = new ChargingPortInfoDto
                 {
                     Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
-                    ConnectorName = s.ChargingPort.Connector.Name,
-                    Power = s.ChargingPort.Power,
-                    Status = s.ChargingPort.Status.ToString(),
-                    ChargingPointId = s.ChargingPort.ChargingPoint.Id,
-                    ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
+                    ConnectorName = s.ChargingPort?.Connector?.Name ?? string.Empty,
+                    Power = s.ChargingPort?.Power ?? 0,
+                    Status = s.ChargingPort != null ? s.ChargingPort.Status.ToString() : string.Empty,
+                    ChargingPointId = s.ChargingPort?.ChargingPoint?.Id ?? string.Empty,
+                    ChargingStationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name ?? string.Empty,
                 },
                 StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
                 StartTime = s.StartTime.ToString(),
-                EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
-                EndTime = s.EndTime.Value.ToString(),
-                Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
+                EndTimeStr = endTimeStr,
+                EndTime = endTime,
+                Duration = duration,
                 EnergyConsumed = s.EnergyConsumed,
                 TotalCost = s.TotalCost,
                 Status = s.Status.ToString(),
@@ -362,35 +258,56 @@ namespace TestServer.Controllers
                 .ThenInclude(cp => cp.ChargingStation)
                 .Include(s => s.ChargingPort)
                 .ThenInclude(p => p.Connector)
-                .OrderByDescending(s => s.EndTime)
-                .ThenByDescending(s => s.StartTime)
+                .OrderByDescending(s => s.StartTime)
                 .ToListAsync();
 
             var dtos = sessions
-                .Select(s => new ChargingSessionDto
+                .Select(s =>
                 {
-                    SessionId = s.Id,
-                    VehicleId = s.VehicleId,
-                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
-                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
-                    CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
-                    PortInfo = new ChargingPortInfoDto
+                    DateTime? end = s.EndTime;
+                    var hasEnd = end.HasValue;
+                    var endTimeStr = string.Empty;
+                    var endTime = string.Empty;
+                    var duration = string.Empty;
+                    if (hasEnd)
                     {
-                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
-                        ConnectorName = s.ChargingPort.Connector.Name,
-                        Power = s.ChargingPort.Power,
-                        Status = s.ChargingPort.Status.ToString(),
-                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
-                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
-                    },
-                    StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
-                    StartTime = s.StartTime.ToString(),
-                    EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
-                    EndTime = s.EndTime.Value.ToString(),
-                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
-                    EnergyConsumed = s.EnergyConsumed,
-                    TotalCost = s.TotalCost,
-                    Status = s.Status.ToString(),
+                        var e = end!.Value;
+                        endTimeStr = $"{e:dd/MM/yyyy}, {e:HH:mm:ss}";
+                        endTime = e.ToString();
+                        var span = e - s.StartTime;
+                        duration = $"{(int)span.TotalHours}h {span.Minutes}m {span.Seconds}s";
+                    }
+
+                    var energy = s.Status == SessionStatus.charging ? 0f : s.EnergyConsumed;
+                    var cost = s.Status == SessionStatus.charging ? 0f : s.TotalCost;
+
+                    return new ChargingSessionDto
+                    {
+                        SessionId = s.Id,
+                        VehicleId = s.VehicleId,
+                        VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
+                        SessionCode = (s.ChargingPort != null && s.ChargingPort.ChargingPoint != null && s.ChargingPort.ChargingPoint.ChargingStation != null)
+                            ? $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime:yyyyMMdd}-{s.Id:D4}"
+                            : $"ST-UNKNOWN-{s.StartTime:yyyyMMdd}-{s.Id:D4}",
+                        CustomerId = s.Vehicle != null ? s.Vehicle.CustomerId : string.Empty,
+                        PortInfo = new ChargingPortInfoDto
+                        {
+                            Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                            ConnectorName = s.ChargingPort?.Connector?.Name ?? string.Empty,
+                            Power = s.ChargingPort?.Power ?? 0,
+                            Status = s.ChargingPort != null ? s.ChargingPort.Status.ToString() : string.Empty,
+                            ChargingPointId = s.ChargingPort?.ChargingPoint?.Id ?? string.Empty,
+                            ChargingStationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name ?? string.Empty,
+                        },
+                        StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                        StartTime = s.StartTime.ToString(),
+                        EndTimeStr = endTimeStr,
+                        EndTime = endTime,
+                        Duration = duration,
+                        EnergyConsumed = energy,
+                        TotalCost = cost,
+                        Status = s.Status.ToString(),
+                    };
                 })
                 .ToList();
 
@@ -408,40 +325,59 @@ namespace TestServer.Controllers
                 .ChargingSessions.AsNoTracking()
                 .Include(s => s.Vehicle)
                 .Where(s => s.Vehicle != null && s.Vehicle.CustomerId == customerId)
+                .Where(s => s.Status != SessionStatus.charging)
                 .Include(s => s.ChargingPort)
                 .ThenInclude(p => p.ChargingPoint)
                 .ThenInclude(cp => cp.ChargingStation)
                 .Include(s => s.ChargingPort)
                 .ThenInclude(p => p.Connector)
-                .OrderByDescending(s => s.EndTime)
-                .ThenByDescending(s => s.StartTime)
+                .OrderByDescending(s => s.StartTime)
                 .ToListAsync();
 
             var dtos = sessions
-                .Select(s => new ChargingSessionDto
+                .Select(s =>
                 {
-                    SessionId = s.Id,
-                    VehicleId = s.VehicleId,
-                    VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
-                    SessionCode = $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime.ToString("yyyyMMdd")}-{s.Id:D4}",
-                    CustomerId = customerId,
-                    PortInfo = new ChargingPortInfoDto
+                    DateTime? end = s.EndTime;
+                    var hasEnd = end.HasValue;
+                    var endTimeStr = string.Empty;
+                    var endTime = string.Empty;
+                    var duration = string.Empty;
+                    if (hasEnd)
                     {
-                        Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
-                        ConnectorName = s.ChargingPort.Connector.Name,
-                        Power = s.ChargingPort.Power,
-                        Status = s.ChargingPort.Status.ToString(),
-                        ChargingPointId = s.ChargingPort.ChargingPoint.Id,
-                        ChargingStationName = s.ChargingPort.ChargingPoint.ChargingStation.Name,
-                    },
-                    StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
-                    StartTime = s.StartTime.ToString(),
-                    EndTimeStr = s.EndTime.HasValue ? $"{s.EndTime.Value:dd/MM/yyyy}, {s.EndTime.Value:HH:mm:ss}" : default,
-                    EndTime = s.EndTime.Value.ToString(),
-                    Duration = $"{(int)(s.EndTime - s.StartTime)?.TotalHours}h {(s.EndTime - s.StartTime)?.Minutes}m {(s.EndTime - s.StartTime)?.Seconds}s",
-                    EnergyConsumed = s.EnergyConsumed,
-                    TotalCost = s.TotalCost,
-                    Status = s.Status.ToString(),
+                        var e = end!.Value;
+                        endTimeStr = $"{e:dd/MM/yyyy}, {e:HH:mm:ss}";
+                        endTime = e.ToString();
+                        var span = e - s.StartTime;
+                        duration = $"{(int)span.TotalHours}h {span.Minutes}m {span.Seconds}s";
+                    }
+
+                    return new ChargingSessionDto
+                    {
+                        SessionId = s.Id,
+                        VehicleId = s.VehicleId,
+                        VehicleName = s.Vehicle != null ? s.Vehicle.Name : string.Empty,
+                        SessionCode = (s.ChargingPort != null && s.ChargingPort.ChargingPoint != null && s.ChargingPort.ChargingPoint.ChargingStation != null)
+                            ? $"ST{s.ChargingPort.ChargingPoint.ChargingStation.Id:D2}-{s.StartTime:yyyyMMdd}-{s.Id:D4}"
+                            : $"ST-UNKNOWN-{s.StartTime:yyyyMMdd}-{s.Id:D4}",
+                        CustomerId = customerId,
+                        PortInfo = new ChargingPortInfoDto
+                        {
+                            Id = s.ChargingPort != null ? s.ChargingPort.Id : string.Empty,
+                            ConnectorName = s.ChargingPort?.Connector?.Name ?? string.Empty,
+                            Power = s.ChargingPort?.Power ?? 0,
+                            Status = s.ChargingPort != null ? s.ChargingPort.Status.ToString() : string.Empty,
+                            ChargingPointId = s.ChargingPort?.ChargingPoint?.Id ?? string.Empty,
+                            ChargingStationName = s.ChargingPort?.ChargingPoint?.ChargingStation?.Name ?? string.Empty,
+                        },
+                        StartTimeStr = $"{s.StartTime:dd/MM/yyyy}, {s.StartTime:HH:mm:ss}",
+                        StartTime = s.StartTime.ToString(),
+                        EndTimeStr = endTimeStr,
+                        EndTime = endTime,
+                        Duration = duration,
+                        EnergyConsumed = s.EnergyConsumed,
+                        TotalCost = s.TotalCost,
+                        Status = s.Status.ToString(),
+                    };
                 })
                 .ToList();
 
