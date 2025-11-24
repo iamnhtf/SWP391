@@ -11,7 +11,7 @@ using TestServer.Data;
 namespace TestServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251123015204_Initcreate")]
+    [Migration("20251123030623_Initcreate")]
     partial class Initcreate
     {
         /// <inheritdoc />
@@ -4580,38 +4580,6 @@ namespace TestServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestServer.Models.PowerRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PowerRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "0-7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "7-50"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "50-150"
-                        });
-                });
-
             modelBuilder.Entity("TestServer.Models.PriceTable", b =>
                 {
                     b.Property<int>("Id")
@@ -4681,38 +4649,6 @@ namespace TestServer.Migrations
                             Status = 1,
                             ValidFrom = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ValidTo = new DateTime(2026, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("TestServer.Models.TimeRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TimeRanges");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Range = "06:01–17:00"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Range = "17:01–21:00"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Range = "21:01–06:00"
                         });
                 });
 

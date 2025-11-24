@@ -104,19 +104,6 @@ public class AppDbContext : DbContext
             new Connector { Id = 3, Name = "CHAdeMO", Status = ConnectorTypeStatus.Available }
         );
 
-        // PowerRange
-        modelBuilder.Entity<PowerRange>().HasData(
-            new PowerRange { Id = 1, Range = "0-7" },
-            new PowerRange { Id = 2, Range = "7-50" },
-            new PowerRange { Id = 3, Range = "50-150" }
-        );
-
-        // TimeRange
-        modelBuilder.Entity<TimeRange>().HasData(
-            new TimeRange { Id = 1, Range = "06:01–17:00" },
-            new TimeRange { Id = 2, Range = "17:01–21:00" },
-            new TimeRange { Id = 3, Range = "21:01–06:00" }
-        );
         modelBuilder.Entity<ChargingPort>()
                 .Property(c => c.Status)
                 .HasConversion<string>();
@@ -1212,10 +1199,6 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
     public DbSet<VehicleType> VehicleTypes { get; set; } = null!;
 
     public DbSet<Connector> Connectors { get; set; } = null!;
-
-    public DbSet<PowerRange> PowerRanges { get; set; } = null!;
-
-    public DbSet<TimeRange> TimeRanges { get; set; } = null!;
 
     public DbSet<ChargingPoint> ChargingPoints { get; set; } = null!;
 

@@ -105,20 +105,6 @@ namespace TestServer.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "PowerRanges",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Range = table.Column<string>(type: "longtext", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PowerRanges", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "PriceTables",
                 columns: table => new
                 {
@@ -134,20 +120,6 @@ namespace TestServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PriceTables", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "TimeRanges",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Range = table.Column<string>(type: "longtext", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TimeRanges", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -449,16 +421,6 @@ namespace TestServer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "PowerRanges",
-                columns: new[] { "Id", "Range" },
-                values: new object[,]
-                {
-                    { 1, "0-7" },
-                    { 2, "7-50" },
-                    { 3, "50-150" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "PriceTables",
                 columns: new[] { "Id", "Name", "PenaltyFeePerMinute", "PricePerKWh", "Status", "ValidFrom", "ValidTo" },
                 values: new object[,]
@@ -467,16 +429,6 @@ namespace TestServer.Migrations
                     { 2, "PriceTable for 2025", 1000f, 3858f, 0, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { 3, "PriceTable for Nov-2025", 1100f, 3900f, 1, new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { 4, "PriceTable for 2026", 1200f, 4000f, 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
-            migrationBuilder.InsertData(
-                table: "TimeRanges",
-                columns: new[] { "Id", "Range" },
-                values: new object[,]
-                {
-                    { 1, "06:01–17:00" },
-                    { 2, "17:01–21:00" },
-                    { 3, "21:01–06:00" }
                 });
 
             migrationBuilder.InsertData(
@@ -1134,13 +1086,7 @@ namespace TestServer.Migrations
                 name: "PaymentTransactions");
 
             migrationBuilder.DropTable(
-                name: "PowerRanges");
-
-            migrationBuilder.DropTable(
                 name: "PriceTables");
-
-            migrationBuilder.DropTable(
-                name: "TimeRanges");
 
             migrationBuilder.DropTable(
                 name: "VehicleConnectorTypes");
