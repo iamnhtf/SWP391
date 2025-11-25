@@ -28,6 +28,7 @@ namespace TestServer.Models
     {
         Active,
         Charging,
+        Reserved,
         Blocked,
         Deleted,
     }

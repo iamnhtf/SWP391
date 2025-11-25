@@ -26,6 +26,7 @@ namespace TestServer.Models
     public enum ChargingPortStatus
     {
         Available,
+        Reserved,
         InUse,
         Faulty,
         Inactive,

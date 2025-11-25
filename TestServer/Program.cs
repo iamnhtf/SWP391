@@ -54,6 +54,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSignalR();
 
+builder.Services.AddHostedService<ReservationExpiryService>();
+
 // Khởi tạo Firebase Admin SDK
 if (FirebaseApp.DefaultInstance == null)
 {

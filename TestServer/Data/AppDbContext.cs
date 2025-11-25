@@ -1171,4 +1171,5 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
     public DbSet<PriceTable> PriceTables { get; set; } = null!;
 
     public DbSet<PaymentTransaction> PaymentTransactions { get; set; } = null!;
+    public DbSet<Reservation> Reservations { get; set; } = null!;
 }

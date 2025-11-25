@@ -37,6 +37,16 @@ namespace TestServer.Controllers
             if (port == null)
                 return NotFound($"Port {req.PortId} not found.");
 
+            var reservation = await db.Reservations
+                .Where(r => r.VehicleId == req.VehicleId && r.ChargingPortId == req.PortId)
+                .FirstOrDefaultAsync();
+
+            if (reservation != null)
+            {
+                // remove reservation
+                db.Reservations.Remove(reservation);
+            }
+
             // create session
             var session = new ChargingSession
             {
