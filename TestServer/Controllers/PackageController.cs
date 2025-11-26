@@ -140,5 +140,31 @@ namespace TestServer.Controllers
             db.SaveChanges();
             return Ok("Package deleted.");
         }
+        [HttpPost("CreatePackage")]
+        public async Task<IActionResult> CreatePackage(Dto.UserPackageDto packageDto)
+        {
+            var package = new Models.Package
+            {
+                Name = packageDto.UserId,
+                MonthlyPrice = packageDto.PriceAtPurchase,
+                DiscountPercent = packageDto.DiscountPercentAtPurchase,
+                ReservationTime = packageDto.ReservationMinutesAtPurchase,
+                IsActive = true
+            };
+
+            db.Packages.Add(package);
+            db.SaveChanges();
+
+            return Ok(new Dto.UserPackageDto
+            {
+                Id = package.Id,
+                UserId = package.Name,
+                PriceAtPurchase = package.MonthlyPrice,
+                DiscountPercentAtPurchase = package.DiscountPercent,
+                ReservationMinutesAtPurchase = package.ReservationTime,
+                StartDate = DateTime.MinValue,
+                EndDate = DateTime.MinValue
+            });
+        }
     }
 }
