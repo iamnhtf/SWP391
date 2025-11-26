@@ -43,19 +43,11 @@ namespace TestServer.Controllers
                 return Conflict($"Customer with ID {customer.Id} already exists.");
             }
 
-            var c = new Customer
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email,
-                PhoneNumber = customer.PhoneNumber,
-                Address = customer.Address,
-                Status = Customer.CustomerStatus.Available
-            };
+            customer.Status = Customer.CustomerStatus.Available; // Default status
 
-            db.Customers.Add(c);
+            db.Customers.Add(customer);
             await db.SaveChangesAsync();
-            return Ok(ToDto(c));
+            return Ok(ToDto(customer));
         }
 
         [HttpPut("{id}")]
