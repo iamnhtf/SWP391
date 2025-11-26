@@ -238,6 +238,11 @@ namespace TestServer.Controllers
                     return CreatedAtAction(nameof(GetById), new { id = restoredVehicle.VehicleId }, restoredVehicleDto);
                 }
 
+                if (existingVehicle.Status == VehicleStatus.Blocked)
+                {
+                    return BadRequest($"Vehicle with license plate '{vehicleDto.LicensePlate}' is blocked and cannot be used.");
+                }
+
                 // existing and not deleted -> conflict
                 return BadRequest($"Vehicle with license plate '{vehicleDto.LicensePlate}' already exists.");
             }

@@ -43,9 +43,19 @@ namespace TestServer.Controllers
                 return Conflict($"Customer with ID {customer.Id} already exists.");
             }
 
-            db.Customers.Add(customer);
+            var c = new Customer
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                Address = customer.Address,
+                Status = Customer.CustomerStatus.Available
+            };
+
+            db.Customers.Add(c);
             await db.SaveChangesAsync();
-            return Ok(ToDto(customer));
+            return Ok(ToDto(c));
         }
 
         [HttpPut("{id}")]
