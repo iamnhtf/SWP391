@@ -89,6 +89,7 @@ namespace TestServer.Controllers
         {
             public int VehicleId { get; set; }
             public string PortId { get; set; } = string.Empty;
+            public int DurationMinutes { get; set; }
         }
 
 
@@ -112,7 +113,7 @@ namespace TestServer.Controllers
                 VehicleId = request.VehicleId,
                 ChargingPortId = request.PortId,
                 ReservedAt = DateTime.UtcNow,
-                ExpireAt = DateTime.UtcNow.AddMinutes(60)
+                ExpireAt = DateTime.UtcNow.AddMinutes(request.DurationMinutes)
             };
 
             db.Reservations.Add(reservation);
