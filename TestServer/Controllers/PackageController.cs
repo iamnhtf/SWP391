@@ -38,9 +38,7 @@ namespace TestServer.Controllers
                     UserId = uid,
                     PriceAtPurchase = 0,
                     DiscountPercentAtPurchase = 0,
-                    ReservationMinutesAtPurchase = 60,
-                    StartDate = DateTime.MinValue,
-                    EndDate = DateTime.MinValue
+                    ReservationMinutesAtPurchase = 60
                 });
             }
 
