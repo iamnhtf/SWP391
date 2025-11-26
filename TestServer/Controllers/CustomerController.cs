@@ -36,22 +36,30 @@ namespace TestServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Customer customer)
+        public async Task<IActionResult> Create(CustomerDto customer)
         {
             if (await db.Customers.AnyAsync(c => c.Id == customer.Id))
             {
                 return Conflict($"Customer with ID {customer.Id} already exists.");
             }
 
-            customer.Status = Customer.CustomerStatus.Available; // Default status
+            var newCustomer = new Customer
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                Address = customer.Address,
+                Status = Customer.CustomerStatus.Available // Default status
+            };
 
-            db.Customers.Add(customer);
+            db.Customers.Add(newCustomer);
             await db.SaveChangesAsync();
-            return Ok(ToDto(customer));
+            return Ok(ToDto(newCustomer));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, Customer updatedCustomer)
+        public async Task<IActionResult> Update(string id, CustomerDto updatedCustomer)
         {
             var existingCustomer = await db.Customers.FindAsync(id);
             if (existingCustomer == null)
@@ -65,8 +73,6 @@ namespace TestServer.Controllers
                 existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
             if (updatedCustomer.Address != null)
                 existingCustomer.Address = updatedCustomer.Address;
-            if (updatedCustomer.Status != existingCustomer.Status)
-                existingCustomer.Status = updatedCustomer.Status;
 
             await db.SaveChangesAsync();
             return Ok(ToDto(existingCustomer));
