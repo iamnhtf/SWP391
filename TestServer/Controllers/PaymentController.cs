@@ -26,7 +26,7 @@ namespace TestServer.Controllers
         [HttpPost("create-vnpay-url")]
         public IActionResult CreatePaymentUrlVnpay([FromBody] PaymentInformationModel model)
         {
-            var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
+            var url = _vnPayService.CreatePaymentUrl(model, HttpContext, "https://swp391.up.railway.app/api/Payment/callback-vnpay");
             // Trả về một đối tượng JSON chứa URL
             return Ok(new { paymentUrl = url });
         }
@@ -413,7 +413,7 @@ namespace TestServer.Controllers
                     $"Payment for VehicleMonth {vpm.VehicleMonthId} - VehicleId {vpm.VehicleId}",
             };
 
-            var url = _vnPayService.CreatePaymentUrl(paymentModel, HttpContext);
+            var url = _vnPayService.CreatePaymentUrl(paymentModel, HttpContext, "https://swp391.up.railway.app/api/Payment/callback-vnpay");
 
             var resp = new UnityPaymentResponse
             {

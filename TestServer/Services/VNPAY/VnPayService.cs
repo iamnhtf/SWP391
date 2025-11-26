@@ -15,7 +15,7 @@ namespace TestServer.Services.VNPAY
             _configuration = configuration;
         }
 
-        public string CreatePaymentUrl(PaymentInformationModel model, HttpContext context)
+        public string CreatePaymentUrl(PaymentInformationModel model, HttpContext context, string callbackUrl)
         {
             var timeZoneId = _configuration["TimeZoneId"] ?? "SE Asia Standard Time";
             var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
@@ -23,21 +23,23 @@ namespace TestServer.Services.VNPAY
             var tick = Guid.NewGuid().ToString();
             var pay = new VNPAYLibraries();
 
-            // LẤY URL TRẢ VỀ TỪ FILE CẤU HÌNH
-            var urlCallBack = _configuration["Vnpay:ReturnUrl"];
-            // Nếu chưa cấu hình hoặc đang trỏ về localhost (ví dụ khi deploy), tạo fallback từ HttpContext
-            if (string.IsNullOrWhiteSpace(urlCallBack) || urlCallBack.Contains("localhost"))
-            {
-                try
-                {
-                    if (context != null && context.Request != null)
-                    {
-                        // sử dụng route api callback để nhất quán
-                        urlCallBack = $"{context.Request.Scheme}://{context.Request.Host}/api/payment/callback-vnpay";
-                    }
-                }
-                catch { /* ignore and keep urlCallBack as-is */ }
-            }
+            // // LẤY URL TRẢ VỀ TỪ FILE CẤU HÌNH
+            // var urlCallBack = _configuration["Vnpay:ReturnUrl"];
+            // // Nếu chưa cấu hình hoặc đang trỏ về localhost (ví dụ khi deploy), tạo fallback từ HttpContext
+            // if (string.IsNullOrWhiteSpace(urlCallBack) || urlCallBack.Contains("localhost"))
+            // {
+            //     try
+            //     {
+            //         if (context != null && context.Request != null)
+            //         {
+            //             // sử dụng route api callback để nhất quán
+            //             urlCallBack = $"{context.Request.Scheme}://{context.Request.Host}{callbackUrl}";
+            //         }
+            //     }
+            //     catch { /* ignore and keep urlCallBack as-is */ }
+            // }
+
+            var urlCallBack = callbackUrl;
 
             // Read configuration values with safe fallbacks
             var vnpVersion = _configuration["Vnpay:Version"] ?? string.Empty;

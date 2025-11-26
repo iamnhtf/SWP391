@@ -23,6 +23,15 @@ namespace TestServer.Controllers
             _vnPayService = vnPayService;
         }
 
+        // Existing web flow endpoint (kept for web redirects)
+        [HttpPost("create-vnpay-url")]
+        public IActionResult CreatePaymentUrlVnpay([FromBody] PaymentInformationModel model)
+        {
+            var url = _vnPayService.CreatePaymentUrl(model, HttpContext, "https://swp391.up.railway.app/api/PackagePayment/callback-vnpay");
+            // Trả về một đối tượng JSON chứa URL
+            return Ok(new { paymentUrl = url });
+        }
+
         public class UnityPackagePaymentRequest
         {
             public string UserId { get; set; } = string.Empty;
@@ -73,7 +82,7 @@ namespace TestServer.Controllers
                 OrderDescription = $"Payment for PackageId {request.PackageId} - UserId {request.UserId} - Discount {request.DiscountPercent} - Reservation {request.ReservationTime}",
             };
 
-            var url = _vnPayService.CreatePaymentUrl(paymentModel, HttpContext);
+            var url = _vnPayService.CreatePaymentUrl(paymentModel, HttpContext, "https://swp391.up.railway.app/api/PackagePayment/callback-vnpay");
 
             var resp = new UnityPackagePaymentResponse
             {
