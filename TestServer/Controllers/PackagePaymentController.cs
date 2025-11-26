@@ -143,6 +143,15 @@ namespace TestServer.Controllers
                     if (int.TryParse(vnpAmountRaw, out var amtInt))
                         paidAmount = amtInt / 100.0;
 
+                    if (_db.PackageSubscriptions.Any(ps => ps.UserId == userId && ps.EndDate > DateTime.UtcNow))
+                    {
+                        _db.PackageSubscriptions.RemoveRange(
+                            _db.PackageSubscriptions.Where(ps => ps.UserId == userId && ps.EndDate > DateTime.UtcNow)
+                        );
+                    }
+
+                    await _db.SaveChangesAsync();
+                    
                     // create subscription
                     var now = DateTime.UtcNow;
                     var sub = new PackageSubscription
@@ -233,6 +242,15 @@ namespace TestServer.Controllers
 
             if (status == "Cancelled" || status == "Failed")
             {
+                if (lastTx != null)
+                {
+                    _db.PackagePaymentTransactions.Remove(lastTx);
+                    await _db.SaveChangesAsync();
+                    Console.WriteLine(
+                        $"Deleted failed/cancelled transaction for SubscriptionId={sub.Id}"
+                    );
+                }
+
                 return Ok(new
                 {
                     Success = false,
@@ -242,6 +260,15 @@ namespace TestServer.Controllers
                     LastTransaction = lastTx
                 });
             }
+
+            if (lastTx != null)
+                {
+                    _db.PackagePaymentTransactions.Remove(lastTx);
+                    await _db.SaveChangesAsync();
+                    Console.WriteLine(
+                        $"Deleted failed/cancelled transaction for SubscriptionId={sub.Id}"
+                    );
+                }
 
             return Ok(new
             {
