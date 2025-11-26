@@ -84,6 +84,45 @@ namespace TestServer.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "PackagePaymentTransactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    PackageSubscriptionId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<string>(type: "longtext", nullable: false),
+                    ResponseCode = table.Column<string>(type: "longtext", nullable: false),
+                    TransactionStatus = table.Column<string>(type: "longtext", nullable: false),
+                    OrderInfo = table.Column<string>(type: "longtext", nullable: false),
+                    Amount = table.Column<double>(type: "double", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackagePaymentTransactions", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Packages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    MonthlyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DiscountPercent = table.Column<int>(type: "int", nullable: false),
+                    ReservationTime = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Packages", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "PaymentTransactions",
                 columns: table => new
                 {
@@ -124,6 +163,23 @@ namespace TestServer.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    ChargingPortId = table.Column<string>(type: "longtext", nullable: false),
+                    ReservedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ExpireAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "VehicleTypes",
                 columns: table => new
                 {
@@ -152,6 +208,32 @@ namespace TestServer.Migrations
                         name: "FK_ChargingPoints_ChargingStations_StationId",
                         column: x => x.StationId,
                         principalTable: "ChargingStations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "PackageSubscriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "longtext", nullable: false),
+                    PackageId = table.Column<int>(type: "int", nullable: false),
+                    PriceAtPurchase = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DiscountPercentAtPurchase = table.Column<int>(type: "int", nullable: false),
+                    ReservationMinutesAtPurchase = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageSubscriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PackageSubscriptions_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -345,6 +427,16 @@ namespace TestServer.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Packages",
+                columns: new[] { "Id", "Description", "DiscountPercent", "IsActive", "MonthlyPrice", "Name", "ReservationTime" },
+                values: new object[,]
+                {
+                    { 1, "Giảm 5% mỗi lần sạc, thêm 15 phút giữ chỗ", 5, true, 49000m, "Tiết Kiệm", 75 },
+                    { 2, "Giảm 10% mỗi lần sạc, thêm 20 phút giữ chỗ", 10, true, 99000m, "Năng Động", 80 },
+                    { 3, "Giảm 15% mỗi lần sạc, thêm 30 phút giữ chỗ", 15, true, 199000m, "Chuyên Nghiệp", 90 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "PaymentTransactions",
                 columns: new[] { "Id", "Amount", "CreatedAt", "CustomerId", "OrderInfo", "ResponseCode", "TransactionStatus", "VehicleId", "VehicleMonthId" },
                 values: new object[,]
@@ -514,207 +606,207 @@ namespace TestServer.Migrations
                 columns: new[] { "Id", "ConnectorId", "PointId", "Power", "Status" },
                 values: new object[,]
                 {
-                    { "1.1.1", 1, "1.1", 30, "Available" },
-                    { "1.1.2", 2, "1.1", 60, "Available" },
-                    { "1.1.3", 3, "1.1", 60, "Available" },
-                    { "1.2.1", 1, "1.2", 30, "Available" },
-                    { "1.2.2", 2, "1.2", 150, "Available" },
-                    { "1.2.3", 3, "1.2", 150, "Available" },
-                    { "1.3.1", 1, "1.3", 30, "Available" },
-                    { "1.3.2", 2, "1.3", 150, "Available" },
-                    { "1.3.3", 3, "1.3", 150, "Available" },
-                    { "1.4.1", 1, "1.4", 30, "Available" },
+                    { "1.1.1", 1, "1.1", 250, "Available" },
+                    { "1.1.2", 2, "1.1", 350, "Available" },
+                    { "1.1.3", 3, "1.1", 450, "Available" },
+                    { "1.2.1", 1, "1.2", 250, "Available" },
+                    { "1.2.2", 2, "1.2", 350, "Available" },
+                    { "1.2.3", 3, "1.2", 450, "Available" },
+                    { "1.3.1", 1, "1.3", 250, "Available" },
+                    { "1.3.2", 2, "1.3", 350, "Available" },
+                    { "1.3.3", 3, "1.3", 450, "Available" },
+                    { "1.4.1", 1, "1.4", 250, "Available" },
                     { "1.4.2", 2, "1.4", 350, "Available" },
-                    { "1.4.3", 3, "1.4", 60, "Available" },
-                    { "1.5.1", 1, "1.5", 30, "Available" },
-                    { "1.5.2", 2, "1.5", 60, "Available" },
-                    { "1.5.3", 3, "1.5", 60, "Available" },
-                    { "1.6.1", 1, "1.6", 30, "Available" },
-                    { "1.6.2", 2, "1.6", 60, "Available" },
-                    { "1.6.3", 3, "1.6", 60, "Available" },
-                    { "1.7.1", 1, "1.7", 30, "Available" },
-                    { "1.7.2", 2, "1.7", 60, "Available" },
-                    { "1.7.3", 3, "1.7", 60, "Available" },
-                    { "2.1.1", 1, "2.1", 30, "Available" },
-                    { "2.1.2", 2, "2.1", 150, "Available" },
+                    { "1.4.3", 3, "1.4", 450, "Available" },
+                    { "1.5.1", 1, "1.5", 250, "Available" },
+                    { "1.5.2", 2, "1.5", 350, "Available" },
+                    { "1.5.3", 3, "1.5", 450, "Available" },
+                    { "1.6.1", 1, "1.6", 250, "Available" },
+                    { "1.6.2", 2, "1.6", 350, "Available" },
+                    { "1.6.3", 3, "1.6", 450, "Available" },
+                    { "1.7.1", 1, "1.7", 250, "Available" },
+                    { "1.7.2", 2, "1.7", 350, "Available" },
+                    { "1.7.3", 3, "1.7", 450, "Available" },
+                    { "2.1.1", 1, "2.1", 250, "Available" },
+                    { "2.1.2", 2, "2.1", 350, "Available" },
                     { "2.1.3", 3, "2.1", 450, "Available" },
-                    { "2.10.1", 1, "2.10", 30, "Available" },
-                    { "2.10.2", 2, "2.10", 60, "Available" },
-                    { "2.10.3", 3, "2.10", 60, "Available" },
-                    { "2.2.1", 1, "2.2", 30, "Available" },
-                    { "2.2.2", 2, "2.2", 60, "Available" },
-                    { "2.2.3", 3, "2.2", 60, "Available" },
-                    { "2.3.1", 1, "2.3", 30, "Available" },
-                    { "2.3.2", 2, "2.3", 60, "Available" },
-                    { "2.3.3", 3, "2.3", 60, "Available" },
-                    { "2.4.1", 1, "2.4", 30, "Available" },
-                    { "2.4.2", 2, "2.4", 60, "Available" },
-                    { "2.4.3", 3, "2.4", 60, "Available" },
-                    { "2.5.1", 1, "2.5", 30, "Available" },
-                    { "2.5.2", 2, "2.5", 60, "Available" },
-                    { "2.5.3", 3, "2.5", 60, "Available" },
-                    { "2.6.1", 1, "2.6", 30, "Available" },
-                    { "2.6.2", 2, "2.6", 60, "Available" },
-                    { "2.6.3", 3, "2.6", 60, "Available" },
-                    { "2.7.1", 1, "2.7", 30, "Available" },
-                    { "2.7.2", 2, "2.7", 60, "Available" },
-                    { "2.7.3", 3, "2.7", 60, "Available" },
-                    { "2.8.1", 1, "2.8", 30, "Available" },
-                    { "2.8.2", 2, "2.8", 150, "Available" },
-                    { "2.8.3", 3, "2.8", 150, "Available" },
-                    { "2.9.1", 1, "2.9", 30, "Available" },
-                    { "2.9.2", 2, "2.9", 150, "Available" },
-                    { "2.9.3", 3, "2.9", 60, "Available" },
-                    { "3.1.1", 1, "3.1", 30, "Available" },
-                    { "3.1.2", 2, "3.1", 60, "Available" },
-                    { "3.1.3", 3, "3.1", 60, "Available" },
-                    { "3.10.1", 1, "3.10", 30, "Available" },
-                    { "3.10.2", 2, "3.10", 60, "Available" },
-                    { "3.10.3", 3, "3.10", 60, "Available" },
-                    { "3.2.1", 1, "3.2", 30, "Available" },
-                    { "3.2.2", 2, "3.2", 60, "Available" },
-                    { "3.2.3", 3, "3.2", 60, "Available" },
-                    { "3.3.1", 1, "3.3", 30, "Available" },
-                    { "3.3.2", 2, "3.3", 60, "Available" },
-                    { "3.3.3", 3, "3.3", 60, "Available" },
-                    { "3.4.1", 1, "3.4", 30, "Available" },
-                    { "3.4.2", 2, "3.4", 60, "Available" },
-                    { "3.4.3", 3, "3.4", 60, "Available" },
-                    { "3.5.1", 1, "3.5", 30, "Available" },
-                    { "3.5.2", 2, "3.5", 150, "Available" },
-                    { "3.5.3", 3, "3.5", 150, "Available" },
-                    { "3.6.1", 1, "3.6", 30, "Available" },
-                    { "3.6.2", 2, "3.6", 150, "Available" },
-                    { "3.6.3", 3, "3.6", 150, "Available" },
-                    { "3.7.1", 1, "3.7", 30, "Available" },
+                    { "2.10.1", 1, "2.10", 250, "Available" },
+                    { "2.10.2", 2, "2.10", 350, "Available" },
+                    { "2.10.3", 3, "2.10", 450, "Available" },
+                    { "2.2.1", 1, "2.2", 250, "Available" },
+                    { "2.2.2", 2, "2.2", 350, "Available" },
+                    { "2.2.3", 3, "2.2", 450, "Available" },
+                    { "2.3.1", 1, "2.3", 250, "Available" },
+                    { "2.3.2", 2, "2.3", 350, "Available" },
+                    { "2.3.3", 3, "2.3", 450, "Available" },
+                    { "2.4.1", 1, "2.4", 250, "Available" },
+                    { "2.4.2", 2, "2.4", 350, "Available" },
+                    { "2.4.3", 3, "2.4", 450, "Available" },
+                    { "2.5.1", 1, "2.5", 250, "Available" },
+                    { "2.5.2", 2, "2.5", 350, "Available" },
+                    { "2.5.3", 3, "2.5", 450, "Available" },
+                    { "2.6.1", 1, "2.6", 250, "Available" },
+                    { "2.6.2", 2, "2.6", 350, "Available" },
+                    { "2.6.3", 3, "2.6", 450, "Available" },
+                    { "2.7.1", 1, "2.7", 250, "Available" },
+                    { "2.7.2", 2, "2.7", 350, "Available" },
+                    { "2.7.3", 3, "2.7", 450, "Available" },
+                    { "2.8.1", 1, "2.8", 250, "Available" },
+                    { "2.8.2", 2, "2.8", 350, "Available" },
+                    { "2.8.3", 3, "2.8", 450, "Available" },
+                    { "2.9.1", 1, "2.9", 250, "Available" },
+                    { "2.9.2", 2, "2.9", 350, "Available" },
+                    { "2.9.3", 3, "2.9", 450, "Available" },
+                    { "3.1.1", 1, "3.1", 250, "Available" },
+                    { "3.1.2", 2, "3.1", 350, "Available" },
+                    { "3.1.3", 3, "3.1", 450, "Available" },
+                    { "3.10.1", 1, "3.10", 250, "Available" },
+                    { "3.10.2", 2, "3.10", 350, "Available" },
+                    { "3.10.3", 3, "3.10", 450, "Available" },
+                    { "3.2.1", 1, "3.2", 250, "Available" },
+                    { "3.2.2", 2, "3.2", 350, "Available" },
+                    { "3.2.3", 3, "3.2", 450, "Available" },
+                    { "3.3.1", 1, "3.3", 250, "Available" },
+                    { "3.3.2", 2, "3.3", 350, "Available" },
+                    { "3.3.3", 3, "3.3", 450, "Available" },
+                    { "3.4.1", 1, "3.4", 250, "Available" },
+                    { "3.4.2", 2, "3.4", 350, "Available" },
+                    { "3.4.3", 3, "3.4", 450, "Available" },
+                    { "3.5.1", 1, "3.5", 250, "Available" },
+                    { "3.5.2", 2, "3.5", 350, "Available" },
+                    { "3.5.3", 3, "3.5", 450, "Available" },
+                    { "3.6.1", 1, "3.6", 250, "Available" },
+                    { "3.6.2", 2, "3.6", 350, "Available" },
+                    { "3.6.3", 3, "3.6", 450, "Available" },
+                    { "3.7.1", 1, "3.7", 250, "Available" },
                     { "3.7.2", 2, "3.7", 350, "Available" },
-                    { "3.7.3", 3, "3.7", 60, "Available" },
-                    { "3.8.1", 1, "3.8", 30, "Available" },
-                    { "3.8.2", 2, "3.8", 60, "Available" },
-                    { "3.8.3", 3, "3.8", 60, "Available" },
-                    { "3.9.1", 1, "3.9", 30, "Available" },
-                    { "3.9.2", 2, "3.9", 60, "Available" },
-                    { "3.9.3", 3, "3.9", 60, "Available" },
-                    { "4.1.1", 1, "4.1", 30, "Available" },
-                    { "4.1.2", 2, "4.1", 60, "Available" },
-                    { "4.1.3", 3, "4.1", 60, "Available" },
-                    { "4.10.1", 1, "4.10", 30, "Available" },
-                    { "4.10.2", 2, "4.10", 60, "Available" },
-                    { "4.10.3", 3, "4.10", 150, "Available" },
-                    { "4.2.1", 1, "4.2", 30, "Available" },
-                    { "4.2.2", 2, "4.2", 60, "Available" },
-                    { "4.2.3", 3, "4.2", 60, "Available" },
-                    { "4.3.1", 1, "4.3", 30, "Available" },
-                    { "4.3.2", 2, "4.3", 150, "Available" },
-                    { "4.3.3", 3, "4.3", 150, "Available" },
-                    { "4.4.1", 1, "4.4", 30, "Available" },
-                    { "4.4.2", 2, "4.4", 150, "Available" },
+                    { "3.7.3", 3, "3.7", 450, "Available" },
+                    { "3.8.1", 1, "3.8", 250, "Available" },
+                    { "3.8.2", 2, "3.8", 350, "Available" },
+                    { "3.8.3", 3, "3.8", 450, "Available" },
+                    { "3.9.1", 1, "3.9", 250, "Available" },
+                    { "3.9.2", 2, "3.9", 350, "Available" },
+                    { "3.9.3", 3, "3.9", 450, "Available" },
+                    { "4.1.1", 1, "4.1", 250, "Available" },
+                    { "4.1.2", 2, "4.1", 350, "Available" },
+                    { "4.1.3", 3, "4.1", 450, "Available" },
+                    { "4.10.1", 1, "4.10", 250, "Available" },
+                    { "4.10.2", 2, "4.10", 350, "Available" },
+                    { "4.10.3", 3, "4.10", 450, "Available" },
+                    { "4.2.1", 1, "4.2", 250, "Available" },
+                    { "4.2.2", 2, "4.2", 350, "Available" },
+                    { "4.2.3", 3, "4.2", 450, "Available" },
+                    { "4.3.1", 1, "4.3", 250, "Available" },
+                    { "4.3.2", 2, "4.3", 350, "Available" },
+                    { "4.3.3", 3, "4.3", 450, "Available" },
+                    { "4.4.1", 1, "4.4", 250, "Available" },
+                    { "4.4.2", 2, "4.4", 350, "Available" },
                     { "4.4.3", 3, "4.4", 450, "Available" },
-                    { "4.5.1", 1, "4.5", 30, "Available" },
-                    { "4.5.2", 2, "4.5", 60, "Available" },
-                    { "4.5.3", 3, "4.5", 60, "Available" },
-                    { "4.6.1", 1, "4.6", 30, "Available" },
-                    { "4.6.2", 2, "4.6", 60, "Available" },
-                    { "4.6.3", 3, "4.6", 60, "Available" },
-                    { "4.7.1", 1, "4.7", 30, "Available" },
-                    { "4.7.2", 2, "4.7", 60, "Available" },
-                    { "4.7.3", 3, "4.7", 60, "Available" },
-                    { "4.8.1", 1, "4.8", 30, "Available" },
-                    { "4.8.2", 2, "4.8", 60, "Available" },
-                    { "4.8.3", 3, "4.8", 60, "Available" },
-                    { "4.9.1", 1, "4.9", 30, "Available" },
-                    { "4.9.2", 2, "4.9", 60, "Available" },
-                    { "4.9.3", 3, "4.9", 60, "Available" },
-                    { "5.1.1", 1, "5.1", 30, "Available" },
-                    { "5.1.2", 2, "5.1", 150, "Available" },
-                    { "5.1.3", 3, "5.1", 150, "Available" },
-                    { "5.10.1", 1, "5.10", 30, "Available" },
+                    { "4.5.1", 1, "4.5", 250, "Available" },
+                    { "4.5.2", 2, "4.5", 350, "Available" },
+                    { "4.5.3", 3, "4.5", 450, "Available" },
+                    { "4.6.1", 1, "4.6", 250, "Available" },
+                    { "4.6.2", 2, "4.6", 350, "Available" },
+                    { "4.6.3", 3, "4.6", 450, "Available" },
+                    { "4.7.1", 1, "4.7", 250, "Available" },
+                    { "4.7.2", 2, "4.7", 350, "Available" },
+                    { "4.7.3", 3, "4.7", 450, "Available" },
+                    { "4.8.1", 1, "4.8", 250, "Available" },
+                    { "4.8.2", 2, "4.8", 350, "Available" },
+                    { "4.8.3", 3, "4.8", 450, "Available" },
+                    { "4.9.1", 1, "4.9", 250, "Available" },
+                    { "4.9.2", 2, "4.9", 350, "Available" },
+                    { "4.9.3", 3, "4.9", 450, "Available" },
+                    { "5.1.1", 1, "5.1", 250, "Available" },
+                    { "5.1.2", 2, "5.1", 350, "Available" },
+                    { "5.1.3", 3, "5.1", 450, "Available" },
+                    { "5.10.1", 1, "5.10", 250, "Available" },
                     { "5.10.2", 2, "5.10", 350, "Available" },
-                    { "5.10.3", 3, "5.10", 60, "Available" },
-                    { "5.2.1", 1, "5.2", 30, "Available" },
+                    { "5.10.3", 3, "5.10", 450, "Available" },
+                    { "5.2.1", 1, "5.2", 250, "Available" },
                     { "5.2.2", 2, "5.2", 350, "Available" },
-                    { "5.2.3", 3, "5.2", 60, "Available" },
-                    { "5.3.1", 1, "5.3", 30, "Available" },
-                    { "5.3.2", 2, "5.3", 60, "Available" },
-                    { "5.3.3", 3, "5.3", 60, "Available" },
-                    { "5.4.1", 1, "5.4", 30, "Available" },
-                    { "5.4.2", 2, "5.4", 60, "Available" },
-                    { "5.4.3", 3, "5.4", 60, "Available" },
-                    { "5.5.1", 1, "5.5", 30, "Available" },
-                    { "5.5.2", 2, "5.5", 60, "Available" },
-                    { "5.5.3", 3, "5.5", 60, "Available" },
-                    { "5.6.1", 1, "5.6", 30, "Available" },
-                    { "5.6.2", 2, "5.6", 60, "Available" },
-                    { "5.6.3", 3, "5.6", 60, "Available" },
-                    { "5.7.1", 1, "5.7", 30, "Available" },
-                    { "5.7.2", 2, "5.7", 60, "Available" },
-                    { "5.7.3", 3, "5.7", 60, "Available" },
-                    { "5.8.1", 1, "5.8", 30, "Available" },
-                    { "5.8.2", 2, "5.8", 150, "Available" },
-                    { "5.8.3", 3, "5.8", 150, "Available" },
-                    { "5.9.1", 1, "5.9", 30, "Available" },
-                    { "5.9.2", 2, "5.9", 150, "Available" },
-                    { "5.9.3", 3, "5.9", 150, "Available" },
-                    { "6.1.1", 1, "6.1", 30, "Available" },
-                    { "6.1.2", 2, "6.1", 60, "Available" },
-                    { "6.1.3", 3, "6.1", 60, "Available" },
-                    { "6.10.1", 1, "6.10", 30, "Available" },
-                    { "6.10.2", 2, "6.10", 60, "Available" },
-                    { "6.10.3", 3, "6.10", 60, "Available" },
-                    { "6.2.1", 1, "6.2", 30, "Available" },
-                    { "6.2.2", 2, "6.2", 60, "Available" },
-                    { "6.2.3", 3, "6.2", 60, "Available" },
-                    { "6.3.1", 1, "6.3", 30, "Available" },
-                    { "6.3.2", 2, "6.3", 60, "Available" },
-                    { "6.3.3", 3, "6.3", 60, "Available" },
-                    { "6.4.1", 1, "6.4", 30, "Available" },
-                    { "6.4.2", 2, "6.4", 60, "Available" },
-                    { "6.4.3", 3, "6.4", 60, "Available" },
-                    { "6.5.1", 1, "6.5", 30, "Available" },
-                    { "6.5.2", 2, "6.5", 60, "Available" },
-                    { "6.5.3", 3, "6.5", 60, "Available" },
-                    { "6.6.1", 1, "6.6", 30, "Available" },
-                    { "6.6.2", 2, "6.6", 150, "Available" },
-                    { "6.6.3", 3, "6.6", 150, "Available" },
-                    { "6.7.1", 1, "6.7", 30, "Available" },
-                    { "6.7.2", 2, "6.7", 150, "Available" },
-                    { "6.7.3", 3, "6.7", 150, "Available" },
-                    { "6.8.1", 1, "6.8", 30, "Available" },
-                    { "6.8.2", 2, "6.8", 60, "Available" },
-                    { "6.8.3", 3, "6.8", 60, "Available" },
-                    { "6.9.1", 1, "6.9", 30, "Available" },
-                    { "6.9.2", 2, "6.9", 60, "Available" },
-                    { "6.9.3", 3, "6.9", 60, "Available" },
-                    { "7.1.1", 1, "7.1", 30, "Available" },
-                    { "7.1.2", 2, "7.1", 60, "Available" },
-                    { "7.1.3", 3, "7.1", 60, "Available" },
-                    { "7.10.1", 1, "7.10", 30, "Available" },
-                    { "7.10.2", 2, "7.10", 60, "Available" },
-                    { "7.10.3", 3, "7.10", 60, "Available" },
-                    { "7.2.1", 1, "7.2", 30, "Available" },
-                    { "7.2.2", 2, "7.2", 60, "Available" },
-                    { "7.2.3", 3, "7.2", 60, "Available" },
-                    { "7.3.1", 1, "7.3", 30, "Available" },
-                    { "7.3.2", 2, "7.3", 150, "Available" },
-                    { "7.3.3", 3, "7.3", 60, "Available" },
-                    { "7.4.1", 1, "7.4", 30, "Available" },
-                    { "7.4.2", 2, "7.4", 150, "Available" },
-                    { "7.4.3", 3, "7.4", 60, "Available" },
-                    { "7.5.1", 1, "7.5", 30, "Available" },
+                    { "5.2.3", 3, "5.2", 450, "Available" },
+                    { "5.3.1", 1, "5.3", 250, "Available" },
+                    { "5.3.2", 2, "5.3", 350, "Available" },
+                    { "5.3.3", 3, "5.3", 450, "Available" },
+                    { "5.4.1", 1, "5.4", 250, "Available" },
+                    { "5.4.2", 2, "5.4", 350, "Available" },
+                    { "5.4.3", 3, "5.4", 450, "Available" },
+                    { "5.5.1", 1, "5.5", 250, "Available" },
+                    { "5.5.2", 2, "5.5", 350, "Available" },
+                    { "5.5.3", 3, "5.5", 450, "Available" },
+                    { "5.6.1", 1, "5.6", 250, "Available" },
+                    { "5.6.2", 2, "5.6", 350, "Available" },
+                    { "5.6.3", 3, "5.6", 450, "Available" },
+                    { "5.7.1", 1, "5.7", 250, "Available" },
+                    { "5.7.2", 2, "5.7", 350, "Available" },
+                    { "5.7.3", 3, "5.7", 450, "Available" },
+                    { "5.8.1", 1, "5.8", 250, "Available" },
+                    { "5.8.2", 2, "5.8", 350, "Available" },
+                    { "5.8.3", 3, "5.8", 450, "Available" },
+                    { "5.9.1", 1, "5.9", 250, "Available" },
+                    { "5.9.2", 2, "5.9", 350, "Available" },
+                    { "5.9.3", 3, "5.9", 450, "Available" },
+                    { "6.1.1", 1, "6.1", 250, "Available" },
+                    { "6.1.2", 2, "6.1", 350, "Available" },
+                    { "6.1.3", 3, "6.1", 450, "Available" },
+                    { "6.10.1", 1, "6.10", 250, "Available" },
+                    { "6.10.2", 2, "6.10", 350, "Available" },
+                    { "6.10.3", 3, "6.10", 450, "Available" },
+                    { "6.2.1", 1, "6.2", 250, "Available" },
+                    { "6.2.2", 2, "6.2", 350, "Available" },
+                    { "6.2.3", 3, "6.2", 450, "Available" },
+                    { "6.3.1", 1, "6.3", 250, "Available" },
+                    { "6.3.2", 2, "6.3", 350, "Available" },
+                    { "6.3.3", 3, "6.3", 450, "Available" },
+                    { "6.4.1", 1, "6.4", 250, "Available" },
+                    { "6.4.2", 2, "6.4", 350, "Available" },
+                    { "6.4.3", 3, "6.4", 450, "Available" },
+                    { "6.5.1", 1, "6.5", 250, "Available" },
+                    { "6.5.2", 2, "6.5", 350, "Available" },
+                    { "6.5.3", 3, "6.5", 450, "Available" },
+                    { "6.6.1", 1, "6.6", 250, "Available" },
+                    { "6.6.2", 2, "6.6", 350, "Available" },
+                    { "6.6.3", 3, "6.6", 450, "Available" },
+                    { "6.7.1", 1, "6.7", 250, "Available" },
+                    { "6.7.2", 2, "6.7", 350, "Available" },
+                    { "6.7.3", 3, "6.7", 450, "Available" },
+                    { "6.8.1", 1, "6.8", 250, "Available" },
+                    { "6.8.2", 2, "6.8", 350, "Available" },
+                    { "6.8.3", 3, "6.8", 450, "Available" },
+                    { "6.9.1", 1, "6.9", 250, "Available" },
+                    { "6.9.2", 2, "6.9", 350, "Available" },
+                    { "6.9.3", 3, "6.9", 450, "Available" },
+                    { "7.1.1", 1, "7.1", 250, "Available" },
+                    { "7.1.2", 2, "7.1", 350, "Available" },
+                    { "7.1.3", 3, "7.1", 450, "Available" },
+                    { "7.10.1", 1, "7.10", 250, "Available" },
+                    { "7.10.2", 2, "7.10", 350, "Available" },
+                    { "7.10.3", 3, "7.10", 450, "Available" },
+                    { "7.2.1", 1, "7.2", 250, "Available" },
+                    { "7.2.2", 2, "7.2", 350, "Available" },
+                    { "7.2.3", 3, "7.2", 450, "Available" },
+                    { "7.3.1", 1, "7.3", 250, "Available" },
+                    { "7.3.2", 2, "7.3", 350, "Available" },
+                    { "7.3.3", 3, "7.3", 450, "Available" },
+                    { "7.4.1", 1, "7.4", 250, "Available" },
+                    { "7.4.2", 2, "7.4", 350, "Available" },
+                    { "7.4.3", 3, "7.4", 450, "Available" },
+                    { "7.5.1", 1, "7.5", 250, "Available" },
                     { "7.5.2", 2, "7.5", 350, "Available" },
-                    { "7.5.3", 3, "7.5", 60, "Available" },
-                    { "7.6.1", 1, "7.6", 30, "Available" },
-                    { "7.6.2", 2, "7.6", 60, "Available" },
-                    { "7.6.3", 3, "7.6", 60, "Available" },
-                    { "7.7.1", 1, "7.7", 30, "Available" },
-                    { "7.7.2", 2, "7.7", 60, "Available" },
-                    { "7.7.3", 3, "7.7", 60, "Available" },
-                    { "7.8.1", 1, "7.8", 30, "Available" },
-                    { "7.8.2", 2, "7.8", 60, "Available" },
-                    { "7.8.3", 3, "7.8", 60, "Available" },
-                    { "7.9.1", 1, "7.9", 30, "Available" },
-                    { "7.9.2", 2, "7.9", 60, "Available" },
-                    { "7.9.3", 3, "7.9", 60, "Available" }
+                    { "7.5.3", 3, "7.5", 450, "Available" },
+                    { "7.6.1", 1, "7.6", 250, "Available" },
+                    { "7.6.2", 2, "7.6", 350, "Available" },
+                    { "7.6.3", 3, "7.6", 450, "Available" },
+                    { "7.7.1", 1, "7.7", 250, "Available" },
+                    { "7.7.2", 2, "7.7", 350, "Available" },
+                    { "7.7.3", 3, "7.7", 450, "Available" },
+                    { "7.8.1", 1, "7.8", 250, "Available" },
+                    { "7.8.2", 2, "7.8", 350, "Available" },
+                    { "7.8.3", 3, "7.8", 450, "Available" },
+                    { "7.9.1", 1, "7.9", 250, "Available" },
+                    { "7.9.2", 2, "7.9", 350, "Available" },
+                    { "7.9.3", 3, "7.9", 450, "Available" }
                 });
 
             migrationBuilder.InsertData(
@@ -990,6 +1082,11 @@ namespace TestServer.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PackageSubscriptions_PackageId",
+                table: "PackageSubscriptions",
+                column: "PackageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VehiclePerMonths_PeriodId",
                 table: "VehiclePerMonths",
                 column: "PeriodId");
@@ -1020,10 +1117,19 @@ namespace TestServer.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
+                name: "PackagePaymentTransactions");
+
+            migrationBuilder.DropTable(
+                name: "PackageSubscriptions");
+
+            migrationBuilder.DropTable(
                 name: "PaymentTransactions");
 
             migrationBuilder.DropTable(
                 name: "PriceTables");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "VehiclePerMonths");
@@ -1033,6 +1139,9 @@ namespace TestServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChargingPorts");
+
+            migrationBuilder.DropTable(
+                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "MonthlyPeriods");

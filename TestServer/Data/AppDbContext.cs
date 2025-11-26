@@ -1209,4 +1209,5 @@ modelBuilder.Entity<Package>().HasData(
     public DbSet<Package> Packages { get; set; } = null!;
 
     public DbSet<PackageSubscription> PackageSubscriptions { get; set; } = null!;
+    public DbSet<PackagePaymentTransaction> PackagePaymentTransactions { get; set; } = null!;
 }

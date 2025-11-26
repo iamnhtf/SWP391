@@ -32,18 +32,14 @@ namespace TestServer.Controllers
 
             if (subscription == null)
             {
-                return Ok(
-                    new Dto.UserPackageDto()
-                    {
-                        Id = 0,
-                        UserId = uid,
-                        PriceAtPurchase = 0,
-                        DiscountPercentAtPurchase = 0,
-                        ReservationMinutesAtPurchase = 60,
-                        StartDate = DateTime.MinValue,
-                        EndDate = DateTime.MinValue,
-                    }
-                );
+                return Ok(new Dto.UserPackageDto()
+                {
+                    Id = 0,
+                    UserId = uid,
+                    PriceAtPurchase = 0,
+                    DiscountPercentAtPurchase = 0,
+                    ReservationMinutesAtPurchase = 60
+                });
             }
 
             var userPackageDto = new Dto.UserPackageDto
