@@ -25,8 +25,8 @@ namespace TestServer.Controllers
         [HttpGet("current/{uid}")]
         public IActionResult GetCurrentUserPackage(string uid)
         {
-            var subscription = db.PackageSubscriptions
-                .Where(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow)
+            var subscription = db
+                .PackageSubscriptions.Where(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow)
                 .OrderByDescending(ps => ps.EndDate)
                 .FirstOrDefault();
 
@@ -50,7 +50,7 @@ namespace TestServer.Controllers
                 DiscountPercentAtPurchase = subscription.DiscountPercentAtPurchase,
                 ReservationMinutesAtPurchase = subscription.ReservationMinutesAtPurchase,
                 StartDate = subscription.StartDate,
-                EndDate = subscription.EndDate
+                EndDate = subscription.EndDate,
             };
 
             return Ok(userPackageDto);
@@ -68,7 +68,9 @@ namespace TestServer.Controllers
             if (db.PackageSubscriptions.Any(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow))
             {
                 db.PackageSubscriptions.RemoveRange(
-                    db.PackageSubscriptions.Where(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow)
+                    db.PackageSubscriptions.Where(ps =>
+                        ps.UserId == uid && ps.EndDate > DateTime.UtcNow
+                    )
                 );
             }
 
@@ -83,22 +85,60 @@ namespace TestServer.Controllers
                 DiscountPercentAtPurchase = package.DiscountPercent,
                 ReservationMinutesAtPurchase = package.ReservationTime,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
             };
 
             db.PackageSubscriptions.Add(subscription);
             db.SaveChanges();
 
-            return Ok(new Dto.UserPackageDto
-            {
-                Id = subscription.Id,
-                UserId = subscription.UserId,
-                PriceAtPurchase = subscription.PriceAtPurchase,
-                DiscountPercentAtPurchase = subscription.DiscountPercentAtPurchase,
-                ReservationMinutesAtPurchase = subscription.ReservationMinutesAtPurchase,
-                StartDate = subscription.StartDate,
-                EndDate = subscription.EndDate
-            });
+            return Ok(
+                new Dto.UserPackageDto
+                {
+                    Id = subscription.Id,
+                    UserId = subscription.UserId,
+                    PriceAtPurchase = subscription.PriceAtPurchase,
+                    DiscountPercentAtPurchase = subscription.DiscountPercentAtPurchase,
+                    ReservationMinutesAtPurchase = subscription.ReservationMinutesAtPurchase,
+                    StartDate = subscription.StartDate,
+                    EndDate = subscription.EndDate,
+                }
+            );
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePackage(int id, [FromBody] Models.Package input)
+        {
+            if (input == null)
+                return BadRequest("Package data is required.");
+
+            var pkg = db.Packages.Find(id);
+            if (pkg == null)
+                return NotFound("Package not found.");
+
+            // Cập nhật các trường thường dùng (bạn có thể thêm/bớt tùy model)
+            pkg.Name = input.Name;
+            pkg.Description = input.Description;
+            pkg.MonthlyPrice = input.MonthlyPrice;
+            pkg.DiscountPercent = input.DiscountPercent;
+            pkg.ReservationTime = input.ReservationTime;
+            pkg.IsActive = input.IsActive;
+
+            db.SaveChanges();
+
+            return Ok(pkg);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePackage(int id)
+        {
+            var pkg = db.Packages.Find(id);
+            if (pkg == null)
+                return NotFound("Package not found.");
+
+            // --- Hard delete ---
+            db.Packages.Remove(pkg);
+            db.SaveChanges();
+            return Ok("Package deleted.");
         }
     }
 }
