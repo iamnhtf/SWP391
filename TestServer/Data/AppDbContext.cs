@@ -1142,6 +1142,38 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
     }
 );
 
+modelBuilder.Entity<Package>().HasData(
+        new Package
+        {
+            Id = 1,
+            Name = "Tiết Kiệm",
+            Description = "Giảm 5% mỗi lần sạc, thêm 15 phút giữ chỗ",
+            MonthlyPrice = 49000,
+            DiscountPercent = 5,
+            ReservationTime = 75,
+            IsActive = true,
+        },
+        new Package
+        {
+            Id = 2,
+            Name = "Năng Động",
+            Description = "Giảm 10% mỗi lần sạc, thêm 20 phút giữ chỗ",
+            MonthlyPrice = 99000,
+            DiscountPercent = 10,
+            ReservationTime = 80,
+            IsActive = true,
+        },
+        new Package
+        {
+            Id = 3,
+            Name = "Chuyên Nghiệp",
+            Description = "Giảm 15% mỗi lần sạc, thêm 30 phút giữ chỗ",
+            MonthlyPrice = 199000,
+            DiscountPercent = 15,
+            ReservationTime = 90,
+            IsActive = true,
+        }
+    );
         
 
     }
@@ -1171,5 +1203,10 @@ modelBuilder.Entity<PaymentTransaction>().HasData(
     public DbSet<PriceTable> PriceTables { get; set; } = null!;
 
     public DbSet<PaymentTransaction> PaymentTransactions { get; set; } = null!;
+
     public DbSet<Reservation> Reservations { get; set; } = null!;
+
+    public DbSet<Package> Packages { get; set; } = null!;
+
+    public DbSet<PackageSubscription> PackageSubscriptions { get; set; } = null!;
 }
