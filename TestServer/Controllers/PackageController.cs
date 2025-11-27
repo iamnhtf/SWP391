@@ -32,14 +32,16 @@ namespace TestServer.Controllers
 
             if (subscription == null)
             {
-                return Ok(new Dto.UserPackageDto()
-                {
-                    Id = 0,
-                    UserId = uid,
-                    PriceAtPurchase = 0,
-                    DiscountPercentAtPurchase = 0,
-                    ReservationMinutesAtPurchase = 60
-                });
+                return Ok(
+                    new Dto.UserPackageDto()
+                    {
+                        Id = 0,
+                        UserId = uid,
+                        PriceAtPurchase = 0,
+                        DiscountPercentAtPurchase = 0,
+                        ReservationMinutesAtPurchase = 60,
+                    }
+                );
             }
 
             var userPackageDto = new Dto.UserPackageDto
@@ -103,6 +105,28 @@ namespace TestServer.Controllers
                     EndDate = subscription.EndDate,
                 }
             );
+        }
+
+        [HttpPost]
+        public IActionResult CreatePackage([FromBody] Models.Package input)
+        {
+            if (input == null)
+                return BadRequest("Package data is required.");
+
+            var pkg = new Models.Package
+            {
+                Name = input.Name,
+                Description = input.Description,
+                MonthlyPrice = input.MonthlyPrice,
+                DiscountPercent = input.DiscountPercent,
+                ReservationTime = input.ReservationTime,
+                IsActive = input.IsActive,
+            };
+
+            db.Packages.Add(pkg);
+            db.SaveChanges();
+
+            return Ok(pkg);
         }
 
         [HttpPut("{id}")]
