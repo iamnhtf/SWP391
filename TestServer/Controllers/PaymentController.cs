@@ -5,6 +5,7 @@ using TestServer.DTOs;
 using TestServer.Models;
 using TestServer.Models.VNPAY;
 using TestServer.Services.VNPAY;
+using TestServer.Utils;
 
 namespace TestServer.Controllers
 {
@@ -155,7 +156,7 @@ namespace TestServer.Controllers
                     TransactionStatus = vnpTxnStatus,
                     OrderInfo = vnpOrderInfo,
                     Amount = paidAmount,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = TimeUtil.VNNow(),
                 }
             );
 
@@ -387,7 +388,7 @@ namespace TestServer.Controllers
                     TransactionStatus = "00",
                     OrderInfo = $"Simulated payment for VehicleMonth {vpm.VehicleMonthId}",
                     Amount = due,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = TimeUtil.VNNow(),
                 };
 
                 await _db.PaymentTransactions.AddAsync(simTx);

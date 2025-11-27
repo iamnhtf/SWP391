@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Cms;
 using TestServer.Data;
+using TestServer.Utils;
 
 namespace TestServer.Controllers
 {
@@ -112,8 +114,8 @@ namespace TestServer.Controllers
             {
                 VehicleId = request.VehicleId,
                 ChargingPortId = request.PortId,
-                ReservedAt = DateTime.UtcNow,
-                ExpireAt = DateTime.UtcNow.AddMinutes(request.DurationMinutes)
+                ReservedAt = TimeUtil.VNNow(),
+                ExpireAt = TimeUtil.VNNow().AddMinutes(request.DurationMinutes)
             };
 
             db.Reservations.Add(reservation);

@@ -7,6 +7,7 @@ using TestServer.Models.VNPAY;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.Linq;
+using TestServer.Utils;
 
 namespace TestServer.Controllers
 {
@@ -143,17 +144,17 @@ namespace TestServer.Controllers
                     if (int.TryParse(vnpAmountRaw, out var amtInt))
                         paidAmount = amtInt / 100.0;
 
-                    if (_db.PackageSubscriptions.Any(ps => ps.UserId == userId && ps.EndDate > DateTime.UtcNow))
+                    if (_db.PackageSubscriptions.Any(ps => ps.UserId == userId && ps.EndDate > TimeUtil.VNNow()))
                     {
                         _db.PackageSubscriptions.RemoveRange(
-                            _db.PackageSubscriptions.Where(ps => ps.UserId == userId && ps.EndDate > DateTime.UtcNow)
+                            _db.PackageSubscriptions.Where(ps => ps.UserId == userId && ps.EndDate > TimeUtil.VNNow())
                         );
                     }
 
                     await _db.SaveChangesAsync();
                     
                     // create subscription
-                    var now = DateTime.UtcNow;
+                    var now = TimeUtil.VNNow();
                     var sub = new PackageSubscription
                     {
                         UserId = userId,
@@ -178,7 +179,7 @@ namespace TestServer.Controllers
                         TransactionStatus = q["vnp_TransactionStatus"].FirstOrDefault() ?? string.Empty,
                         OrderInfo = vnpOrderInfo,
                         Amount = paidAmount,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt = TimeUtil.VNNow(),
                     };
 
                     await _db.PackagePaymentTransactions.AddAsync(pkgTx);
@@ -203,7 +204,7 @@ namespace TestServer.Controllers
                     TransactionStatus = q["vnp_TransactionStatus"].FirstOrDefault() ?? string.Empty,
                     OrderInfo = vnpOrderInfo,
                     Amount = 0,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = TimeUtil.VNNow(),
                 };
                 await _db.PackagePaymentTransactions.AddAsync(pkgTx);
                 await _db.SaveChangesAsync();

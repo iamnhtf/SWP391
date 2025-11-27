@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Cms;
 using TestServer.Data;
+using TestServer.Utils;
 
 namespace TestServer.Controllers
 {
@@ -26,7 +28,7 @@ namespace TestServer.Controllers
         public IActionResult GetCurrentUserPackage(string uid)
         {
             var subscription = db
-                .PackageSubscriptions.Where(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow)
+                .PackageSubscriptions.Where(ps => ps.UserId == uid && ps.EndDate > TimeUtil.VNNow())
                 .OrderByDescending(ps => ps.EndDate)
                 .FirstOrDefault();
 
@@ -67,16 +69,16 @@ namespace TestServer.Controllers
                 return NotFound("Package not found or inactive.");
             }
 
-            if (db.PackageSubscriptions.Any(ps => ps.UserId == uid && ps.EndDate > DateTime.UtcNow))
+            if (db.PackageSubscriptions.Any(ps => ps.UserId == uid && ps.EndDate > TimeUtil.VNNow()))
             {
                 db.PackageSubscriptions.RemoveRange(
                     db.PackageSubscriptions.Where(ps =>
-                        ps.UserId == uid && ps.EndDate > DateTime.UtcNow
+                        ps.UserId == uid && ps.EndDate > TimeUtil.VNNow()
                     )
                 );
             }
 
-            var startDate = DateTime.UtcNow;
+            var startDate = TimeUtil.VNNow();
             var endDate = startDate.AddMonths(1);
 
             var subscription = new Models.PackageSubscription

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TestServer.Data;
+using TestServer.Utils;
 
 namespace TestServer.Services
 {
@@ -23,7 +24,7 @@ namespace TestServer.Services
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                var now = DateTime.UtcNow;
+                var now = TimeUtil.VNNow();
 
                 var expiredReservations = await db.Reservations
                     .Where(r => r.ExpireAt <= now)

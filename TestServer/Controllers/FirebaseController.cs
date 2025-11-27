@@ -5,6 +5,7 @@ using Firebase.Database.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using TestServer.Hubs;
+using TestServer.Utils;
 
 namespace TestServer.Controllers
 {
@@ -50,7 +51,7 @@ namespace TestServer.Controllers
                 return Ok(new
                 {
                     message = "Upload thành công!",
-                    time = DateTime.UtcNow.ToString("u")
+                    time = TimeUtil.VNNow().ToString("u")
                 });
             }
             else
