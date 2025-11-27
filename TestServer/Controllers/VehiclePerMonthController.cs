@@ -20,8 +20,8 @@ namespace TestServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var vehiclePerMonths = await db.VehiclePerMonths
-                .Include(v => v.Vehicle)
+            var vehiclePerMonths = await db
+                .VehiclePerMonths.Include(v => v.Vehicle)
                 .Include(v => v.MonthlyPeriod)
                 .ToListAsync();
             var dtos = vehiclePerMonths.Select(v => new VehiclePerMonthDto
@@ -34,7 +34,7 @@ namespace TestServer.Controllers
                 TotalSessions = v.TotalSessions,
                 TotalEnergy = v.TotalEnergy,
                 TotalCost = v.TotalCost,
-                AmountPaid = v.AmountPaid,               
+                AmountPaid = v.AmountPaid,
             });
             return Ok(dtos);
         }
@@ -42,8 +42,8 @@ namespace TestServer.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var vehiclePerMonth = await db.VehiclePerMonths.
-                Include(v => v.Vehicle)
+            var vehiclePerMonth = await db
+                .VehiclePerMonths.Include(v => v.Vehicle)
                 .Include(v => v.MonthlyPeriod)
                 .FirstOrDefaultAsync(v => v.VehicleMonthId == id);
             if (vehiclePerMonth == null)
@@ -96,7 +96,7 @@ namespace TestServer.Controllers
 
             return Ok(result);
         }
-    
+
         [HttpPost("{periodId}")]
         public async Task<IActionResult> Create(int periodId)
         {
@@ -114,8 +114,11 @@ namespace TestServer.Controllers
             int year = monthlyPeriod.Year;
 
             // Get completed sessions within the given month/year grouped by vehicle
-            var sessionsQuery = db.ChargingSessions
-                .Where(s => s.Status == Models.SessionStatus.Completed && s.StartTime.Month == month && s.StartTime.Year == year);
+            var sessionsQuery = db.ChargingSessions.Where(s =>
+                s.Status == Models.SessionStatus.Completed
+                && s.StartTime.Month == month
+                && s.StartTime.Year == year
+            );
 
             var grouped = await sessionsQuery
                 .GroupBy(s => s.VehicleId)
@@ -124,7 +127,7 @@ namespace TestServer.Controllers
                     VehicleId = g.Key,
                     TotalSessions = g.Count(),
                     TotalEnergy = g.Sum(x => x.EnergyConsumed),
-                    TotalCost = g.Sum(x => x.TotalCost)
+                    TotalCost = g.Sum(x => x.TotalCost),
                 })
                 .ToListAsync();
 
@@ -134,7 +137,10 @@ namespace TestServer.Controllers
             // Get all vehicles
             var vehicles = await db.Vehicles.ToListAsync();
 
-            var existing = await db.VehiclePerMonths.Where(v => v.PeriodId == periodId).Select(v => v.VehicleId).ToListAsync();
+            var existing = await db
+                .VehiclePerMonths.Where(v => v.PeriodId == periodId)
+                .Select(v => v.VehicleId)
+                .ToListAsync();
 
             var toCreate = new List<Models.VehiclePerMonth>();
 
@@ -145,41 +151,32 @@ namespace TestServer.Controllers
 
                 if (aggregates.TryGetValue(v.VehicleId, out var agg))
                 {
-                    toCreate.Add(new Models.VehiclePerMonth
-                    {
-                        VehicleId = v.VehicleId,
-                        PeriodId = periodId,
-                        TotalSessions = agg.TotalSessions,
-                        TotalEnergy = agg.TotalEnergy,
-                        TotalCost = agg.TotalCost,
-                        AmountPaid = 0
-                    });
-                }
-                else
-                {
-                    // No sessions: create zeroed entry
-                    toCreate.Add(new Models.VehiclePerMonth
-                    {
-                        VehicleId = v.VehicleId,
-                        PeriodId = periodId,
-                        TotalSessions = 0,
-                        TotalEnergy = 0f,
-                        TotalCost = 0f,
-                        AmountPaid = 0f
-                    });
+                    toCreate.Add(
+                        new Models.VehiclePerMonth
+                        {
+                            VehicleId = v.VehicleId,
+                            PeriodId = periodId,
+                            TotalSessions = agg.TotalSessions,
+                            TotalEnergy = agg.TotalEnergy,
+                            TotalCost = agg.TotalCost,
+                            AmountPaid = 0,
+                        }
+                    );
                 }
             }
 
             if (!toCreate.Any())
             {
-                return Ok(new { Message = "No new VehiclePerMonth rows to create for this period." });
+                return Ok(
+                    new { Message = "No new VehiclePerMonth rows to create for this period." }
+                );
             }
 
             //Update close status of the period
             monthlyPeriod.Status = Models.PeriodStatus.Closed;
 
             await db.VehiclePerMonths.AddRangeAsync(toCreate);
-            
+
             await db.SaveChangesAsync();
 
             // Return created count and list of created ids
@@ -187,13 +184,15 @@ namespace TestServer.Controllers
             {
                 Id = t.VehicleMonthId,
                 VehicleId = t.VehicleId,
-                LicensePlate = vehicles.FirstOrDefault(x => x.VehicleId == t.VehicleId)?.LicensePlate ?? string.Empty,
+                LicensePlate =
+                    vehicles.FirstOrDefault(x => x.VehicleId == t.VehicleId)?.LicensePlate
+                    ?? string.Empty,
                 Month = month,
                 Year = year,
                 TotalSessions = t.TotalSessions,
                 TotalEnergy = t.TotalEnergy,
                 TotalCost = t.TotalCost,
-                AmountPaid = t.AmountPaid
+                AmountPaid = t.AmountPaid,
             });
 
             return CreatedAtAction(nameof(GetAll), createdDtos);
@@ -213,8 +212,8 @@ namespace TestServer.Controllers
             }
 
             //Block all vehicle that have not paid full amount unitl day 15 of next month
-            var vehicleMonths = await db.VehiclePerMonths
-                .Where(v => v.PeriodId == periodId && v.AmountPaid < v.TotalCost)
+            var vehicleMonths = await db
+                .VehiclePerMonths.Where(v => v.PeriodId == periodId && v.AmountPaid < v.TotalCost)
                 .ToListAsync();
 
             foreach (var vm in vehicleMonths)
