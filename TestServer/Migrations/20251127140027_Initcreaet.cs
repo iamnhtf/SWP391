@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace TestServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Initcreate : Migration
+    public partial class Initcreaet : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
